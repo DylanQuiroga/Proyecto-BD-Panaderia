@@ -4,6 +4,11 @@
  */
 package Login;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -29,13 +34,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        Contra = new javax.swing.JPasswordField();
+        Ingresar = new javax.swing.JButton();
+        Correo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,12 +60,6 @@ public class Login extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 20, 40));
 
-        jTextPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextPane1.setToolTipText("");
-        jScrollPane1.setViewportView(jTextPane1);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 250, 30));
-
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Correo electronico");
@@ -77,13 +75,25 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setText("Contraseña");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 160, 20));
 
-        jPasswordField1.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 250, 30));
+        Contra.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(Contra, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 250, 30));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 255));
-        jButton1.setForeground(new java.awt.Color(153, 0, 153));
-        jButton1.setText("Ingresar");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 450, 90, 40));
+        Ingresar.setBackground(new java.awt.Color(255, 204, 255));
+        Ingresar.setForeground(new java.awt.Color(153, 0, 153));
+        Ingresar.setText("Ingresar");
+        Ingresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IngresarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(Ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 450, 90, 40));
+
+        Correo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CorreoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 250, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_login.png"))); // NOI18N
         jLabel3.setText("jLabel3");
@@ -95,6 +105,33 @@ public class Login extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         System.exit(0);
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void IngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IngresarMouseClicked
+        String correo = Correo.getText();
+        String contrasena = new String(Contra.getPassword());
+
+        DBLogin login = new DBLogin();
+
+        try {
+            if (login.comprobarExistenciaAdmin(correo, contrasena)) {
+                JOptionPane.showMessageDialog(null, "Admin");
+            } else if (login.comprobarExistenciaCajero(correo, contrasena)) {
+                JOptionPane.showMessageDialog(null, "Cajero");
+            } else if (login.comprobarExistenciaPanadero(correo, contrasena)) {
+                JOptionPane.showMessageDialog(null, "Panadero");
+            } else {
+                JOptionPane.showMessageDialog(null, "no existe");
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_IngresarMouseClicked
+
+    private void CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CorreoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,15 +169,14 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JPasswordField Contra;
+    private javax.swing.JTextField Correo;
+    private javax.swing.JButton Ingresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
