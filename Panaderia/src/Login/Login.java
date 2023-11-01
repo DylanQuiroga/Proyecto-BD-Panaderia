@@ -97,7 +97,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_login.png"))); // NOI18N
         jLabel3.setText("jLabel3");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 378, 656));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 660));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -114,7 +114,8 @@ public class Login extends javax.swing.JFrame {
 
         try {
             if (login.comprobarExistenciaAdmin(correo, contrasena)) {
-                JOptionPane.showMessageDialog(null, "Admin");
+                this.dispose();
+                new Opciones().setVisible(true);
             } else if (login.comprobarExistenciaCajero(correo, contrasena)) {
                 JOptionPane.showMessageDialog(null, "Cajero");
             } else if (login.comprobarExistenciaPanadero(correo, contrasena)) {
