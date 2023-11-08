@@ -60,7 +60,7 @@ public class Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 80, 80));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/3565418.png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 80, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 80, -1));
 
         jLabel17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
@@ -76,7 +76,7 @@ public class Opciones extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Recetas");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 70, 20));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 70, 20));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/4237554.png"))); // NOI18N
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 80, 80));
@@ -103,12 +103,12 @@ public class Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 140, 20));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Icono-Actualizacion-Insumos.png"))); // NOI18N
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 80, 80));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 80, 80));
 
         jLabel15.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Pedidos");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, 70, 20));
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 70, 20));
 
         jButton1.setBackground(new java.awt.Color(255, 204, 255));
         jButton1.setForeground(new java.awt.Color(153, 0, 153));
