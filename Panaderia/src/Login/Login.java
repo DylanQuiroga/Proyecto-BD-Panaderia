@@ -4,6 +4,7 @@
  */
 package Login;
 
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        Cargando.setVisible(false);
+        
         this.setLocationRelativeTo(null);
     }
 
@@ -33,6 +36,7 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        Cargando = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -49,7 +53,9 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/user.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, 100));
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        Cargando.setText("Cargando...");
+        getContentPane().add(Cargando, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, -1, 20));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/equis.png"))); // NOI18N
         jLabel2.setFocusTraversalPolicyProvider(true);
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -62,7 +68,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Correo electronico");
+        jLabel4.setText("Rut");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 160, 20));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -75,7 +81,11 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setText("Contraseña");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 160, 20));
 
-        Contra.setBackground(new java.awt.Color(255, 255, 255));
+        Contra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ContraKeyPressed(evt);
+            }
+        });
         getContentPane().add(Contra, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 250, 30));
 
         Ingresar.setBackground(new java.awt.Color(255, 204, 255));
@@ -86,11 +96,21 @@ public class Login extends javax.swing.JFrame {
                 IngresarMouseClicked(evt);
             }
         });
-        getContentPane().add(Ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 450, 90, 40));
+        Ingresar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                IngresarKeyPressed(evt);
+            }
+        });
+        getContentPane().add(Ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 490, 90, 40));
 
         Correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CorreoActionPerformed(evt);
+            }
+        });
+        Correo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CorreoKeyPressed(evt);
             }
         });
         getContentPane().add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 250, 30));
@@ -107,32 +127,28 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void IngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IngresarMouseClicked
-        String correo = Correo.getText();
-        String contrasena = new String(Contra.getPassword());
-
-        DBLogin login = new DBLogin();
-
-        try {
-            if (login.comprobarExistenciaAdmin(correo, contrasena)) {
-                this.dispose();
-                new Opciones().setVisible(true);
-            } else if (login.comprobarExistenciaCajero(correo, contrasena)) {
-                JOptionPane.showMessageDialog(null, "Cajero");
-            } else if (login.comprobarExistenciaPanadero(correo, contrasena)) {
-                JOptionPane.showMessageDialog(null, "Panadero");
-            } else {
-                JOptionPane.showMessageDialog(null, "no existe");
-            }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        Verificar();
     }//GEN-LAST:event_IngresarMouseClicked
 
     private void CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CorreoActionPerformed
+
+    private void IngresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_IngresarKeyPressed
+
+    }//GEN-LAST:event_IngresarKeyPressed
+
+    private void ContraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ContraKeyPressed
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
+            Verificar();
+        }
+    }//GEN-LAST:event_ContraKeyPressed
+
+    private void CorreoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CorreoKeyPressed
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
+            Contra.requestFocus();
+        }
+    }//GEN-LAST:event_CorreoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -168,8 +184,37 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void Verificar(){
+        Cargando.setVisible(true);
+        String correo = Correo.getText();
+        String contrasena = new String(Contra.getPassword());
+
+        DBLogin login = new DBLogin();
+
+        try {
+            if (login.comprobarExistenciaAdmin(correo, contrasena)) {
+                Cargando.setVisible(false);
+                this.dispose();
+                new Opciones().setVisible(true);
+            } else if (login.comprobarExistenciaCajero(correo, contrasena)) {
+                Cargando.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Cajero");
+            } else if (login.comprobarExistenciaPanadero(correo, contrasena)) {
+                Cargando.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Panadero");
+            } else {
+                Cargando.setVisible(false);
+                JOptionPane.showMessageDialog(null, "no existe");
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Cargando;
     private javax.swing.JPasswordField Contra;
     private javax.swing.JTextField Correo;
     private javax.swing.JButton Ingresar;
