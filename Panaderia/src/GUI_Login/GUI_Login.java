@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Login;
+package GUI_Login;
 
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  *
  * @author Usuario
  */
-public class Login extends javax.swing.JFrame {
+public class GUI_Login extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public GUI_Login() {
         initComponents();
         Cargando.setVisible(false);
         
@@ -167,20 +167,21 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new GUI_Login().setVisible(true);
             }
         });
     }
@@ -196,7 +197,7 @@ public class Login extends javax.swing.JFrame {
             if (login.comprobarExistenciaAdmin(correo, contrasena)) {
                 Cargando.setVisible(false);
                 this.dispose();
-                new Opciones().setVisible(true);
+                new GUI_Opciones().setVisible(true);
             } else if (login.comprobarExistenciaCajero(correo, contrasena)) {
                 Cargando.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Cajero");
@@ -209,7 +210,7 @@ public class Login extends javax.swing.JFrame {
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUI_Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

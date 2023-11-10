@@ -1,4 +1,4 @@
-package Login;
+package GUI_Login;
 
 import java.sql.*;
 import java.io.*;
