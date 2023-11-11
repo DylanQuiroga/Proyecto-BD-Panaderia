@@ -16,9 +16,6 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class GUI_Empleado extends javax.swing.JFrame {
-    
-    DefaultTableModel tm = new DefaultTableModel();
-    
     /**
      * Creates new form NewJFrame
      * @throws java.sql.SQLException

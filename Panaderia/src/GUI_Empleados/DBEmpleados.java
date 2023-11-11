@@ -13,7 +13,7 @@ public class DBEmpleados {
     static String username = "panaderia";
     static String password = "im7stB6";
     
-    String ids [] = { "Rut", "Primer nombre", "Primer apellido", "Contraseña", "Direccion"};
+    String ids [] = { "Rut", "Primer nombre", "Primer apellido", "Direccion", "Rol"};
     
     public DefaultTableModel cargarEmpleados(DefaultTableModel tablaDF) throws SQLException{
         
@@ -29,8 +29,8 @@ public class DBEmpleados {
             fila[0] = resultSet.getString("rut_cajero");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = resultSet.getString("contrasena");
-            fila[4] = resultSet.getString("direccion");
+            fila[3] = resultSet.getString("direccion");
+            fila[4] = "Cajero/a";
             tablaDF.addRow(fila);
         }
         
@@ -43,8 +43,8 @@ public class DBEmpleados {
             fila[0] = resultSet.getString("rut_panadero");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = resultSet.getString("contrasena");
-            fila[4] = resultSet.getString("direccion");
+            fila[3] = resultSet.getString("direccion");
+            fila[4] = "Panadero/a";
             tablaDF.addRow(fila);
         }
         
