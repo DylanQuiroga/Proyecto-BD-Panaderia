@@ -5,6 +5,9 @@
 package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Usuario
@@ -152,7 +155,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
 
     private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
         this.dispose();
-        new GUI_Empleado().setVisible(true);
+        try {
+            new GUI_Empleado().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLabel16MouseClicked
 
     /**
