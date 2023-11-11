@@ -20,9 +20,23 @@ public class DBEmpleados {
         tablaDF.setColumnIdentifiers(ids);
         
         Connection connection = DriverManager.getConnection(url,username,password);
-        String consulta = "SELECT * FROM cajero";
+        String consulta = "SELECT * FROM admin";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
         ResultSet resultSet = preparedStatement.executeQuery();
+        
+        while (resultSet.next()){
+            Object[] fila = new Object[5];
+            fila[0] = resultSet.getString("rut_admin");
+            fila[1] = resultSet.getString("primer_nombre");
+            fila[2] = resultSet.getString("primer_apellido");
+            fila[3] = resultSet.getString("direccion");
+            fila[4] = "Administrador/a";
+            tablaDF.addRow(fila);
+        }
+        
+        consulta = "SELECT * FROM cajero";
+        preparedStatement = connection.prepareStatement(consulta);
+        resultSet = preparedStatement.executeQuery();
         
         while (resultSet.next()){
             Object[] fila = new Object[5];
@@ -50,5 +64,10 @@ public class DBEmpleados {
         
         return tablaDF;
         
-    } 
+    }
+    
+    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato){
+        return false;
+    }
+    
 }

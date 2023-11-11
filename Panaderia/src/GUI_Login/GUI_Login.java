@@ -43,7 +43,7 @@ public class GUI_Login extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         Contra = new javax.swing.JPasswordField();
         Ingresar = new javax.swing.JButton();
-        Correo = new javax.swing.JTextField();
+        Rut = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -103,17 +103,17 @@ public class GUI_Login extends javax.swing.JFrame {
         });
         getContentPane().add(Ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 490, 90, 40));
 
-        Correo.addActionListener(new java.awt.event.ActionListener() {
+        Rut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CorreoActionPerformed(evt);
+                RutActionPerformed(evt);
             }
         });
-        Correo.addKeyListener(new java.awt.event.KeyAdapter() {
+        Rut.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                CorreoKeyPressed(evt);
+                RutKeyPressed(evt);
             }
         });
-        getContentPane().add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 250, 30));
+        getContentPane().add(Rut, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 250, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_login.png"))); // NOI18N
         jLabel3.setText("jLabel3");
@@ -130,9 +130,9 @@ public class GUI_Login extends javax.swing.JFrame {
         Verificar();
     }//GEN-LAST:event_IngresarMouseClicked
 
-    private void CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoActionPerformed
+    private void RutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CorreoActionPerformed
+    }//GEN-LAST:event_RutActionPerformed
 
     private void IngresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_IngresarKeyPressed
 
@@ -144,11 +144,11 @@ public class GUI_Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ContraKeyPressed
 
-    private void CorreoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CorreoKeyPressed
+    private void RutKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RutKeyPressed
         if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             Contra.requestFocus();
         }
-    }//GEN-LAST:event_CorreoKeyPressed
+    }//GEN-LAST:event_RutKeyPressed
 
     /**
      * @param args the command line arguments
@@ -188,7 +188,7 @@ public class GUI_Login extends javax.swing.JFrame {
     
     private void Verificar(){
         Cargando.setVisible(true);
-        String correo = Correo.getText();
+        String correo = Rut.getText();
         String contrasena = new String(Contra.getPassword());
 
         DBLogin login = new DBLogin();
@@ -217,8 +217,8 @@ public class GUI_Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargando;
     private javax.swing.JPasswordField Contra;
-    private javax.swing.JTextField Correo;
     private javax.swing.JButton Ingresar;
+    private javax.swing.JTextField Rut;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
