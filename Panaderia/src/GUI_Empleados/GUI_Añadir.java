@@ -38,6 +38,8 @@ public class GUI_Añadir extends javax.swing.JFrame {
         Apellido2 = new javax.swing.JTextField();
         Nombre2 = new javax.swing.JTextField();
         Rut = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
         Nombre1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -68,7 +70,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 ContratoKeyPressed(evt);
             }
         });
-        getContentPane().add(Contrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 520, 180, 30));
+        getContentPane().add(Contrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 560, 180, 30));
 
         Salario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,7 +82,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 SalarioKeyPressed(evt);
             }
         });
-        getContentPane().add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 470, 180, 30));
+        getContentPane().add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 510, 180, 30));
 
         Horario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,7 +94,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 HorarioKeyPressed(evt);
             }
         });
-        getContentPane().add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 180, 30));
+        getContentPane().add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 460, 180, 30));
 
         Direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +106,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 DireccionKeyPressed(evt);
             }
         });
-        getContentPane().add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, 180, 30));
+        getContentPane().add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, 180, 30));
 
         Contrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +118,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 ContrasenaKeyPressed(evt);
             }
         });
-        getContentPane().add(Contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 180, 30));
+        getContentPane().add(Contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 360, 180, 30));
 
         Apellido1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +130,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Apellido1KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 180, 30));
+        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 180, 30));
 
         Apellido2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,7 +142,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Apellido2KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 180, 30));
+        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
 
         Nombre2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,7 +154,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Nombre2KeyPressed(evt);
             }
         });
-        getContentPane().add(Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 180, 30));
+        getContentPane().add(Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 180, 30));
 
         Rut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +166,13 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 RutKeyPressed(evt);
             }
         });
-        getContentPane().add(Rut, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 180, 30));
+        getContentPane().add(Rut, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 180, 30));
+
+        jCheckBox1.setText("jCheckBox1");
+        getContentPane().add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 140, -1));
+
+        jCheckBox2.setText("jCheckBox2");
+        getContentPane().add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 140, -1));
 
         Nombre1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,7 +184,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Nombre1KeyPressed(evt);
             }
         });
-        getContentPane().add(Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 180, 30));
+        getContentPane().add(Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 180, 30));
 
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,7 +199,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 580, 140, 40));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 640, 140, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/equis.png"))); // NOI18N
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -204,52 +212,52 @@ public class GUI_Añadir extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Fecha de contrato");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 160, 30));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 560, 160, 30));
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Salario");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 160, 30));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, 160, 30));
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Horario");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 160, 30));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 160, 30));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Dirección");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 160, 30));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 160, 30));
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Contraseña");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 160, 30));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 160, 30));
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Segundo apellido");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 160, 30));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 160, 30));
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Primer apellido");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 160, 30));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 160, 30));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Segundo nombre");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 160, 30));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 160, 30));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Rut");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 50, 30));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 50, 30));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Primer nombre");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 140, 30));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, 30));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -258,7 +266,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo-empl.png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 660));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 740));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -420,6 +428,8 @@ public class GUI_Añadir extends javax.swing.JFrame {
     private javax.swing.JTextField Rut;
     private javax.swing.JTextField Salario;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

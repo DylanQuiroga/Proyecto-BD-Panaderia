@@ -67,6 +67,13 @@ public class DBEmpleados {
     }
     
     public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato){
+        try{
+            Connection connection = DriverManager.getConnection(url,username,password);
+            String consulta = "SELECT * FROM admin";
+            
+        }catch(SQLException e){
+            return false;
+        }
         return false;
     }
     
