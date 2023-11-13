@@ -66,10 +66,18 @@ public class DBEmpleados {
         
     }
     
-    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato){
+    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato,  ArrayList<String> numeros, String rol){
         try{
             Connection connection = DriverManager.getConnection(url,username,password);
             String consulta = "SELECT * FROM admin";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if(resultSet.next()){
+                String rutAdmin = resultSet.getString("rut_admin");
+            }
+            
+            consulta = "SELECT * FROM admin";
             
         }catch(SQLException e){
             return false;

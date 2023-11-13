@@ -4,6 +4,7 @@
  */
 package GUI_Empleados;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,8 +30,10 @@ public class GUI_Añadir extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        totalNum = new javax.swing.JComboBox<>();
+        Rol = new javax.swing.JComboBox<>();
         Contrato = new javax.swing.JTextField();
-        Salario = new javax.swing.JTextField();
+        Numero = new javax.swing.JTextField();
         Horario = new javax.swing.JTextField();
         Direccion = new javax.swing.JTextField();
         Contrasena = new javax.swing.JTextField();
@@ -38,18 +41,21 @@ public class GUI_Añadir extends javax.swing.JFrame {
         Apellido2 = new javax.swing.JTextField();
         Nombre2 = new javax.swing.JTextField();
         Rut = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        Salario1 = new javax.swing.JTextField();
         Nombre1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -59,6 +65,11 @@ public class GUI_Añadir extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        getContentPane().add(totalNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 450, 190, 30));
+
+        Rol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cajero", "Panadero" }));
+        getContentPane().add(Rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 180, 30));
 
         Contrato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,19 +81,19 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 ContratoKeyPressed(evt);
             }
         });
-        getContentPane().add(Contrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 560, 180, 30));
+        getContentPane().add(Contrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 380, 180, 30));
 
-        Salario.addActionListener(new java.awt.event.ActionListener() {
+        Numero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalarioActionPerformed(evt);
+                NumeroActionPerformed(evt);
             }
         });
-        Salario.addKeyListener(new java.awt.event.KeyAdapter() {
+        Numero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                SalarioKeyPressed(evt);
+                NumeroKeyPressed(evt);
             }
         });
-        getContentPane().add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 510, 180, 30));
+        getContentPane().add(Numero, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 180, 30));
 
         Horario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,7 +105,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 HorarioKeyPressed(evt);
             }
         });
-        getContentPane().add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 460, 180, 30));
+        getContentPane().add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 320, 180, 30));
 
         Direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +117,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 DireccionKeyPressed(evt);
             }
         });
-        getContentPane().add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, 180, 30));
+        getContentPane().add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 180, 30));
 
         Contrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,7 +129,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 ContrasenaKeyPressed(evt);
             }
         });
-        getContentPane().add(Contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 360, 180, 30));
+        getContentPane().add(Contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 260, 180, 30));
 
         Apellido1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +141,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Apellido1KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 180, 30));
+        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
 
         Apellido2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +153,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Apellido2KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
+        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 180, 30));
 
         Nombre2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,7 +165,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Nombre2KeyPressed(evt);
             }
         });
-        getContentPane().add(Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 180, 30));
+        getContentPane().add(Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 180, 30));
 
         Rut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,13 +177,19 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 RutKeyPressed(evt);
             }
         });
-        getContentPane().add(Rut, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 180, 30));
+        getContentPane().add(Rut, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 180, 30));
 
-        jCheckBox1.setText("jCheckBox1");
-        getContentPane().add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 140, -1));
-
-        jCheckBox2.setText("jCheckBox2");
-        getContentPane().add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 140, -1));
+        Salario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Salario1ActionPerformed(evt);
+            }
+        });
+        Salario1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Salario1KeyPressed(evt);
+            }
+        });
+        getContentPane().add(Salario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 180, 30));
 
         Nombre1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,7 +201,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Nombre1KeyPressed(evt);
             }
         });
-        getContentPane().add(Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 180, 30));
+        getContentPane().add(Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 180, 30));
 
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -199,7 +216,23 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 640, 140, 40));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 630, 210, 40));
+
+        jButton2.setText("-");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 450, 40, 30));
+
+        jButton3.setText("+");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 450, 40, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/equis.png"))); // NOI18N
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -207,66 +240,76 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 jLabel2MouseClicked(evt);
             }
         });
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 30, 30));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 30, 30));
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Fecha de contrato");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 560, 160, 30));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, 160, 30));
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Salario");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, 160, 30));
+        jLabel13.setText("Numero");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 160, 30));
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Horario");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 160, 30));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, 160, 30));
+
+        jLabel15.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Rol");
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, 50, 30));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Dirección");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 160, 30));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 160, 30));
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Contraseña");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 160, 30));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 160, 30));
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Segundo apellido");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 160, 30));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 160, 30));
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Primer apellido");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 160, 30));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, 160, 30));
+
+        jLabel16.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Salario");
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 160, 30));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Segundo nombre");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 160, 30));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 160, 30));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Rut");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 50, 30));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 50, 30));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Primer nombre");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, 30));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 140, 30));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Añadir empleado");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 200, 40));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 200, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo-empl.png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 740));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 740));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -335,13 +378,13 @@ public class GUI_Añadir extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_HorarioKeyPressed
 
-    private void SalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalarioActionPerformed
+    private void NumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumeroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_SalarioActionPerformed
+    }//GEN-LAST:event_NumeroActionPerformed
 
-    private void SalarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SalarioKeyPressed
+    private void NumeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NumeroKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_SalarioKeyPressed
+    }//GEN-LAST:event_NumeroKeyPressed
 
     private void ContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContratoActionPerformed
         // TODO add your handling code here:
@@ -352,7 +395,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
     }//GEN-LAST:event_ContratoKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -369,16 +412,45 @@ public class GUI_Añadir extends javax.swing.JFrame {
             String contrasena = Contrasena.getText();
             String direccion = Direccion.getText();
             String horario = Horario.getText();
-            int salario = Integer.parseInt(Salario.getText());
+            int salario = Integer.parseInt(Numero.getText());
             String contrato = Contrato.getText();
+
+            int numItems = totalNum.getItemCount();
+            ArrayList<String> numeros = new ArrayList<>();
+            for (int i = 0; i < numItems; i++) {
+                numeros.add(totalNum.getItemAt(i));
+            }
             
+            String rol = (String) Rol.getSelectedItem();
             
-            
-        }catch (NumberFormatException e){
+            boolean aprobado = new DBEmpleados().anadir(rut,nombre1,nombre2,apellido1,apellido2,contrasena,direccion,horario,salario,contrato,numeros,rol);
+
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El valor del salario ingreselo como numero.\nEjemplo: Para $10.000 ingrese 10000");
         }
 
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void Salario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Salario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Salario1ActionPerformed
+
+    private void Salario1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Salario1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Salario1KeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int index = totalNum.getSelectedIndex();
+        if (index != -1) { // -1 significa que no hay selección
+            totalNum.removeItemAt(index);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String numero = Numero.getText();
+        totalNum.addItem(numero);
+        Numero.setText("");
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,17 +497,21 @@ public class GUI_Añadir extends javax.swing.JFrame {
     private javax.swing.JTextField Horario;
     private javax.swing.JTextField Nombre1;
     private javax.swing.JTextField Nombre2;
+    private javax.swing.JTextField Numero;
+    private javax.swing.JComboBox<String> Rol;
     private javax.swing.JTextField Rut;
-    private javax.swing.JTextField Salario;
+    private javax.swing.JTextField Salario1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -443,5 +519,6 @@ public class GUI_Añadir extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JComboBox<String> totalNum;
     // End of variables declaration//GEN-END:variables
 }
