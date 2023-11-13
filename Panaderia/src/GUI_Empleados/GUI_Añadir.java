@@ -412,7 +412,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
             String contrasena = Contrasena.getText();
             String direccion = Direccion.getText();
             String horario = Horario.getText();
-            int salario = Integer.parseInt(Numero.getText());
+            int salario = Integer.parseInt(Salario1.getText());
             String contrato = Contrato.getText();
 
             int numItems = totalNum.getItemCount();
@@ -424,6 +424,9 @@ public class GUI_Añadir extends javax.swing.JFrame {
             String rol = (String) Rol.getSelectedItem();
             
             boolean aprobado = new DBEmpleados().anadir(rut,nombre1,nombre2,apellido1,apellido2,contrasena,direccion,horario,salario,contrato,numeros,rol);
+            
+            if(aprobado) JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+            else JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El valor del salario ingreselo como numero.\nEjemplo: Para $10.000 ingrese 10000");
