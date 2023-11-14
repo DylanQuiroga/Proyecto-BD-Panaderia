@@ -106,7 +106,7 @@ public class DBEmpleados {
                     return true;
 
                 } else if ("Panadero".equals(rol)) {
-                    consulta = "INSERT INTO panadero  (rut_cajero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    consulta = "INSERT INTO panadero  (rut_panadero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(consulta);
                     preparedStatement.setString(1, rut);
                     preparedStatement.setString(2, rutAdmin);
@@ -141,4 +141,172 @@ public class DBEmpleados {
         return false;
     }
 
+    public boolean eliminar(String rut, String rol) {
+        try {
+            if ("Cajero/a".equals(rol)) {
+                Connection connection = DriverManager.getConnection(url, username, password);
+                String consulta = "DELETE FROM cajero WHERE rut_cajero = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();
+
+                consulta = "DELETE FROM numero WHERE rut = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();
+
+                return true;
+            } else if ("Panadero/a".equals(rol)) {
+                Connection connection = DriverManager.getConnection(url, username, password);
+                String consulta = "DELETE FROM panadero WHERE rut_panadero = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();
+
+                consulta = "DELETE FROM numero WHERE rut = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();
+
+                return true;
+            } else if ("Administrador/a".equals(rol)) {
+                Connection connection = DriverManager.getConnection(url, username, password);
+                String consulta = "DELETE FROM admin WHERE rut_admin = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();
+
+                consulta = "DELETE FROM numero WHERE rut = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();
+
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+        return false;
+    }
+
+    public String[] cargarDatos(String rut, String rol) {
+        String retorno[] = new String[10];
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta;
+            PreparedStatement preparedStatement;
+
+            if ("Administrador/a".equals(rol)) {
+                consulta = "SELECT * FROM admin WHERE rut_admin = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    retorno[0] = resultSet.getString("rut_admin");
+                    retorno[1] = resultSet.getString("primer_nombre");
+                    retorno[2] = resultSet.getString("segundo_nombre");
+                    retorno[3] = resultSet.getString("primer_apellido");
+                    retorno[4] = resultSet.getString("segundo_apellido");
+                    retorno[5] = resultSet.getString("contrasena");
+                    retorno[6] = resultSet.getString("direccion");
+                    retorno[7] = resultSet.getString("horario_trabajo");
+                    retorno[8] = Integer.toString(resultSet.getInt("salario"));
+                    retorno[9] = resultSet.getString("fecha_contratacion");
+                    return retorno;
+
+                }
+
+            } else if ("Cajero/a".equals(rol)) {
+                consulta = "SELECT * FROM cajero WHERE rut_cajero = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    retorno[0] = resultSet.getString("rut_cajero");
+                    retorno[1] = resultSet.getString("primer_nombre");
+                    retorno[2] = resultSet.getString("segundo_nombre");
+                    retorno[3] = resultSet.getString("primer_apellido");
+                    retorno[4] = resultSet.getString("segundo_apellido");
+                    retorno[5] = resultSet.getString("contrasena");
+                    retorno[6] = resultSet.getString("direccion");
+                    retorno[7] = resultSet.getString("horario_trabajo");
+                    retorno[8] = Integer.toString(resultSet.getInt("salario"));
+                    retorno[9] = resultSet.getString("fecha_contratacion");
+                    return retorno;
+
+                }
+
+            } else if ("Panadero/a".equals(rol)) {
+                consulta = "SELECT * FROM panadero WHERE rut_panadero = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    retorno[0] = resultSet.getString("rut_panadero");
+                    retorno[1] = resultSet.getString("primer_nombre");
+                    retorno[2] = resultSet.getString("segundo_nombre");
+                    retorno[3] = resultSet.getString("primer_apellido");
+                    retorno[4] = resultSet.getString("segundo_apellido");
+                    retorno[5] = resultSet.getString("contrasena");
+                    retorno[6] = resultSet.getString("direccion");
+                    retorno[7] = resultSet.getString("horario_trabajo");
+                    retorno[8] = Integer.toString(resultSet.getInt("salario"));
+                    retorno[9] = resultSet.getString("fecha_contratacion");
+                    return retorno;
+
+                }
+            }
+
+        } catch (SQLException e) {
+            for (int i = 0; i < retorno.length; i++) {
+                retorno[i] = "Error";
+            }
+            return retorno;
+        }
+        for (int i = 0; i < retorno.length; i++) {
+            retorno[i] = "Error";
+        }
+        return retorno;
+    }
+
+    public String[] cargarNumeros(String rut) {
+        String retorno[];
+        int totalNum = 0;
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta;
+            PreparedStatement preparedStatement;
+
+            consulta = "SELECT * FROM numero WHERE rut = ?";
+            preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setString(1, rut);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                totalNum++;
+            }
+
+            retorno = new String[totalNum];
+            int i = 0;
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                retorno[i] = resultSet.getString("numero");
+                i++;
+            }
+
+            return retorno;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
+
+    }
 }

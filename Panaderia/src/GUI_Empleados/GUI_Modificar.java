@@ -14,13 +14,36 @@ import javax.swing.JOptionPane;
  *
  * @author Usuario
  */
-public class GUI_Añadir extends javax.swing.JFrame {
-
+public class GUI_Modificar extends javax.swing.JFrame {
+    String rutAntiguo;
     /**
      * Creates new form Añadir
+     *
+     * @param rut
+     * @param rol
      */
-    public GUI_Añadir() {
+    public GUI_Modificar(String rut, String rol) {
         initComponents();
+        Rut.setText(rut);
+        rutAntiguo = rut;
+
+        if ("Administrador/a".equals(rol)) {
+            Rol.addItem(rol);
+            Rol.setSelectedIndex(2);
+            Rol.disable();
+
+        } else if ("Cajero/a".equals(rol)) {
+            Rol.setSelectedIndex(0);
+        } else if ("Panadero/a".equals(rol)) {
+            Rol.setSelectedIndex(1);
+        }
+
+        String[] datos = new DBEmpleados().cargarDatos(rut, rol);
+        String[] numero = new DBEmpleados().cargarNumeros(rut);
+
+        iniciarDatos(datos);
+        cargatNum(numero);
+
         this.setLocationRelativeTo(null);
     }
 
@@ -208,7 +231,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Añadir");
+        jButton1.setText("Modificar");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -307,8 +330,8 @@ public class GUI_Añadir extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Añadir empleado");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 200, 40));
+        jLabel5.setText("Modificar empleado");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 240, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo-empl.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -406,7 +429,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
         try {
             new GUI_Empleado().setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(GUI_Añadir.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUI_Modificar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel2MouseClicked
 
@@ -428,13 +451,17 @@ public class GUI_Añadir extends javax.swing.JFrame {
             for (int i = 0; i < numItems; i++) {
                 numeros.add(totalNum.getItemAt(i));
             }
-            
+
             String rol = (String) Rol.getSelectedItem();
-            
-            boolean aprobado = new DBEmpleados().anadir(rut,nombre1,nombre2,apellido1,apellido2,contrasena,direccion,horario,salario,contrato,numeros,rol);
-            
-            if(aprobado) JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-            else JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+
+            boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
+            boolean aprobado = new DBEmpleados().anadir(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol);
+
+            if (aprobado || borrado) {
+                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+            }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El valor del salario ingreselo como numero.\nEjemplo: Para $10.000 ingrese 10000");
@@ -480,23 +507,40 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI_Añadir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Modificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI_Añadir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Modificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI_Añadir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Modificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI_Añadir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Modificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_Añadir().setVisible(true);
+                String rut = "";
+                String rol = "";
+                new GUI_Modificar(rut, rol).setVisible(true);
             }
         });
+    }
+
+    private void iniciarDatos(String[] datos) {
+        Rut.setText(datos[0]);
+        Nombre1.setText(datos[1]);
+        Nombre2.setText(datos[2]);
+        Apellido1.setText(datos[3]);
+        Apellido2.setText(datos[4]);
+        Contrasena.setText(datos[5]);
+        Direccion.setText(datos[6]);
+        Horario.setText(datos[7]);
+        Salario1.setText(datos[8]);
+        Contrato.setText(datos[9]);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -532,4 +576,10 @@ public class GUI_Añadir extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JComboBox<String> totalNum;
     // End of variables declaration//GEN-END:variables
+
+    private void cargatNum(String[] numero) {
+        for (int i = 0; i < numero.length; i++) {
+            totalNum.addItem(numero[i]);
+        }
+    }
 }
