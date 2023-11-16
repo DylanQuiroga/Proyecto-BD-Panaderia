@@ -193,6 +193,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
         });
         getContentPane().add(Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 180, 30));
 
+        Rut.setEnabled(false);
         Rut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RutActionPerformed(evt);
