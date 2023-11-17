@@ -29,6 +29,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
         
         //String ids [] = { "Rut", "Primer nombre", "Segundo nombre", "Primer apellido", "Segundo apellido", "Contraseña", "Direccion", "Horario de trabajo", "Salario", "Fecha de contratacion", "Numero"};
         Tabla.setModel(df);
+        Tabla.setDefaultEditor(Object.class, null);
         
         this.setLocationRelativeTo(null);
     }

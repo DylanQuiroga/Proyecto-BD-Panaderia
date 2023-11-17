@@ -193,6 +193,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
         });
         getContentPane().add(Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 180, 30));
 
+        Rut.setEnabled(false);
         Rut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RutActionPerformed(evt);
@@ -443,7 +444,8 @@ public class GUI_Modificar extends javax.swing.JFrame {
             String contrasena = Contrasena.getText();
             String direccion = Direccion.getText();
             String horario = Horario.getText();
-            int salario = Integer.parseInt(Salario1.getText());
+            String salarioStr = Salario1.getText();
+            int salario = Integer.parseInt(salarioStr);
             String contrato = Contrato.getText();
 
             int numItems = totalNum.getItemCount();
@@ -454,10 +456,10 @@ public class GUI_Modificar extends javax.swing.JFrame {
 
             String rol = (String) Rol.getSelectedItem();
 
-            boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
-            boolean aprobado = new DBEmpleados().anadir(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol);
+            //boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
+            boolean aprobado = new DBEmpleados().modificar(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol);
 
-            if (aprobado || borrado) {
+            if (aprobado ) {
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");

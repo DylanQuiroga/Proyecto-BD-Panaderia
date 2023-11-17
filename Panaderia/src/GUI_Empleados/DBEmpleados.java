@@ -141,6 +141,150 @@ public class DBEmpleados {
         return false;
     }
 
+    public boolean modificar(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol) {
+        try {
+            String rutAdmin;
+
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "SELECT * FROM admin";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                rutAdmin = resultSet.getString("rut_admin");
+
+                if ("Cajero".equals(rol)) {
+                    consulta = "UPDATE cajero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_cajero = ?";
+                    preparedStatement = connection.prepareStatement(consulta);
+                    preparedStatement.setString(1, rutAdmin); 
+                    preparedStatement.setString(2, nombre1);
+                    preparedStatement.setString(3, nombre2);
+                    preparedStatement.setString(4, apellido1);
+                    preparedStatement.setString(5, apellido2);
+                    preparedStatement.setString(6, contrasena);
+                    preparedStatement.setString(7, direccion);
+                    preparedStatement.setString(8, horario);
+                    preparedStatement.setInt(9, salario);
+                    preparedStatement.setString(10, contrato);
+                    preparedStatement.setString(11, rut);
+                    preparedStatement.executeUpdate();
+
+                    //consulta = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?) ON CONFLICT (numero) DO NOTHING";
+                    //preparedStatement = connection.prepareStatement(consulta);
+                    int totalNum = numeros.size();
+                    for (int i = 0; i < totalNum; i++) {
+                        // Verificar si el número ya existe en la tabla
+                        String consultaExistencia = "SELECT COUNT(*) FROM numero WHERE numero = ?";
+                        PreparedStatement preparedStatementExistencia = connection.prepareStatement(consultaExistencia);
+                        preparedStatementExistencia.setString(1, numeros.get(i));
+                        resultSet = preparedStatementExistencia.executeQuery();
+
+                        resultSet.next();
+                        int count = resultSet.getInt(1);
+
+                        // Insertar solo si el número no existe
+                        if (count == 0) {
+                            String consultaInsercion = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?)";
+                            PreparedStatement preparedStatementInsercion = connection.prepareStatement(consultaInsercion);
+                            preparedStatementInsercion.setString(1, numeros.get(i));
+                            preparedStatementInsercion.setString(2, rut);
+                            preparedStatementInsercion.setString(3, rol);
+                            preparedStatementInsercion.executeUpdate();
+                        }
+                    }
+
+                    return true;
+
+                } else if ("Panadero".equals(rol)) {
+                    consulta = "UPDATE panadero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_panadero = ?";
+                    preparedStatement = connection.prepareStatement(consulta);
+                    preparedStatement.setString(1, rutAdmin); 
+                    preparedStatement.setString(2, nombre1);
+                    preparedStatement.setString(3, nombre2);
+                    preparedStatement.setString(4, apellido1);
+                    preparedStatement.setString(5, apellido2);
+                    preparedStatement.setString(6, contrasena);
+                    preparedStatement.setString(7, direccion);
+                    preparedStatement.setString(8, horario);
+                    preparedStatement.setInt(9, salario);
+                    preparedStatement.setString(10, contrato);
+                    preparedStatement.setString(11, rut); 
+                    preparedStatement.executeUpdate();
+
+                    //consulta = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?) ON CONFLICT (numero) DO NOTHING";
+                    //preparedStatement = connection.prepareStatement(consulta);
+                    int totalNum = numeros.size();
+                    for (int i = 0; i < totalNum; i++) {
+                        // Verificar si el número ya existe en la tabla
+                        String consultaExistencia = "SELECT COUNT(*) FROM numero WHERE numero = ?";
+                        PreparedStatement preparedStatementExistencia = connection.prepareStatement(consultaExistencia);
+                        preparedStatementExistencia.setString(1, numeros.get(i));
+                        resultSet = preparedStatementExistencia.executeQuery();
+
+                        resultSet.next();
+                        int count = resultSet.getInt(1);
+
+                        // Insertar solo si el número no existe
+                        if (count == 0) {
+                            String consultaInsercion = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?)";
+                            PreparedStatement preparedStatementInsercion = connection.prepareStatement(consultaInsercion);
+                            preparedStatementInsercion.setString(1, numeros.get(i));
+                            preparedStatementInsercion.setString(2, rut);
+                            preparedStatementInsercion.setString(3, rol);
+                            preparedStatementInsercion.executeUpdate();
+                        }
+                    }
+
+                    return true;
+                } else if ("Administrador/a".equals(rol)) {
+                    consulta = "UPDATE admin SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_admin = ?";
+                    preparedStatement = connection.prepareStatement(consulta);
+                  
+                    preparedStatement.setString(1, nombre1);
+                    preparedStatement.setString(2, nombre2);
+                    preparedStatement.setString(3, apellido1);
+                    preparedStatement.setString(4, apellido2);
+                    preparedStatement.setString(5, contrasena);
+                    preparedStatement.setString(6, direccion);
+                    preparedStatement.setString(7, horario);
+                    preparedStatement.setInt(8, salario);
+                    preparedStatement.setString(9, contrato);
+                    preparedStatement.setString(10, rut);
+                    preparedStatement.executeUpdate();
+
+                    
+                    int totalNum = numeros.size();
+                    for (int i = 0; i < totalNum; i++) {
+                        // Verificar si el número ya existe en la tabla
+                        String consultaExistencia = "SELECT COUNT(*) FROM numero WHERE numero = ?";
+                        PreparedStatement preparedStatementExistencia = connection.prepareStatement(consultaExistencia);
+                        preparedStatementExistencia.setString(1, numeros.get(i));
+                        resultSet = preparedStatementExistencia.executeQuery();
+
+                        resultSet.next();
+                        int count = resultSet.getInt(1);
+
+                        // Insertar solo si el número no existe
+                        if (count == 0) {
+                            String consultaInsercion = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?)";
+                            PreparedStatement preparedStatementInsercion = connection.prepareStatement(consultaInsercion);
+                            preparedStatementInsercion.setString(1, numeros.get(i));
+                            preparedStatementInsercion.setString(2, rut);
+                            preparedStatementInsercion.setString(3, rol);
+                            preparedStatementInsercion.executeUpdate();
+                        }
+                    }
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+        return false;
+    }
+
     public boolean eliminar(String rut, String rol) {
         try {
             if ("Cajero/a".equals(rol)) {
