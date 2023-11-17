@@ -67,7 +67,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 20, 110, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 20, 110, 30));
 
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
