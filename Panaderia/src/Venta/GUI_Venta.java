@@ -5,6 +5,15 @@
 package Venta;
 
 import GUI_Login.GUI_Login;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,8 +24,32 @@ public class GUI_Venta extends javax.swing.JFrame {
     /**
      * Creates new form GUI_Venta
      */
-    public GUI_Venta() {
+    DefaultTableModel df = new DefaultTableModel();
+
+    public GUI_Venta() throws SQLException {
         initComponents();
+
+        String ids[] = {"Nombre del producto", "Cantidad", "Precio Unitario", "Total"};
+        df.setColumnIdentifiers(ids);
+        Tabla.setModel(df);
+        Tabla.setDefaultEditor(Object.class, null);
+
+        String[] productos = new DBVenta().cargarProductos();
+        Productos.addItem("--Seleccione un producto--");
+        for (String item : productos) {
+            Productos.addItem(item);
+        }
+
+        Productos.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selectedItem = (String) e.getItem();
+                int precio = new DBVenta().devolverCantidadMax(selectedItem);
+
+                Precio.setText(Integer.toString(precio));
+
+            }
+        });
+
         this.setLocationRelativeTo(null);
     }
 
@@ -30,7 +63,20 @@ public class GUI_Venta extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        Total = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        Precio = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tabla = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        Cantidad = new javax.swing.JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        Productos = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,8 +87,74 @@ public class GUI_Venta extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Punto de venta");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 180, 40));
+        jLabel5.setText("Total");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 530, 80, 40));
+
+        jButton4.setBackground(new java.awt.Color(255, 255, 153));
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
+        jButton4.setText("Generar boleta");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 610, 300, 40));
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Cantidad");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, 120, 40));
+
+        Total.setEnabled(false);
+        getContentPane().add(Total, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 530, 150, 40));
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Precio");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 80, 80, 40));
+
+        Precio.setEnabled(false);
+        getContentPane().add(Precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 80, 150, 40));
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 153));
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
+        jButton3.setText("Eliminar producto marcado");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 610, 300, 40));
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 153));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setText("Agregar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 80, 150, 40));
+
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(Tabla);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 1110, 360));
+
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Punto de venta");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 180, 40));
 
         jButton1.setBackground(new java.awt.Color(255, 255, 153));
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
@@ -52,7 +164,15 @@ public class GUI_Venta extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 20, 110, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 110, 30));
+        getContentPane().add(Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, 80, 40));
+
+        getContentPane().add(Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 310, 40));
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Producto");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 120, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_venta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -65,6 +185,41 @@ public class GUI_Venta extends javax.swing.JFrame {
         this.dispose();
         new GUI_Login().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int total = 0;
+        int totalFinal = 0;
+        try {
+            Object[] fila = new Object[4];
+            String nombre = (String) Productos.getSelectedItem();
+            int cantidad = (Integer) Cantidad.getValue();
+            int precio = Integer.parseInt(Precio.getText());
+            totalFinal = precio * cantidad;
+
+            fila[0] = nombre;
+            fila[1] = cantidad;
+            fila[2] = precio;
+            fila[3] = totalFinal;
+            df.addRow(fila);
+            
+            total = Integer.parseInt(Total.getText());
+
+        } catch (java.lang.NumberFormatException e) {
+            total = 0;
+
+        }finally{
+            Total.setText(Integer.toString(total + totalFinal));
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -96,14 +251,31 @@ public class GUI_Venta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_Venta().setVisible(true);
+                try {
+                    new GUI_Venta().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUI_Venta.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner Cantidad;
+    private javax.swing.JTextField Precio;
+    private javax.swing.JComboBox<String> Productos;
+    private javax.swing.JTable Tabla;
+    private javax.swing.JTextField Total;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
