@@ -197,13 +197,13 @@ public class GUI_Venta extends javax.swing.JFrame {
             fila[2] = precio;
             fila[3] = totalFinal;
             df.addRow(fila);
-            
+
             total = Integer.parseInt(Total.getText());
 
         } catch (java.lang.NumberFormatException e) {
             total = 0;
 
-        }finally{
+        } finally {
             Total.setText(Integer.toString(total + totalFinal));
         }
 
@@ -214,12 +214,12 @@ public class GUI_Venta extends javax.swing.JFrame {
         int total = Integer.parseInt(Tabla.getModel().getValueAt(row, 3).toString());
         int totalFinal = Integer.parseInt(Total.getText());
         String resultado = Integer.toString(totalFinal - total);
-        
+
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-                   model.removeRow(row);
-        
+        model.removeRow(row);
+
         Total.setText(resultado);
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
