@@ -91,7 +91,6 @@ public class GUI_Venta extends javax.swing.JFrame {
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 530, 80, 40));
 
         jButton4.setBackground(new java.awt.Color(255, 255, 153));
-        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("Generar boleta");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,7 +116,6 @@ public class GUI_Venta extends javax.swing.JFrame {
         getContentPane().add(Precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 80, 150, 40));
 
         jButton3.setBackground(new java.awt.Color(255, 255, 153));
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Eliminar producto marcado");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +125,6 @@ public class GUI_Venta extends javax.swing.JFrame {
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 610, 300, 40));
 
         jButton2.setBackground(new java.awt.Color(255, 255, 153));
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Agregar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,7 +154,6 @@ public class GUI_Venta extends javax.swing.JFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 180, 40));
 
         jButton1.setBackground(new java.awt.Color(255, 255, 153));
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Cerrar sesion");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,7 +210,16 @@ public class GUI_Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        int row = Tabla.getSelectedRow();
+        int total = Integer.parseInt(Tabla.getModel().getValueAt(row, 3).toString());
+        int totalFinal = Integer.parseInt(Total.getText());
+        String resultado = Integer.toString(totalFinal - total);
+        
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                   model.removeRow(row);
+        
+        Total.setText(resultado);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
