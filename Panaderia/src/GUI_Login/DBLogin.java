@@ -13,7 +13,7 @@ public class DBLogin {
     static String username = "panaderia";
     static String password = "im7stB6";
 
-    public boolean comprobarExistenciaAdmin(String rut, String contra) throws SQLException, ClassNotFoundException {
+public boolean comprobarExistenciaAdmin(String rut, String contra) throws SQLException, ClassNotFoundException {
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
 
