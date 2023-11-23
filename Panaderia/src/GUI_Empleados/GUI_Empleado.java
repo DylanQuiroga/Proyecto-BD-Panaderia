@@ -23,20 +23,24 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GUI_Empleado extends javax.swing.JFrame {
 
+    String rutIngresado;
+
     /**
      * Creates new form NewJFrame
      *
+     * @param rutLogin
      * @throws java.sql.SQLException
      */
-    public GUI_Empleado() throws SQLException {
+    public GUI_Empleado(String rutLogin) throws SQLException {
         initComponents();
+        rutIngresado = rutLogin;
         DefaultTableModel df = new DefaultTableModel();
         df = new DBEmpleados().cargarEmpleadosActivos(df);
 
         //String ids [] = { "Rut", "Primer nombre", "Segundo nombre", "Primer apellido", "Segundo apellido", "Contraseña", "Direccion", "Horario de trabajo", "Salario", "Fecha de contratacion", "Numero"};
         Tabla.setModel(df);
         Tabla.setDefaultEditor(Object.class, null);
-        
+
         jButton6.setVisible(false);
 
         Check.addItemListener(new ItemListener() {
@@ -51,7 +55,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
                         df1 = new DBEmpleados().cargarEmpleadosNOActivos(df1);
                         Tabla.setModel(df1);
-                        
+
                         jButton6.setVisible(true);
                         jButton5.setVisible(false);
 
@@ -68,10 +72,10 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
                         df2 = new DBEmpleados().cargarEmpleadosActivos(df2);
                         Tabla.setModel(df2);
-                        
+
                         jButton6.setVisible(false);
                         jButton5.setVisible(true);
-                        
+
                     } catch (SQLException ex) {
                         Logger.getLogger(GUI_Empleado.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -240,11 +244,11 @@ public class GUI_Empleado extends javax.swing.JFrame {
         String rol = (Tabla.getModel().getValueAt(row, 3).toString());
         String rut = (Tabla.getModel().getValueAt(row, 0).toString());
         this.dispose();
-        new GUI_Modificar(rut, rol).setVisible(true);
+        new GUI_Modificar(rut, rol, rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new GUI_Añadir().setVisible(true);
+        new GUI_Añadir(rutIngresado).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -274,7 +278,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
-        new GUI_Opciones().setVisible(true);
+        new GUI_Opciones(rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
@@ -337,8 +341,9 @@ public class GUI_Empleado extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                String rut = "";
                 try {
-                    new GUI_Empleado().setVisible(true);
+                    new GUI_Empleado(rut).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Empleado.class.getName()).log(Level.SEVERE, null, ex);
                 }

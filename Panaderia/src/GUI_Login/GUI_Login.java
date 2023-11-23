@@ -4,6 +4,7 @@
  */
 package GUI_Login;
 
+import Venta.GUI_Venta;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -188,20 +189,21 @@ public class GUI_Login extends javax.swing.JFrame {
     
     private void Verificar(){
         Cargando.setVisible(true);
-        String correo = Rut.getText();
+        String rut = Rut.getText();
         String contrasena = new String(Contra.getPassword());
 
         DBLogin login = new DBLogin();
 
         try {
-            if (login.comprobarExistenciaAdmin(correo, contrasena)) {
+            if (login.comprobarExistenciaAdmin(rut, contrasena)) {
                 Cargando.setVisible(false);
                 this.dispose();
-                new GUI_Opciones().setVisible(true);
-            } else if (login.comprobarExistenciaCajero(correo, contrasena)) {
+                new GUI_Opciones(rut).setVisible(true);
+            } else if (login.comprobarExistenciaCajero(rut, contrasena)) {
                 Cargando.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Cajero");
-            } else if (login.comprobarExistenciaPanadero(correo, contrasena)) {
+                this.dispose();
+                new GUI_Venta(rut).setVisible(true);
+            } else if (login.comprobarExistenciaPanadero(rut, contrasena)) {
                 Cargando.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Panadero");
             } else {

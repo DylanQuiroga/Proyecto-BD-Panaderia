@@ -15,17 +15,18 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class GUI_Modificar extends javax.swing.JFrame {
-    String rutAntiguo;
+    String rutIngresado;
     /**
      * Creates new form Añadir
      *
      * @param rut
+     * @param rutLogin
      * @param rol
      */
-    public GUI_Modificar(String rut, String rol) {
+    public GUI_Modificar(String rut, String rol, String rutLogin) {
         initComponents();
         Rut.setText(rut);
-        rutAntiguo = rut;
+        rutIngresado = rutLogin;
 
         if ("Administrador/a".equals(rol)) {
             Rol.addItem(rol);
@@ -167,7 +168,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
                 Apellido1KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
+        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 180, 30));
 
         Apellido2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,7 +180,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
                 Apellido2KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 180, 30));
+        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
 
         Nombre2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -428,7 +429,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         this.dispose();
         try {
-            new GUI_Empleado().setVisible(true);
+            new GUI_Empleado(rutIngresado).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Modificar.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -457,16 +458,20 @@ public class GUI_Modificar extends javax.swing.JFrame {
             String rol = (String) Rol.getSelectedItem();
 
             //boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
-            boolean aprobado = new DBEmpleados().modificar(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol);
+            boolean aprobado = new DBEmpleados().modificar(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol, rutIngresado);
 
             if (aprobado ) {
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                this.dispose();
+                new GUI_Empleado(rutIngresado).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
             }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El valor del salario ingreselo como numero.\nEjemplo: Para $10.000 ingrese 10000");
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Modificar.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1MouseClicked
@@ -527,7 +532,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
             public void run() {
                 String rut = "";
                 String rol = "";
-                new GUI_Modificar(rut, rol).setVisible(true);
+                new GUI_Modificar(rut, rol, rut).setVisible(true);
             }
         });
     }

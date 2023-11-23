@@ -21,12 +21,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GUI_Venta extends javax.swing.JFrame {
 
+    String rutIngresado;
     /**
      * Creates new form GUI_Venta
      */
     DefaultTableModel df = new DefaultTableModel();
 
-    public GUI_Venta() throws SQLException {
+    public GUI_Venta(String rutLogin) throws SQLException {
+        rutIngresado = rutLogin;
         initComponents();
 
         String ids[] = {"Nombre del producto", "Cantidad", "Precio Unitario", "Total"};
@@ -69,6 +71,7 @@ public class GUI_Venta extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         Precio = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
@@ -97,7 +100,7 @@ public class GUI_Venta extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 610, 300, 40));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 610, 300, 40));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,13 +119,22 @@ public class GUI_Venta extends javax.swing.JFrame {
         getContentPane().add(Precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 80, 150, 40));
 
         jButton3.setBackground(new java.awt.Color(255, 255, 153));
-        jButton3.setText("Eliminar producto marcado");
+        jButton3.setText("Eliminar producto seleccionado");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 610, 300, 40));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 610, 300, 40));
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 153));
+        jButton5.setText("Limpiar tabla");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 610, 300, 40));
 
         jButton2.setBackground(new java.awt.Color(255, 255, 153));
         jButton2.setText("Agregar");
@@ -161,6 +173,8 @@ public class GUI_Venta extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 110, 30));
+
+        Cantidad.setValue(1);
         getContentPane().add(Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, 80, 40));
 
         getContentPane().add(Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 310, 40));
@@ -223,8 +237,20 @@ public class GUI_Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        Object[][] datos = new Object[Tabla.getRowCount()][Tabla.getColumnCount()];
+        for (int i = 0; i < Tabla.getRowCount(); i++) {
+            for (int j = 0; j < Tabla.getColumnCount(); j++) {
+                datos[i][j] = Tabla.getValueAt(i, j);
+            }
+        }
+
+        new GUI_Boleta(rutIngresado, datos).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Tabla.setModel(new DefaultTableModel());
+        Total.setText("");
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,8 +282,9 @@ public class GUI_Venta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                String rut = "";
                 try {
-                    new GUI_Venta().setVisible(true);
+                    new GUI_Venta(rut).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Venta.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -275,6 +302,7 @@ public class GUI_Venta extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

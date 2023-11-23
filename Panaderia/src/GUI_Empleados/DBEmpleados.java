@@ -107,7 +107,7 @@ public class DBEmpleados {
 
     }
 
-    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol) {
+    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol, String rutIngresado) {
         try {
             String rutAdmin;
 
@@ -124,7 +124,7 @@ public class DBEmpleados {
                     consulta = "INSERT INTO cajero  (rut_cajero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(consulta);
                     preparedStatement.setString(1, rut);
-                    preparedStatement.setString(2, rutAdmin);
+                    preparedStatement.setString(2, rutIngresado);
                     preparedStatement.setString(3, nombre1);
                     preparedStatement.setString(4, nombre2);
                     preparedStatement.setString(5, apellido1);
@@ -152,7 +152,7 @@ public class DBEmpleados {
                     consulta = "INSERT INTO panadero  (rut_panadero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(consulta);
                     preparedStatement.setString(1, rut);
-                    preparedStatement.setString(2, rutAdmin);
+                    preparedStatement.setString(2, rutIngresado);
                     preparedStatement.setString(3, nombre1);
                     preparedStatement.setString(4, nombre2);
                     preparedStatement.setString(5, apellido1);
@@ -185,7 +185,7 @@ public class DBEmpleados {
         return false;
     }
 
-    public boolean modificar(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol) {
+    public boolean modificar(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol, String rutIngresado) {
         try {
             String rutAdmin;
 
@@ -200,7 +200,7 @@ public class DBEmpleados {
                 if ("Cajero".equals(rol)) {
                     consulta = "UPDATE cajero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_cajero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutAdmin); 
+                    preparedStatement.setString(1, rutIngresado); 
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -242,7 +242,7 @@ public class DBEmpleados {
                 } else if ("Panadero".equals(rol)) {
                     consulta = "UPDATE panadero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_panadero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutAdmin); 
+                    preparedStatement.setString(1, rutIngresado); 
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
