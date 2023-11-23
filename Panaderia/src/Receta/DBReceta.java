@@ -17,30 +17,29 @@ public class DBReceta {
     static String username = "panaderia";
     static String password = "im7stB6";
     
-    String retorno[];
-    int i = 0;
-
-    public String[] cargarRecetas() throws SQLException {
+    String ids[] = {"Nombre Receta", "Descripcion", "Ingredientes", "Unidad Metrica", "Cantidad"};
+    public DefaultTableModel cargarRecetas(DefaultTableModel tablaDF) throws SQLException {
         try {
+            tablaDF.setColumnIdentifiers(ids);
+            
             Connection connection = DriverManager.getConnection(url, username, password);
-            String consulta = "SELECT * FROM receta";
+            String consulta = "select receta.nombre_receta, receta.descripcion, "
+                    + "ingredientes.nombre_ingrediente, ingredientes.unidad_metrica, "
+                    + "ingredientes.cantidad from receta"
+                    + ", ingredientes where receta.nombre_receta = ingredientes.nombre_receta;";
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
-                i++;
+                Object[] fila = new Object[5];
+                fila[0] = resultSet.getString("nombre_receta");
+                fila[1] = resultSet.getString("descripcion");
+                fila[2] = resultSet.getString("nombre_ingrediente");
+                fila[3] = resultSet.getString("unidad_metrica");
+                fila[4] = resultSet.getString("cantidad");
+                tablaDF.addRow(fila);
             }
 
-            retorno = new String[i];
-            int i = 0;
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                retorno[i] = resultSet.getString("nombre_receta");
-                i++;
-            }
-
-            return retorno;
+            return tablaDF;
 
         } catch (SQLException e) {
             return null;
