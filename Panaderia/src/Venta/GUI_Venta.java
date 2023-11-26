@@ -244,7 +244,7 @@ public class GUI_Venta extends javax.swing.JFrame {
             }
         }
 
-        new GUI_Boleta(rutIngresado, datos).setVisible(true);
+        new GUI_Boleta(rutIngresado, datos, Total.getText()).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

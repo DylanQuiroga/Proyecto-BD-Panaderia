@@ -4,24 +4,38 @@
  */
 package Venta;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
  */
 public class GUI_Boleta extends javax.swing.JFrame {
+
     String rutIngresado;
+    int Total;
+
     /**
      * Creates new form Boleta
+     *
      * @param rutLogin
      * @param datos
+     * @param total
      */
-    public GUI_Boleta(String rutLogin, Object[][] datos) {
+    public GUI_Boleta(String rutLogin, Object[][] datos, String total) {
         rutIngresado = rutLogin;
+        Total = Integer.parseInt(total);
         initComponents();
         this.setLocationRelativeTo(null);
-        
-        ponerTexto();
-        
+
+        ponerTexto(rutLogin, datos, total);
+
     }
 
     /**
@@ -100,11 +114,32 @@ public class GUI_Boleta extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        boolean aprobado = new DBVenta().ingresarBoleta(rutIngresado, Total);
 
+        if (aprobado) {
+            JOptionPane.showMessageDialog(null, "Boleta ingresada con exito");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al guardar la boleta en la base de datos");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        String str = Texto.getText();
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyHHmmss");
+            String formattedDateTime = now.format(formatter);
+
+            String desktopPath = System.getProperty("user.home") + "/Desktop";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(desktopPath + "/boleta" + formattedDateTime + ".txt"));
+            writer.write(str);
+            writer.close();
+
+            JOptionPane.showMessageDialog(null, "Archivo guardado en el escritorio");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
@@ -140,7 +175,8 @@ public class GUI_Boleta extends javax.swing.JFrame {
             public void run() {
                 String rut = "";
                 Object[][] datos = null;
-                new GUI_Boleta(rut, datos).setVisible(true);
+                String total = "";
+                new GUI_Boleta(rut, datos, total).setVisible(true);
             }
         });
     }
@@ -155,7 +191,26 @@ public class GUI_Boleta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    private void ponerTexto() {
+    private void ponerTexto(String rutLogin, Object[][] datos, String total) {
+        DecimalFormat formato = new DecimalFormat("#.##");
         Texto.setText("\t      BOLETA ELECTRONICA\n\n");
+        Texto.append("\t       PANADERIA MARUJITA\n\n");
+        Texto.append("\tAv. Cardenal Jorge Medina 3387\n\n");
+        Texto.append("PRODUCTO |   PRECIO   |   CANT   |   SUBTOTAL\n");
+
+        for (int i = 0; i < datos.length; i++) {
+            for (int j = 0; j < datos[i].length; j++) {
+                Texto.append(datos[i][j].toString());
+                Texto.append("   |  ");
+            }
+            Texto.append("\n\n");
+        }
+        Texto.append("\n\n");
+        Texto.append("\t\tNETO: " + formato.format(Integer.parseInt(total) / 1.19));
+        Texto.append("\n");
+        Texto.append("\t\tIVA 19%: " + formato.format(Integer.parseInt(total) - Integer.parseInt(total) / 1.19));
+        Texto.append("\n");
+        Texto.append("\t\tTOTAL: " + total);
+
     }
 }
