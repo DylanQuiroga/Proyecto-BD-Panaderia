@@ -59,9 +59,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Texto.setBackground(new java.awt.Color(255, 255, 255));
         Texto.setColumns(20);
-        Texto.setForeground(new java.awt.Color(0, 0, 0));
         Texto.setRows(5);
         Texto.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         Texto.setEnabled(false);
@@ -81,7 +79,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 750, 300, 40));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 660, 180, 40));
 
         jButton4.setBackground(new java.awt.Color(255, 255, 153));
         jButton4.setText("Guardar en este equipo");
@@ -90,7 +88,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 680, 300, 40));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 660, 180, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/equis.png"))); // NOI18N
         jLabel2.setFocusTraversalPolicyProvider(true);
