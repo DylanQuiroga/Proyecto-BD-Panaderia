@@ -6,7 +6,11 @@ package GUI_Empleados;
 
 import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,19 +22,68 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class GUI_Empleado extends javax.swing.JFrame {
+
+    String rutIngresado;
+
     /**
      * Creates new form NewJFrame
+     *
+     * @param rutLogin
      * @throws java.sql.SQLException
      */
-    public GUI_Empleado() throws SQLException {
+    public GUI_Empleado(String rutLogin) throws SQLException {
         initComponents();
+        rutIngresado = rutLogin;
         DefaultTableModel df = new DefaultTableModel();
-        df = new DBEmpleados().cargarEmpleados(df);
-        
+        df = new DBEmpleados().cargarEmpleadosActivos(df);
+
         //String ids [] = { "Rut", "Primer nombre", "Segundo nombre", "Primer apellido", "Segundo apellido", "Contraseña", "Direccion", "Horario de trabajo", "Salario", "Fecha de contratacion", "Numero"};
         Tabla.setModel(df);
         Tabla.setDefaultEditor(Object.class, null);
-        
+
+        jButton6.setVisible(false);
+
+        Check.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    try {
+                        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                        model.setRowCount(0);
+
+                        DefaultTableModel df1 = new DefaultTableModel();
+
+                        df1 = new DBEmpleados().cargarEmpleadosNOActivos(df1);
+                        Tabla.setModel(df1);
+
+                        jButton6.setVisible(true);
+                        jButton5.setVisible(false);
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(GUI_Empleado.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else {
+                    try {
+                        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                        model.setRowCount(0);
+
+                        DefaultTableModel df2 = new DefaultTableModel();
+
+                        df2 = new DBEmpleados().cargarEmpleadosActivos(df2);
+                        Tabla.setModel(df2);
+
+                        jButton6.setVisible(false);
+                        jButton5.setVisible(true);
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(GUI_Empleado.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+        });
+
         this.setLocationRelativeTo(null);
     }
 
@@ -44,12 +97,14 @@ public class GUI_Empleado extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        Check = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -59,6 +114,14 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        Check.setText("Mostrar empleados eliminados");
+        Check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Check, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 490, 310, -1));
+
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Cerrar sesion");
@@ -67,7 +130,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 20, 110, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 20, 110, 30));
 
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,7 +156,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 520, 290, 40));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 550, 290, 40));
 
         jButton4.setBackground(new java.awt.Color(51, 153, 255));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
@@ -104,7 +167,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 520, 290, 40));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 550, 290, 40));
 
         jButton5.setBackground(new java.awt.Color(51, 153, 255));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
@@ -115,7 +178,18 @@ public class GUI_Empleado extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 520, 290, 40));
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, 290, 40));
+
+        jButton6.setBackground(new java.awt.Color(51, 153, 255));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Reincorporar");
+        jButton6.setAutoscrolls(true);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, 290, 40));
 
         jButton2.setBackground(new java.awt.Color(51, 153, 255));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -166,46 +240,73 @@ public class GUI_Empleado extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       int row = Tabla.getSelectedRow();
-       String rol = (Tabla.getModel().getValueAt(row, 4).toString());
-       String rut = (Tabla.getModel().getValueAt(row, 0).toString());
-       this.dispose();
-       new GUI_Modificar(rut,rol).setVisible(true);
+        int row = Tabla.getSelectedRow();
+        String rol = (Tabla.getModel().getValueAt(row, 3).toString());
+        String rut = (Tabla.getModel().getValueAt(row, 0).toString());
+        this.dispose();
+        new GUI_Modificar(rut, rol, rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new GUI_Añadir().setVisible(true);
+        new GUI_Añadir(rutIngresado).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       int row = Tabla.getSelectedRow();
-       String rut = (Tabla.getModel().getValueAt(row, 0).toString());
-       String rol = (Tabla.getModel().getValueAt(row, 4).toString());
-       
-       if (!"Administrador/a".equals(rol)){
-           boolean aprobado = new DBEmpleados().eliminar(rut, rol);
-           
-           if(aprobado){
-               JOptionPane.showMessageDialog(null, "Datos eliminados correctamente");
-               
-               if (row >= 0){
-                   DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-                   model.removeRow(row);
-               }
-               
-           }else{
-               JOptionPane.showMessageDialog(null, "Error al eliminar los datos");
-           }
-           
-       }
-       
+        int row = Tabla.getSelectedRow();
+        String rut = (Tabla.getModel().getValueAt(row, 0).toString());
+        String rol = (Tabla.getModel().getValueAt(row, 3).toString());
+
+        if (!"Administrador/a".equals(rol)) {
+            boolean aprobado = new DBEmpleados().eliminar(rut, rol);
+
+            if (aprobado) {
+                JOptionPane.showMessageDialog(null, "Datos eliminados correctamente");
+
+                if (row >= 0) {
+                    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                    model.removeRow(row);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar los datos");
+            }
+
+        }
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       this.dispose();
-       new GUI_Opciones().setVisible(true);
+        this.dispose();
+        new GUI_Opciones(rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
+
+    }//GEN-LAST:event_CheckActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int row = Tabla.getSelectedRow();
+        String rut = (Tabla.getModel().getValueAt(row, 0).toString());
+        String rol = (Tabla.getModel().getValueAt(row, 3).toString());
+
+        if (!"Administrador/a".equals(rol)) {
+            boolean aprobado = new DBEmpleados().reincorporar(rut, rol);
+
+            if (aprobado) {
+                JOptionPane.showMessageDialog(null, "Datos reincorporados correctamente");
+
+                if (row >= 0) {
+                    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                    model.removeRow(row);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al reincorporar los datos");
+            }
+
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,8 +341,9 @@ public class GUI_Empleado extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                String rut = "";
                 try {
-                    new GUI_Empleado().setVisible(true);
+                    new GUI_Empleado(rut).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Empleado.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -250,12 +352,14 @@ public class GUI_Empleado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox Check;
     private javax.swing.JTable Tabla;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
