@@ -4,7 +4,7 @@
  */
 package GUI_Login;
 
-import Venta.GUI_Venta;
+import GUI_Venta.GUI_Venta;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;

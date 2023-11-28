@@ -5,7 +5,7 @@
 package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
-import Venta.GUI_Venta;
+import GUI_Venta.GUI_Venta;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
