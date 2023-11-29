@@ -10,22 +10,21 @@ import javax.swing.table.DefaultTableModel;
  * @author rebv1
  */
 public class DBReceta {
-    
+
     static String driver = "org.postgresql.Driver";
     static String dbname = "panaderia";
     static String url = "jdbc:postgresql://10.4.3.195:5432/" + dbname;
     static String username = "panaderia";
     static String password = "im7stB6";
-    
+
     String recetas[] = {"Nombre Receta", "Descripcion"};
     String ingredientes[] = {"Nombre Ingrediente", "Unidad Metrica", "Cantidad"};
-    
+
     public DefaultTableModel cargarRecetas(DefaultTableModel tablaDF) throws SQLException {
         try {
             tablaDF.setColumnIdentifiers(recetas);
-            
             Connection connection = DriverManager.getConnection(url, username, password);
-            String consulta = "select * from receta";     
+            String consulta = "select * from receta";
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -42,14 +41,14 @@ public class DBReceta {
         }
 
     }
-    
-  /*  public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF) throws SQLException {
+
+      public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF, String seleccionado) throws SQLException {
         try {
             tablaDF.setColumnIdentifiers(ingredientes);
-            
             Connection connection = DriverManager.getConnection(url, username, password);
-            String consulta = "select * from ingredientes";     
+            String consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";     
             PreparedStatement preparedStatement = connection.prepareStatement(consulta); 
+            preparedStatement.setString(1, seleccionado);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Object[] fila = new Object[3];
@@ -65,27 +64,26 @@ public class DBReceta {
             return null;
         }
 
-    } */
-    
-    public String[] cargarIngredientes(String seleccionado) throws SQLException{
+    } 
+  /*  public String[] cargarIngredientes(String seleccionado) throws SQLException {
         String retorno[] = new String[3];
-        try{
-            
-        Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta;
-        PreparedStatement preparedStatement;
-        consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, seleccionado);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
+        try {
+
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta;
+            PreparedStatement preparedStatement;
+            consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";
+            preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setString(1, seleccionado);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 retorno[0] = resultSet.getString("nombre_ingrediente");
                 retorno[1] = resultSet.getString("unidad_metrica");
                 retorno[2] = resultSet.getString("cantidad");
                 return retorno;
             }
-        
-        }catch (SQLException e) {
+
+        } catch (SQLException e) {
             for (int i = 0; i < retorno.length; i++) {
                 retorno[i] = "Error";
             }
@@ -95,7 +93,6 @@ public class DBReceta {
             retorno[i] = "Error";
         }
         return retorno;
-    } 
-    
-    
+    } */
+
 }

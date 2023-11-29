@@ -30,7 +30,7 @@ public class GUI_Receta extends javax.swing.JFrame {
         
         jTable1.setModel(df);
         jTable1.setDefaultEditor(Object.class, null);
-        
+
         this.setLocationRelativeTo(null);
     }
 
@@ -51,6 +51,7 @@ public class GUI_Receta extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
