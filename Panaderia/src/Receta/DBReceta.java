@@ -17,25 +17,45 @@ public class DBReceta {
     static String username = "panaderia";
     static String password = "im7stB6";
     
-    String ids[] = {"Nombre Receta", "Descripcion", "Ingredientes", "Unidad Metrica", "Cantidad"};
+    String recetas[] = {"Nombre Receta", "Descripcion"};
+    String ingredientes[] = {"Nombre Ingrediente", "Unidad Metrica", "Cantidad"};
+    
     public DefaultTableModel cargarRecetas(DefaultTableModel tablaDF) throws SQLException {
         try {
-            tablaDF.setColumnIdentifiers(ids);
+            tablaDF.setColumnIdentifiers(recetas);
             
             Connection connection = DriverManager.getConnection(url, username, password);
-            String consulta = "select receta.nombre_receta, receta.descripcion, "
-                    + "ingredientes.nombre_ingrediente, ingredientes.unidad_metrica, "
-                    + "ingredientes.cantidad from receta"
-                    + ", ingredientes where receta.nombre_receta = ingredientes.nombre_receta;";
+            String consulta = "select * from receta";     
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Object[] fila = new Object[5];
+                Object[] fila = new Object[2];
                 fila[0] = resultSet.getString("nombre_receta");
                 fila[1] = resultSet.getString("descripcion");
-                fila[2] = resultSet.getString("nombre_ingrediente");
-                fila[3] = resultSet.getString("unidad_metrica");
-                fila[4] = resultSet.getString("cantidad");
+                tablaDF.addRow(fila);
+            }
+
+            return tablaDF;
+
+        } catch (SQLException e) {
+            return null;
+        }
+
+    }
+    
+    public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF) throws SQLException {
+        try {
+            tablaDF.setColumnIdentifiers(ingredientes);
+            
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "select * from ingredientes";     
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta); 
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Object[] fila = new Object[3];
+                fila[0] = resultSet.getString("nombre_ingrediente");
+                fila[1] = resultSet.getString("unidad_metrica");
+                fila[2] = resultSet.getString("cantidad");
                 tablaDF.addRow(fila);
             }
 

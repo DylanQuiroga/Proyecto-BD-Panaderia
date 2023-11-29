@@ -6,7 +6,6 @@ package Receta;
 
 import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,15 +17,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author rebv1
  */
-public class GUI_Receta extends javax.swing.JFrame {
+public class GUI_Ingredientes extends javax.swing.JFrame {
 
     /**
-     * Creates new form GUI_Receta
+     * Creates new form GUI_Ingredientes
      */
-    public GUI_Receta() throws SQLException  {
+    public GUI_Ingredientes() throws SQLException {
         initComponents();
         DefaultTableModel df = new DefaultTableModel();
-        df = new DBReceta().cargarRecetas(df);
+        df = new DBReceta().cargarIngredientes(df);
         
         jTable1.setModel(df);
         jTable1.setDefaultEditor(Object.class, null);
@@ -47,7 +46,7 @@ public class GUI_Receta extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -67,41 +66,33 @@ public class GUI_Receta extends javax.swing.JFrame {
             }
         ));
         jTable1.setColumnSelectionAllowed(true);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 1180, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 670, 370));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setText("Recetas");
+        jLabel1.setText("Ingredientes");
         jLabel1.setMaximumSize(new java.awt.Dimension(127, 32));
         jLabel1.setMinimumSize(new java.awt.Dimension(127, 32));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 110, 30));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, 150, 30));
 
-        jButton1.setBackground(new java.awt.Color(204, 255, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("VOLVER");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/equis.png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 90, 30));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 40, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_receta.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 670));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 940, 670));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -114,24 +105,15 @@ public class GUI_Receta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.dispose();
-       new GUI_Opciones().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int row = jTable1.rowAtPoint(evt.getPoint());
-        int col = jTable1.columnAtPoint(evt.getPoint());
-        if (row >= 0 && col >= 0) {
-            try {
-                new GUI_Ingredientes().setVisible(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.dispose();
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.dispose();
+        try {
+            new GUI_Receta().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Ingredientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jTable1MouseClicked
-    
+    }//GEN-LAST:event_jLabel3MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -149,13 +131,13 @@ public class GUI_Receta extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI_Receta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Ingredientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI_Receta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Ingredientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI_Receta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Ingredientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI_Receta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_Ingredientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -163,18 +145,18 @@ public class GUI_Receta extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new GUI_Receta().setVisible(true);
+                    new GUI_Ingredientes().setVisible(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GUI_Ingredientes.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
