@@ -43,7 +43,7 @@ public class DBReceta {
 
     }
     
-    public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF) throws SQLException {
+  /*  public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF) throws SQLException {
         try {
             tablaDF.setColumnIdentifiers(ingredientes);
             
@@ -65,6 +65,37 @@ public class DBReceta {
             return null;
         }
 
-    }
+    } */
+    
+    public String[] cargarIngredientes(String seleccionado) throws SQLException{
+        String retorno[] = new String[3];
+        try{
+            
+        Connection connection = DriverManager.getConnection(url, username, password);
+        String consulta;
+        PreparedStatement preparedStatement;
+        consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";
+        preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setString(1, seleccionado);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+                retorno[0] = resultSet.getString("nombre_ingrediente");
+                retorno[1] = resultSet.getString("unidad_metrica");
+                retorno[2] = resultSet.getString("cantidad");
+                return retorno;
+            }
+        
+        }catch (SQLException e) {
+            for (int i = 0; i < retorno.length; i++) {
+                retorno[i] = "Error";
+            }
+            return retorno;
+        }
+        for (int i = 0; i < retorno.length; i++) {
+            retorno[i] = "Error";
+        }
+        return retorno;
+    } 
+    
     
 }

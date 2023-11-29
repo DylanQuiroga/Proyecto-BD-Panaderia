@@ -122,9 +122,12 @@ public class GUI_Receta extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.rowAtPoint(evt.getPoint());
         int col = jTable1.columnAtPoint(evt.getPoint());
+        String seleccionado = (String) jTable1.getValueAt(row, col);
+        
         if (row >= 0 && col >= 0) {
             try {
-                new GUI_Ingredientes().setVisible(true);
+                new GUI_Ingredientes(seleccionado).setVisible(true);
+               // JOptionPane.showConfirmDialog(null, "Has seleccionado la receta: " + seleccionado);
             } catch (SQLException ex) {
                 Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
             }

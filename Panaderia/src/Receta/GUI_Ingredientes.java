@@ -22,10 +22,11 @@ public class GUI_Ingredientes extends javax.swing.JFrame {
     /**
      * Creates new form GUI_Ingredientes
      */
-    public GUI_Ingredientes() throws SQLException {
+    public GUI_Ingredientes(String seleccionado) throws SQLException {
         initComponents();
         DefaultTableModel df = new DefaultTableModel();
-        df = new DBReceta().cargarIngredientes(df);
+        String Seleccionado = null;
+        df = new DBReceta().cargarIngredientes(Seleccionado);
         
         jTable1.setModel(df);
         jTable1.setDefaultEditor(Object.class, null);
@@ -140,12 +141,12 @@ public class GUI_Ingredientes extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GUI_Ingredientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+            
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new GUI_Ingredientes().setVisible(true);
+                    new GUI_Ingredientes(seleccionado).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Ingredientes.class.getName()).log(Level.SEVERE, null, ex);
                 }
