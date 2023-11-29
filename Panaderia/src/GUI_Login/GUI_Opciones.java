@@ -6,6 +6,7 @@ package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
 import Venta.GUI_Venta;
+import insumos_disponibles.GUI_ver_insumos_disponibles;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,6 +102,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 100, 20));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Icono-Stock-Permanente.png"))); // NOI18N
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abrirInsumosDispo(evt);
+            }
+        });
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 80, 80));
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -178,6 +184,15 @@ public class GUI_Opciones extends javax.swing.JFrame {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void abrirInsumosDispo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_abrirInsumosDispo
+        this.dispose();
+        try {
+            new GUI_ver_insumos_disponibles(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_abrirInsumosDispo
 
     /**
      * @param args the command line arguments
