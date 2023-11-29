@@ -68,7 +68,6 @@ public class DBInsumos_dispo {
         tablaDF.setColumnIdentifiers(ids);
 
         Connection connection = DriverManager.getConnection(url, username, password);
-        // Modifica la consulta para obtener los insumos específicos de la receta
         String consulta = "SELECT * FROM insumos_disponibles WHERE nombre_insumo_inv IN "
                 + "(SELECT nombre_ingrediente FROM ingredientes WHERE nombre_receta = ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
