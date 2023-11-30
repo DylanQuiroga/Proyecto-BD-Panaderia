@@ -44,7 +44,6 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
         Tabla.setDefaultEditor(Object.class, null);
         
         DBproducto_local.generarComboBox(lista_recetas);
-        jButton6.setVisible(false);
 
         
 
@@ -68,10 +67,6 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -126,7 +121,7 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 20, 110, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 640, 110, 30));
 
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -143,50 +138,6 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 1180, 390));
 
-        jButton3.setBackground(new java.awt.Color(153, 0, 102));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Modificar");
-        jButton3.setAutoscrolls(true);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 550, 290, 40));
-
-        jButton4.setBackground(new java.awt.Color(153, 0, 102));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Añadir");
-        jButton4.setAutoscrolls(true);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 550, 290, 40));
-
-        jButton5.setBackground(new java.awt.Color(153, 0, 102));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Eliminar");
-        jButton5.setAutoscrolls(true);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, 290, 40));
-
-        jButton6.setBackground(new java.awt.Color(51, 153, 255));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Reincorporar");
-        jButton6.setAutoscrolls(true);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, 290, 40));
-
         jButton2.setBackground(new java.awt.Color(153, 0, 102));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Volver");
@@ -195,7 +146,7 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 110, 30));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, 110, 30));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -235,70 +186,10 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
         new GUI_Login().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int row = Tabla.getSelectedRow();
-        String rol = (Tabla.getModel().getValueAt(row, 3).toString());
-        String rut = (Tabla.getModel().getValueAt(row, 0).toString());
-        this.dispose();
-        new GUI_Modificar(rut, rol, rutIngresado).setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new GUI_Añadir(rutIngresado).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        int row = Tabla.getSelectedRow();
-        String rut = (Tabla.getModel().getValueAt(row, 0).toString());
-        String rol = (Tabla.getModel().getValueAt(row, 3).toString());
-
-        if (!"Administrador/a".equals(rol)) {
-            boolean aprobado = new DBproducto_local().eliminar(rut, rol);
-
-            if (aprobado) {
-                JOptionPane.showMessageDialog(null, "Datos eliminados correctamente");
-
-                if (row >= 0) {
-                    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-                    model.removeRow(row);
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al eliminar los datos");
-            }
-
-        }
-
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
         new GUI_Opciones(rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        int row = Tabla.getSelectedRow();
-        String rut = (Tabla.getModel().getValueAt(row, 0).toString());
-        String rol = (Tabla.getModel().getValueAt(row, 3).toString());
-
-        if (!"Administrador/a".equals(rol)) {
-            boolean aprobado = new DBproducto_local().reincorporar(rut, rol);
-
-            if (aprobado) {
-                JOptionPane.showMessageDialog(null, "Datos reincorporados correctamente");
-
-                if (row >= 0) {
-                    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-                    model.removeRow(row);
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al reincorporar los datos");
-            }
-
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void unidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unidadesActionPerformed
         // TODO add your handling code here:
@@ -400,10 +291,6 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
     private javax.swing.JButton botonAgregarStock;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
