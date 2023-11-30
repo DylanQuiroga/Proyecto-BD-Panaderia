@@ -4,6 +4,7 @@
  */
 package GUI_Boleta;
 
+import GUI_Empleados.DBEmpleados;
 import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
 import java.awt.BorderLayout;
@@ -23,12 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -69,6 +64,19 @@ public class GUI_Boleta extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        canDesc = new javax.swing.JRadioButton();
+        canAsc = new javax.swing.JRadioButton();
+        anioDesc = new javax.swing.JRadioButton();
+        anioAsc = new javax.swing.JRadioButton();
+        mesAsc = new javax.swing.JRadioButton();
+        mesDesc = new javax.swing.JRadioButton();
+        diaAsc = new javax.swing.JRadioButton();
+        diaDesc = new javax.swing.JRadioButton();
+        restablecer = new javax.swing.JButton();
+        Buscar = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         Aceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -92,7 +100,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 1160, 430));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 480, 450));
 
         jButton1.setBackground(new java.awt.Color(51, 153, 0));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -107,15 +115,102 @@ public class GUI_Boleta extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Graficar");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 590, 190, 40));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 520, 120, 40));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Boleta");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 80, 40));
+        jLabel6.setText("Ordenar");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 120, 40));
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Boleta");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 80, 40));
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Buscar");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 80, 40));
+
+        canDesc.setText("Cantidad (Descendente)");
+        canDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                canDescActionPerformed(evt);
+            }
+        });
+        getContentPane().add(canDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 380, 180, -1));
+
+        canAsc.setText("Cantidad (Ascendente)");
+        canAsc.setToolTipText("");
+        canAsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                canAscActionPerformed(evt);
+            }
+        });
+        getContentPane().add(canAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 350, 180, -1));
+
+        anioDesc.setText("Año (Descendente)");
+        anioDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anioDescActionPerformed(evt);
+            }
+        });
+        getContentPane().add(anioDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 320, 180, -1));
+
+        anioAsc.setText("Año (Ascendente)");
+        anioAsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anioAscActionPerformed(evt);
+            }
+        });
+        getContentPane().add(anioAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 290, 180, -1));
+
+        mesAsc.setText("Mes (Ascendente)");
+        mesAsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mesAscActionPerformed(evt);
+            }
+        });
+        getContentPane().add(mesAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 350, 180, -1));
+
+        mesDesc.setText("Mes (Descendente)");
+        mesDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mesDescActionPerformed(evt);
+            }
+        });
+        getContentPane().add(mesDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 380, 180, -1));
+
+        diaAsc.setText("Dia (Ascendente)");
+        diaAsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diaAscActionPerformed(evt);
+            }
+        });
+        getContentPane().add(diaAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 290, 180, -1));
+
+        diaDesc.setText("Dia (Descendente)");
+        diaDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diaDescActionPerformed(evt);
+            }
+        });
+        getContentPane().add(diaDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 320, 180, -1));
+
+        restablecer.setText("Restablecer");
+        restablecer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restablecerActionPerformed(evt);
+            }
+        });
+        getContentPane().add(restablecer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 330, 130, 40));
+
+        Buscar.setText("Buscar");
+        getContentPane().add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 130, 160, 40));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 130, 300, 40));
 
         Aceptar.setText("Aceptar");
-        getContentPane().add(Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 590, 190, 40));
+        getContentPane().add(Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 520, 160, 40));
 
         jButton2.setBackground(new java.awt.Color(51, 153, 0));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -136,7 +231,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 666, 100, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 590, 300, 40));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 520, 300, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_boleta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -159,7 +254,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         try {
             File file = new File("GUI_Boleta.java");
             String directoryPath = file.getAbsoluteFile().getParent();
-            
+
             String cmdStr = directoryPath + "\\src\\Python\\Ej.py";
             ProcessBuilder Process_Builder = new ProcessBuilder("python", cmdStr).inheritIO();
             Process Demo_Process = Process_Builder.start();
@@ -167,7 +262,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
             cmdStr = directoryPath + "\\src\\Python\\grafico.png";
             BufferedImage img = ImageIO.read(new File(cmdStr));
-            
+
             JLabel label = new JLabel(new ImageIcon(img));
             JFrame frame = new JFrame();
             frame.getContentPane().add(label, BorderLayout.CENTER);
@@ -182,6 +277,282 @@ public class GUI_Boleta extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void restablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restablecerActionPerformed
+        DefaultTableModel df = new DefaultTableModel();
+        try {
+            df = new BDBoleta().cargarBoletas(df);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Tabla.setModel(df);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+    }//GEN-LAST:event_restablecerActionPerformed
+
+    private void diaAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diaAscActionPerformed
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        diaAsc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_Dia(df1, true);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_diaAscActionPerformed
+
+    private void diaDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diaDescActionPerformed
+        diaAsc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        diaDesc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_Dia(df1, false);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_diaDescActionPerformed
+
+    private void mesAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mesAscActionPerformed
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        mesAsc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_Mes(df1, true);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mesAscActionPerformed
+
+    private void mesDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mesDescActionPerformed
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        mesDesc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_Mes(df1, false);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mesDescActionPerformed
+
+    private void anioAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anioAscActionPerformed
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        anioAsc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_anio(df1, true);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_anioAscActionPerformed
+
+    private void anioDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anioDescActionPerformed
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        canAsc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        canAsc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        anioDesc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_anio(df1, false);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_anioDescActionPerformed
+
+    private void canAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canAscActionPerformed
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canDesc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canDesc.setEnabled(true);
+        
+        canAsc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_cant(df1, true);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_canAscActionPerformed
+
+    private void canDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canDescActionPerformed
+        diaAsc.setSelected(false);
+        diaDesc.setSelected(false);
+        mesAsc.setSelected(false);
+        mesDesc.setSelected(false);
+        anioAsc.setSelected(false);
+        anioDesc.setSelected(false);
+        canAsc.setSelected(false);
+        
+        diaAsc.setEnabled(true);
+        diaDesc.setEnabled(true);
+        mesAsc.setEnabled(true);
+        mesDesc.setEnabled(true);
+        anioAsc.setEnabled(true);
+        anioDesc.setEnabled(true);
+        canAsc.setEnabled(true);
+        
+        canDesc.setEnabled(false);
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+
+        DefaultTableModel df1 = new DefaultTableModel();
+
+        try {
+            df1 = new BDBoleta().cargarBoletas_cant(df1, false);
+            Tabla.setModel(df1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_canDescActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,7 +597,14 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Aceptar;
+    private javax.swing.JButton Buscar;
     private javax.swing.JTable Tabla;
+    private javax.swing.JRadioButton anioAsc;
+    private javax.swing.JRadioButton anioDesc;
+    private javax.swing.JRadioButton canAsc;
+    private javax.swing.JRadioButton canDesc;
+    private javax.swing.JRadioButton diaAsc;
+    private javax.swing.JRadioButton diaDesc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -234,7 +612,13 @@ public class GUI_Boleta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JRadioButton mesAsc;
+    private javax.swing.JRadioButton mesDesc;
+    private javax.swing.JButton restablecer;
     // End of variables declaration//GEN-END:variables
 
 }
