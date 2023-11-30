@@ -19,11 +19,12 @@ import javax.swing.table.DefaultTableModel;
  * @author rebv1
  */
 public class GUI_Receta extends javax.swing.JFrame {
-
+    String rutIngresado;
     /**
      * Creates new form GUI_Receta
      */
-    public GUI_Receta() throws SQLException  {
+    public GUI_Receta(String rutLogin) throws SQLException  {
+        rutIngresado = rutLogin;
         initComponents();
         DefaultTableModel df = new DefaultTableModel();
         df = new DBReceta().cargarRecetas(df);
@@ -117,7 +118,7 @@ public class GUI_Receta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        this.dispose();
-       new GUI_Opciones().setVisible(true);
+       new GUI_Opciones(rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -127,7 +128,7 @@ public class GUI_Receta extends javax.swing.JFrame {
         
         if (row >= 0 && col >= 0) {
             try {
-                new GUI_Ingredientes(seleccionado).setVisible(true);
+                new GUI_Ingredientes(rutIngresado,seleccionado).setVisible(true);
                // JOptionPane.showConfirmDialog(null, "Has seleccionado la receta: " + seleccionado);
             } catch (SQLException ex) {
                 Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,8 +167,9 @@ public class GUI_Receta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                String rut = "";
                 try {
-                    new GUI_Receta().setVisible(true);
+                    new GUI_Receta(rut).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
                 }

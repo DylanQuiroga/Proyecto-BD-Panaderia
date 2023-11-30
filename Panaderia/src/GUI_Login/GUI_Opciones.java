@@ -187,7 +187,7 @@ public class GUI_Opciones extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         this.dispose();
         try {
-            new GUI_Receta().setVisible(true);
+            new GUI_Receta(rutIngresado).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }

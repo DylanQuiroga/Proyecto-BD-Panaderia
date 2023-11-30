@@ -19,12 +19,13 @@ import javax.swing.table.DefaultTableModel;
  * @author rebv1
  */
 public class GUI_Ingredientes extends javax.swing.JFrame {
-
+    String rutIngresado ;
    
     /**
      * Creates new form GUI_Ingredientes
      */
-    public GUI_Ingredientes(String seleccionado) throws SQLException {
+    public GUI_Ingredientes(String rutLogin, String seleccionado) throws SQLException {
+        rutIngresado = rutLogin;
         initComponents();
         DefaultTableModel df = new DefaultTableModel();
         df = new DBReceta().cargarIngredientes(df, seleccionado);
@@ -109,7 +110,7 @@ public class GUI_Ingredientes extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         this.dispose();
         try {
-            new GUI_Receta().setVisible(true);
+            new GUI_Receta(rutIngresado).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Ingredientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -146,8 +147,9 @@ public class GUI_Ingredientes extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    String rut = "";
                     String seleccionado = "";
-                    new GUI_Ingredientes(seleccionado).setVisible(true);
+                    new GUI_Ingredientes(rut,seleccionado).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Ingredientes.class.getName()).log(Level.SEVERE, null, ex);
                 }
