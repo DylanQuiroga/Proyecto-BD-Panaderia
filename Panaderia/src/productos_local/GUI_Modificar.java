@@ -430,7 +430,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         this.dispose();
         try {
-            new GUI_Empleado(rutIngresado).setVisible(true);
+            new GUI_ver_producto_local(rutIngresado).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Modificar.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -464,7 +464,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
             if (aprobado ) {
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                 this.dispose();
-                new GUI_Empleado(rutIngresado).setVisible(true);
+                new GUI_ver_producto_local(rutIngresado).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
             }

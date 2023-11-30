@@ -410,7 +410,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
         this.dispose();
         try {
             String rut = "";
-            new GUI_Empleado(rut).setVisible(true);
+            new GUI_ver_producto_local(rut).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Añadir.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -442,7 +442,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
             if (aprobado) {
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                 this.dispose();
-                new GUI_Empleado(rutIngresado).setVisible(true);
+                new GUI_ver_producto_local(rutIngresado).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
             }
