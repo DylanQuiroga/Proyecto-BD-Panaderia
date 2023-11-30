@@ -6,6 +6,7 @@ package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
 import Venta.GUI_Venta;
+import Receta.GUI_Receta;
 import insumos_disponibles.GUI_ver_insumos_disponibles;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -59,7 +60,6 @@ public class GUI_Opciones extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 400));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -76,6 +76,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 80, 80));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/3565418.png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 80, -1));
 
         jLabel17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -190,6 +195,15 @@ public class GUI_Opciones extends javax.swing.JFrame {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.dispose();
+        try {
+            new GUI_Receta(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void abrirInsumosDispo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_abrirInsumosDispo
         this.dispose();
