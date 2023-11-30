@@ -10,6 +10,7 @@ import insumos_disponibles.GUI_ver_insumos_disponibles;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import productos_local.GUI_ver_producto_local;
 /**
  *
  * @author Usuario
@@ -120,6 +121,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, 70, 20));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/1312307.png"))); // NOI18N
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abrirProductoLocal(evt);
+            }
+        });
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 90, 90));
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -193,6 +199,15 @@ public class GUI_Opciones extends javax.swing.JFrame {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_abrirInsumosDispo
+
+    private void abrirProductoLocal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_abrirProductoLocal
+        this.dispose();
+        try {
+            new GUI_ver_producto_local(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_abrirProductoLocal
 
     /**
      * @param args the command line arguments
