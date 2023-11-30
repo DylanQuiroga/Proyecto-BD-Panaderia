@@ -68,8 +68,11 @@ public class GUI_Boleta extends javax.swing.JFrame {
         Tabla = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        Aceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -89,7 +92,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 81, 1160, 430));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 1160, 430));
 
         jButton1.setBackground(new java.awt.Color(51, 153, 0));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -103,8 +106,16 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Boleta");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 80, 40));
+        jLabel5.setText("Graficar");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 590, 190, 40));
+
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Boleta");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 80, 40));
+
+        Aceptar.setText("Aceptar");
+        getContentPane().add(Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 590, 190, 40));
 
         jButton2.setBackground(new java.awt.Color(51, 153, 0));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -122,7 +133,10 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 540, 260, 70));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 666, 100, -1));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 590, 300, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_boleta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -143,18 +157,24 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            String cmdStr = "/Python/Ej.py";
+            File file = new File("GUI_Boleta.java");
+            String directoryPath = file.getAbsoluteFile().getParent();
+            
+            String cmdStr = directoryPath + "\\src\\Python\\Ej.py";
             ProcessBuilder Process_Builder = new ProcessBuilder("python", cmdStr).inheritIO();
             Process Demo_Process = Process_Builder.start();
             Demo_Process.waitFor();
+
+            cmdStr = directoryPath + "\\src\\Python\\grafico.png";
+            BufferedImage img = ImageIO.read(new File(cmdStr));
             
-            BufferedImage img = ImageIO.read(new File("C:\\Users\\Usuario\\Desktop\\Panaderia Marujita\\Proyecto-BD-Panaderia\\Panaderia\\src\\Python\\grafico.png"));
             JLabel label = new JLabel(new ImageIcon(img));
             JFrame frame = new JFrame();
             frame.getContentPane().add(label, BorderLayout.CENTER);
             frame.pack();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-            
+
         } catch (InterruptedException ex) {
             Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -205,12 +225,15 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Aceptar;
     private javax.swing.JTable Tabla;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
