@@ -44,23 +44,23 @@ public class DBInsumos_dispo {
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Limpiar el JComboBox antes de cargar nuevos datos
+            
             comboBox.removeAllItems();
 
-            // Recorrer los resultados y agregarlos al JComboBox
+            // Recorre los resultados y agregarlos al JComboBox
             comboBox.addItem("Mostrar todo");
             while (resultSet.next()) {
                 String itemName = resultSet.getString("nombre_receta");
                 comboBox.addItem(itemName);
             }
 
-            // Cerrar recursos (result set, statement y connection)
+            
             resultSet.close();
             preparedStatement.close();
             connection.close();
 
         } catch (Exception e) {
-            e.printStackTrace(); // Imprimir la traza completa del error
+            e.printStackTrace(); 
         }
     }
 
@@ -68,7 +68,6 @@ public class DBInsumos_dispo {
         tablaDF.setColumnIdentifiers(ids);
 
         Connection connection = DriverManager.getConnection(url, username, password);
-        // Modifica la consulta para obtener los insumos específicos de la receta
         String consulta = "SELECT * FROM insumos_disponibles WHERE nombre_insumo_inv IN "
                 + "(SELECT nombre_ingrediente FROM ingredientes WHERE nombre_receta = ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
