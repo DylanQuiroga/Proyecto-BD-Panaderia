@@ -13,9 +13,9 @@ public class DBEmpleados {
     static String username = "panaderia";
     static String password = "im7stB6";
 
-    String ids[] = {"Rut", "Primer nombre", "Primer apellido", "Direccion", "Rol"};
+    String ids[] = {"Rut", "Primer nombre", "Primer apellido", "Rol", "Activo"};
 
-    public DefaultTableModel cargarEmpleados(DefaultTableModel tablaDF) throws SQLException {
+    public DefaultTableModel cargarEmpleadosActivos(DefaultTableModel tablaDF) throws SQLException {
 
         tablaDF.setColumnIdentifiers(ids);
 
@@ -29,13 +29,14 @@ public class DBEmpleados {
             fila[0] = resultSet.getString("rut_admin");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = resultSet.getString("direccion");
-            fila[4] = "Administrador/a";
+            fila[3] = "Administrador/a";
+            fila[4] = "SI";
             tablaDF.addRow(fila);
         }
 
-        consulta = "SELECT * FROM cajero";
+        consulta = "SELECT * FROM cajero WHERE activo = ?";
         preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setString(1, "SI");
         resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -43,13 +44,14 @@ public class DBEmpleados {
             fila[0] = resultSet.getString("rut_cajero");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = resultSet.getString("direccion");
-            fila[4] = "Cajero/a";
+            fila[3] = "Cajero/a";
+            fila[4] = resultSet.getString("activo");
             tablaDF.addRow(fila);
         }
 
-        consulta = "SELECT * FROM panadero";
+        consulta = "SELECT * FROM panadero WHERE activo = ?";
         preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setString(1, "SI");
         resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -57,8 +59,47 @@ public class DBEmpleados {
             fila[0] = resultSet.getString("rut_panadero");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = resultSet.getString("direccion");
-            fila[4] = "Panadero/a";
+            fila[3] = "Panadero/a";
+            fila[4] = resultSet.getString("activo");
+            tablaDF.addRow(fila);
+        }
+
+        return tablaDF;
+
+    }
+    
+        public DefaultTableModel cargarEmpleadosNOActivos(DefaultTableModel tablaDF) throws SQLException {
+
+        tablaDF.setColumnIdentifiers(ids);
+
+        Connection connection = DriverManager.getConnection(url, username, password);
+        String consulta = "SELECT * FROM cajero WHERE activo = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setString(1, "NO");
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Object[] fila = new Object[5];
+            fila[0] = resultSet.getString("rut_cajero");
+            fila[1] = resultSet.getString("primer_nombre");
+            fila[2] = resultSet.getString("primer_apellido");
+            fila[3] = "Cajero/a";
+            fila[4] = resultSet.getString("activo");
+            tablaDF.addRow(fila);
+        }
+
+        consulta = "SELECT * FROM panadero WHERE activo = ?";
+        preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setString(1, "NO");
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Object[] fila = new Object[5];
+            fila[0] = resultSet.getString("rut_panadero");
+            fila[1] = resultSet.getString("primer_nombre");
+            fila[2] = resultSet.getString("primer_apellido");
+            fila[3] = "Panadero/a";
+            fila[4] = resultSet.getString("activo");
             tablaDF.addRow(fila);
         }
 
@@ -66,7 +107,7 @@ public class DBEmpleados {
 
     }
 
-    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol) {
+    public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol, String rutIngresado) {
         try {
             String rutAdmin;
 
@@ -74,15 +115,16 @@ public class DBEmpleados {
             String consulta = "SELECT * FROM admin";
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
+            
             if (resultSet.next()) {
                 rutAdmin = resultSet.getString("rut_admin");
 
                 if ("Cajero".equals(rol)) {
-                    consulta = "INSERT INTO cajero  (rut_cajero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    consulta = "INSERT INTO cajero  (rut_cajero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(consulta);
                     preparedStatement.setString(1, rut);
-                    preparedStatement.setString(2, rutAdmin);
+                    preparedStatement.setString(2, rutIngresado);
                     preparedStatement.setString(3, nombre1);
                     preparedStatement.setString(4, nombre2);
                     preparedStatement.setString(5, apellido1);
@@ -92,6 +134,7 @@ public class DBEmpleados {
                     preparedStatement.setString(9, horario);
                     preparedStatement.setInt(10, salario);
                     preparedStatement.setString(11, contrato);
+                    preparedStatement.setString(12, "SI");
                     preparedStatement.executeUpdate();
 
                     consulta = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?)";
@@ -106,10 +149,10 @@ public class DBEmpleados {
                     return true;
 
                 } else if ("Panadero".equals(rol)) {
-                    consulta = "INSERT INTO panadero  (rut_panadero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    consulta = "INSERT INTO panadero  (rut_panadero, rut_admin, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, contrasena, direccion, horario_trabajo, salario, fecha_contratacion, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(consulta);
                     preparedStatement.setString(1, rut);
-                    preparedStatement.setString(2, rutAdmin);
+                    preparedStatement.setString(2, rutIngresado);
                     preparedStatement.setString(3, nombre1);
                     preparedStatement.setString(4, nombre2);
                     preparedStatement.setString(5, apellido1);
@@ -119,6 +162,7 @@ public class DBEmpleados {
                     preparedStatement.setString(9, horario);
                     preparedStatement.setInt(10, salario);
                     preparedStatement.setString(11, contrato);
+                    preparedStatement.setString(12, "SI");
                     preparedStatement.executeUpdate();
 
                     consulta = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?)";
@@ -141,7 +185,7 @@ public class DBEmpleados {
         return false;
     }
 
-    public boolean modificar(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol) {
+    public boolean modificar(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol, String rutIngresado) {
         try {
             String rutAdmin;
 
@@ -156,7 +200,7 @@ public class DBEmpleados {
                 if ("Cajero".equals(rol)) {
                     consulta = "UPDATE cajero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_cajero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutAdmin); 
+                    preparedStatement.setString(1, rutIngresado); 
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -198,7 +242,7 @@ public class DBEmpleados {
                 } else if ("Panadero".equals(rol)) {
                     consulta = "UPDATE panadero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_panadero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutAdmin); 
+                    preparedStatement.setString(1, rutIngresado); 
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -289,41 +333,69 @@ public class DBEmpleados {
         try {
             if ("Cajero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
-                String consulta = "DELETE FROM cajero WHERE rut_cajero = ?";
+                String consulta = "UPDATE cajero SET activo = ? WHERE rut_cajero = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-                preparedStatement.setString(1, rut);
+                preparedStatement.setString(1, "NO");
+                preparedStatement.setString(2, rut);
                 preparedStatement.executeUpdate();
 
-                consulta = "DELETE FROM numero WHERE rut = ?";
+                /*consulta = "DELETE FROM numero WHERE rut = ?";
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();*/
 
                 return true;
             } else if ("Panadero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
-                String consulta = "DELETE FROM panadero WHERE rut_panadero = ?";
+                String consulta = "UPDATE panadero SET activo = ? WHERE rut_panadero = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-                preparedStatement.setString(1, rut);
+                preparedStatement.setString(1, "NO");
+                preparedStatement.setString(2, rut);
                 preparedStatement.executeUpdate();
 
-                consulta = "DELETE FROM numero WHERE rut = ?";
+                /*consulta = "DELETE FROM numero WHERE rut = ?";
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();*/
 
                 return true;
-            } else if ("Administrador/a".equals(rol)) {
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+        return false;
+    }
+    
+    public boolean reincorporar(String rut, String rol) {
+        try {
+            if ("Cajero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
-                String consulta = "DELETE FROM admin WHERE rut_admin = ?";
+                String consulta = "UPDATE cajero SET activo = ? WHERE rut_cajero = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-                preparedStatement.setString(1, rut);
+                preparedStatement.setString(1, "SI");
+                preparedStatement.setString(2, rut);
                 preparedStatement.executeUpdate();
 
-                consulta = "DELETE FROM numero WHERE rut = ?";
+                /*consulta = "DELETE FROM numero WHERE rut = ?";
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();*/
+
+                return true;
+            } else if ("Panadero/a".equals(rol)) {
+                Connection connection = DriverManager.getConnection(url, username, password);
+                String consulta = "UPDATE panadero SET activo = ? WHERE rut_panadero = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, "SI");
+                preparedStatement.setString(2, rut);
                 preparedStatement.executeUpdate();
+
+                /*consulta = "DELETE FROM numero WHERE rut = ?";
+                preparedStatement = connection.prepareStatement(consulta);
+                preparedStatement.setString(1, rut);
+                preparedStatement.executeUpdate();*/
 
                 return true;
             }
@@ -453,4 +525,5 @@ public class DBEmpleados {
         }
 
     }
+
 }

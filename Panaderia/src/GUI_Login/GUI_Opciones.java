@@ -5,6 +5,7 @@
 package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
+import Venta.GUI_Venta;
 import Receta.GUI_Receta;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -14,12 +15,14 @@ import java.util.logging.Logger;
  * @author Usuario
  */
 public class GUI_Opciones extends javax.swing.JFrame {
-
+    String rutIngresado;
     /**
      * Creates new form Opciones
+     * @param rutLogin
      */
-    public GUI_Opciones() {
+    public GUI_Opciones(String rutLogin) {
         initComponents();
+        rutIngresado = rutLogin;
         this.setLocationRelativeTo(null);
     }
 
@@ -63,6 +66,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 130, 40));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/163059902-vendedor-de-cajero-en-el-vector-de-icono-de-color-de-mostrador-vendedor-de-cajero-en-el-mostrador.png"))); // NOI18N
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 80, 80));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/3565418.png"))); // NOI18N
@@ -161,11 +169,20 @@ public class GUI_Opciones extends javax.swing.JFrame {
     private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
         this.dispose();
         try {
-            new GUI_Empleado().setVisible(true);
+            new GUI_Empleado(rutIngresado).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel16MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        this.dispose();
+        try {
+            new GUI_Venta(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         this.dispose();
@@ -175,6 +192,7 @@ public class GUI_Opciones extends javax.swing.JFrame {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel3MouseClicked
+
 
     /**
      * @param args the command line arguments
@@ -207,7 +225,8 @@ public class GUI_Opciones extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_Opciones().setVisible(true);
+                String rut = "";
+                new GUI_Opciones(rut).setVisible(true);
             }
         });
     }

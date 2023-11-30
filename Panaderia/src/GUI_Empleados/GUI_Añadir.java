@@ -16,10 +16,14 @@ import javax.swing.JOptionPane;
  */
 public class GUI_Añadir extends javax.swing.JFrame {
 
+    String rutIngresado ;
+
     /**
      * Creates new form Añadir
+     * @param rutLogin
      */
-    public GUI_Añadir() {
+    public GUI_Añadir(String rutLogin) {
+        rutIngresado = rutLogin;
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -144,7 +148,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Apellido1KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
+        getContentPane().add(Apellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 180, 30));
 
         Apellido2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,7 +160,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
                 Apellido2KeyPressed(evt);
             }
         });
-        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 180, 30));
+        getContentPane().add(Apellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 180, 30));
 
         Nombre2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -404,7 +408,8 @@ public class GUI_Añadir extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         this.dispose();
         try {
-            new GUI_Empleado().setVisible(true);
+            String rut = "";
+            new GUI_Empleado(rut).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Añadir.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -428,16 +433,23 @@ public class GUI_Añadir extends javax.swing.JFrame {
             for (int i = 0; i < numItems; i++) {
                 numeros.add(totalNum.getItemAt(i));
             }
-            
+
             String rol = (String) Rol.getSelectedItem();
-            
-            boolean aprobado = new DBEmpleados().anadir(rut,nombre1,nombre2,apellido1,apellido2,contrasena,direccion,horario,salario,contrato,numeros,rol);
-            
-            if(aprobado) JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-            else JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+
+            boolean aprobado = new DBEmpleados().anadir(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol, rutIngresado);
+
+            if (aprobado) {
+                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                this.dispose();
+                new GUI_Empleado(rutIngresado).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+            }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El valor del salario ingreselo como numero.\nEjemplo: Para $10.000 ingrese 10000");
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Añadir.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1MouseClicked
@@ -494,7 +506,8 @@ public class GUI_Añadir extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_Añadir().setVisible(true);
+                String rut = "";
+                new GUI_Añadir(rut).setVisible(true);
             }
         });
     }
