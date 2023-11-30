@@ -6,31 +6,52 @@ package GUI_Boleta;
 
 import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
  * @author Usuario
  */
 public class GUI_Boleta extends javax.swing.JFrame {
+
     String rutIngresado;
 
     /**
      * Creates new form GUI_Boleta
+     *
      * @param rutLogin
      */
     public GUI_Boleta(String rutLogin) throws SQLException {
         rutIngresado = rutLogin;
         initComponents();
-        
+
         DefaultTableModel df = new DefaultTableModel();
         df = new BDBoleta().cargarBoletas(df);
         Tabla.setModel(df);
         Tabla.setDefaultEditor(Object.class, null);
-        
+
         this.setLocationRelativeTo(null);
     }
 
@@ -48,6 +69,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,6 +116,14 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 110, 30));
 
+        jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 540, 260, 70));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_boleta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
@@ -110,6 +140,28 @@ public class GUI_Boleta extends javax.swing.JFrame {
         this.dispose();
         new GUI_Opciones(rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            String cmdStr = "/Python/Ej.py";
+            ProcessBuilder Process_Builder = new ProcessBuilder("python", cmdStr).inheritIO();
+            Process Demo_Process = Process_Builder.start();
+            Demo_Process.waitFor();
+            
+            BufferedImage img = ImageIO.read(new File("C:\\Users\\Usuario\\Desktop\\Panaderia Marujita\\Proyecto-BD-Panaderia\\Panaderia\\src\\Python\\grafico.png"));
+            JLabel label = new JLabel(new ImageIcon(img));
+            JFrame frame = new JFrame();
+            frame.getContentPane().add(label, BorderLayout.CENTER);
+            frame.pack();
+            frame.setVisible(true);
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,12 +203,15 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Tabla;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
 }
