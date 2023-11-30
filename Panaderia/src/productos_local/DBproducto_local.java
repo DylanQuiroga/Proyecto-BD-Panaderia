@@ -69,75 +69,80 @@ public class DBproducto_local {
     }
 
     public static void agregarProductos(String nombreReceta, int cantidadProductos) {
-    try {
-        Connection connection = DriverManager.getConnection(url, username, password);
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
 
-        // Consulta SQL con JOIN
-        String consulta = "SELECT r.nombre_receta, i.nombre_insumo_inv, i.cantidad_disponible, ing.nombre_ingrediente, ing.unidad_metrica, ing.cantidad "
-                + "FROM receta r "
-                + "JOIN ingredientes ing ON r.nombre_receta = ing.nombre_receta "
-                + "JOIN insumos_disponibles i ON ing.nombre_ingrediente = i.nombre_insumo_inv "
-                + "WHERE r.nombre_receta = ?";
+            int noAumentarStock = 0;
 
-        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, nombreReceta);
+            String consulta = "SELECT r.nombre_receta, i.nombre_insumo_inv, i.cantidad_disponible, ing.nombre_ingrediente, ing.unidad_metrica, ing.cantidad "
+                    + "FROM receta r "
+                    + "JOIN ingredientes ing ON r.nombre_receta = ing.nombre_receta "
+                    + "JOIN insumos_disponibles i ON ing.nombre_ingrediente = i.nombre_insumo_inv "
+                    + "WHERE r.nombre_receta = ?";
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setString(1, nombreReceta);
 
-        // Procesar resultados y actualizar existencias
-        while (resultSet.next()) {
-            String nombreInsumo = resultSet.getString("nombre_insumo_inv");
-            int cantidadDisponible = resultSet.getInt("cantidad_disponible");
-            String nombreIngrediente = resultSet.getString("nombre_ingrediente");
-            String unidadMetrica = resultSet.getString("unidad_metrica");
-            int cantidadIngrediente = resultSet.getInt("cantidad");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Lógica para restar la cantidad utilizada de insumos
-            int nuevaCantidad = cantidadDisponible - (cantidadIngrediente * cantidadProductos);
+            // Procesar resultados y actualizar existencias
+            while (resultSet.next()) {
+                String nombreInsumo = resultSet.getString("nombre_insumo_inv");
+                int cantidadDisponible = resultSet.getInt("cantidad_disponible");
+                String nombreIngrediente = resultSet.getString("nombre_ingrediente");
+                String unidadMetrica = resultSet.getString("unidad_metrica");
+                int cantidadIngrediente = resultSet.getInt("cantidad");
 
-            // Validar que la nueva cantidad no sea negativa
-            if (nuevaCantidad < 0) {
-                JOptionPane.showMessageDialog(null, "Error: No hay suficientes insumos disponibles para agregar " + cantidadProductos + " unidades de " + nombreReceta, "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                // Lógica para restar la cantidad utilizada de insumos
+                int nuevaCantidad = cantidadDisponible - (cantidadIngrediente * cantidadProductos);
+
+                // Validar que la nueva cantidad no sea negativa
+                if (nuevaCantidad < 0) {
+                    JOptionPane.showMessageDialog(null, "Error: No hay suficientes insumos disponibles para agregar " + cantidadProductos + " unidades de " + nombreReceta, "Error", JOptionPane.ERROR_MESSAGE);
+                    noAumentarStock = 1;
+                    return;
+                }
+
+                // Actualizar la tabla insumos_disponibles con la nueva cantidad
+                String sqlUpdateInsumos = "UPDATE insumos_disponibles SET cantidad_disponible = ? WHERE nombre_insumo_inv = ?";
+                PreparedStatement updateInsumosStatement = connection.prepareStatement(sqlUpdateInsumos);
+                updateInsumosStatement.setInt(1, nuevaCantidad);
+                updateInsumosStatement.setString(2, nombreInsumo);
+                updateInsumosStatement.executeUpdate();
             }
 
-            // Actualizar la tabla insumos_disponibles con la nueva cantidad
-            String sqlUpdateInsumos = "UPDATE insumos_disponibles SET cantidad_disponible = ? WHERE nombre_insumo_inv = ?";
-            PreparedStatement updateInsumosStatement = connection.prepareStatement(sqlUpdateInsumos);
-            updateInsumosStatement.setInt(1, nuevaCantidad);
-            updateInsumosStatement.setString(2, nombreInsumo);
-            updateInsumosStatement.executeUpdate();
+            if (noAumentarStock == 0) {
+                // Obtener el stock actual del producto_local
+                String sqlSelectStock = "SELECT stock_producto FROM producto_local WHERE nombre_producto = ?";
+                PreparedStatement selectStockStatement = connection.prepareStatement(sqlSelectStock);
+                selectStockStatement.setString(1, nombreReceta);
+                ResultSet stockResultSet = selectStockStatement.executeQuery();
+
+                // Actualizar el stock_producto en la tabla producto_local
+                if (stockResultSet.next()) {
+                    int stockActual = stockResultSet.getInt("stock_producto");
+                    int nuevoStock = stockActual + cantidadProductos;
+
+                    String sqlUpdateStock = "UPDATE producto_local SET stock_producto = ? WHERE nombre_producto = ?";
+                    PreparedStatement updateStockStatement = connection.prepareStatement(sqlUpdateStock);
+                    updateStockStatement.setInt(1, nuevoStock);
+                    updateStockStatement.setString(2, nombreReceta);
+                    updateStockStatement.executeUpdate();
+                }
+
+                JOptionPane.showMessageDialog(null, "Se han agregado " + cantidadProductos + " unidades de " + nombreReceta + " al stock.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error: No hay suficientes insumos disponibles para aumentar el stock");
+            }
+
+            // Cerrar recursos
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        // Obtener el stock actual del producto_local
-        String sqlSelectStock = "SELECT stock_producto FROM producto_local WHERE nombre_producto = ?";
-        PreparedStatement selectStockStatement = connection.prepareStatement(sqlSelectStock);
-        selectStockStatement.setString(1, nombreReceta);
-        ResultSet stockResultSet = selectStockStatement.executeQuery();
-
-        // Actualizar el stock_producto en la tabla producto_local
-        if (stockResultSet.next()) {
-            int stockActual = stockResultSet.getInt("stock_producto");
-            int nuevoStock = stockActual + cantidadProductos;
-
-            String sqlUpdateStock = "UPDATE producto_local SET stock_producto = ? WHERE nombre_producto = ?";
-            PreparedStatement updateStockStatement = connection.prepareStatement(sqlUpdateStock);
-            updateStockStatement.setInt(1, nuevoStock);
-            updateStockStatement.setString(2, nombreReceta);
-            updateStockStatement.executeUpdate();
-        }
-
-        JOptionPane.showMessageDialog(null, "Se han agregado " + cantidadProductos + " unidades de " + nombreReceta + " al stock.", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-        // Cerrar recursos
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
-}
-
 
     public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol, String rutIngresado) {
         try {
