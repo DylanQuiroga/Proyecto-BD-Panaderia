@@ -48,17 +48,17 @@ public class DBproducto_local {
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Limpiar el JComboBox antes de cargar nuevos datos
+           
             comboBox.removeAllItems();
 
-            // Recorrer los resultados y agregarlos al JComboBox
+            
             comboBox.addItem("Seleccione la receta:");
             while (resultSet.next()) {
                 String itemName = resultSet.getString("nombre_receta");
                 comboBox.addItem(itemName);
             }
 
-            // Cerrar recursos (result set, statement y connection)
+            
             resultSet.close();
             preparedStatement.close();
             connection.close();
@@ -93,10 +93,10 @@ public class DBproducto_local {
                 String unidadMetrica = resultSet.getString("unidad_metrica");
                 int cantidadIngrediente = resultSet.getInt("cantidad");
 
-                // Lógica para restar la cantidad utilizada de insumos
+                //resta la cantidad utilizada de insumos
                 int nuevaCantidad = cantidadDisponible - (cantidadIngrediente * cantidadProductos);
 
-                // Validar que la nueva cantidad no sea negativa
+                // Valida que la nueva cantidad no sea negativa
                 if (nuevaCantidad < 0) {
                     JOptionPane.showMessageDialog(null, "Error: No hay suficientes insumos disponibles para agregar " + cantidadProductos + " unidades de " + nombreReceta, "Error", JOptionPane.ERROR_MESSAGE);
                     noAumentarStock = 1;
@@ -110,7 +110,7 @@ public class DBproducto_local {
                 updateInsumosStatement.setString(2, nombreInsumo);
                 updateInsumosStatement.executeUpdate();
             }
-
+            //Si nuevaCantidad es negativo, es decir, no hay insumos, no se actualiza el stock
             if (noAumentarStock == 0) {
                 // Obtener el stock actual del producto_local
                 String sqlSelectStock = "SELECT stock_producto FROM producto_local WHERE nombre_producto = ?";
@@ -135,7 +135,7 @@ public class DBproducto_local {
                 JOptionPane.showMessageDialog(null, "Error: No hay suficientes insumos disponibles para aumentar el stock");
             }
 
-            // Cerrar recursos
+       
             resultSet.close();
             preparedStatement.close();
             connection.close();

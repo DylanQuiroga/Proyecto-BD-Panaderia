@@ -44,23 +44,23 @@ public class DBInsumos_dispo {
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Limpiar el JComboBox antes de cargar nuevos datos
+            
             comboBox.removeAllItems();
 
-            // Recorrer los resultados y agregarlos al JComboBox
+            // Recorre los resultados y agregarlos al JComboBox
             comboBox.addItem("Mostrar todo");
             while (resultSet.next()) {
                 String itemName = resultSet.getString("nombre_receta");
                 comboBox.addItem(itemName);
             }
 
-            // Cerrar recursos (result set, statement y connection)
+            
             resultSet.close();
             preparedStatement.close();
             connection.close();
 
         } catch (Exception e) {
-            e.printStackTrace(); // Imprimir la traza completa del error
+            e.printStackTrace(); 
         }
     }
 
