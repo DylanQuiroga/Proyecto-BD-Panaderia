@@ -3,7 +3,10 @@ package productos_local;
 import GUI_Empleados.*;
 import java.sql.*;
 import java.io.*;
+import java.lang.System.Logger;
 import java.util.*;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DBproducto_local {
@@ -13,15 +16,14 @@ public class DBproducto_local {
     static String url = "jdbc:postgresql://10.4.3.195:5432/" + dbname;
     static String username = "panaderia";
     static String password = "im7stB6";
-
     String ids[] = {"id", "Nombre del producto", "Tipo", "Precio", "Stock"};
 
-    public DefaultTableModel cargarEmpleadosActivos(DefaultTableModel tablaDF) throws SQLException {
+    public DefaultTableModel cargarProductoLocal(DefaultTableModel tablaDF) throws SQLException {
 
         tablaDF.setColumnIdentifiers(ids);
 
         Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM producto_local";
+        String consulta = "SELECT * FROM producto_local ORDER BY id_producto ASC;";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -30,54 +32,112 @@ public class DBproducto_local {
             fila[0] = resultSet.getInt("id_producto");
             fila[1] = resultSet.getString("nombre_producto");
             fila[2] = resultSet.getString("tipo_producto");
-            fila[3] = "$ "+resultSet.getInt("precio_producto");
+            fila[3] = "$ " + resultSet.getInt("precio_producto");
             fila[4] = resultSet.getInt("stock_producto");
             tablaDF.addRow(fila);
         }
 
-        
         return tablaDF;
 
     }
-    
-        public DefaultTableModel cargarEmpleadosNOActivos(DefaultTableModel tablaDF) throws SQLException {
 
-        tablaDF.setColumnIdentifiers(ids);
+    public static void generarComboBox(JComboBox<String> comboBox) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "SELECT nombre_receta FROM receta;";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
+            // Limpiar el JComboBox antes de cargar nuevos datos
+            comboBox.removeAllItems();
+
+            // Recorrer los resultados y agregarlos al JComboBox
+            comboBox.addItem("Seleccione la receta:");
+            while (resultSet.next()) {
+                String itemName = resultSet.getString("nombre_receta");
+                comboBox.addItem(itemName);
+            }
+
+            // Cerrar recursos (result set, statement y connection)
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprimir la traza completa del error
+        }
+    }
+
+    public static void agregarProductos(String nombreReceta, int cantidadProductos) {
+    try {
         Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM cajero WHERE activo = ?";
+
+        // Consulta SQL con JOIN
+        String consulta = "SELECT r.nombre_receta, i.nombre_insumo_inv, i.cantidad_disponible, ing.nombre_ingrediente, ing.unidad_metrica, ing.cantidad "
+                + "FROM receta r "
+                + "JOIN ingredientes ing ON r.nombre_receta = ing.nombre_receta "
+                + "JOIN insumos_disponibles i ON ing.nombre_ingrediente = i.nombre_insumo_inv "
+                + "WHERE r.nombre_receta = ?";
+
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "NO");
+        preparedStatement.setString(1, nombreReceta);
+
         ResultSet resultSet = preparedStatement.executeQuery();
 
+        // Procesar resultados y actualizar existencias
         while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_cajero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Cajero/a";
-            fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
+            String nombreInsumo = resultSet.getString("nombre_insumo_inv");
+            int cantidadDisponible = resultSet.getInt("cantidad_disponible");
+            String nombreIngrediente = resultSet.getString("nombre_ingrediente");
+            String unidadMetrica = resultSet.getString("unidad_metrica");
+            int cantidadIngrediente = resultSet.getInt("cantidad");
+
+            // Lógica para restar la cantidad utilizada de insumos
+            int nuevaCantidad = cantidadDisponible - (cantidadIngrediente * cantidadProductos);
+
+            // Validar que la nueva cantidad no sea negativa
+            if (nuevaCantidad < 0) {
+                JOptionPane.showMessageDialog(null, "Error: No hay suficientes insumos disponibles para agregar " + cantidadProductos + " unidades de " + nombreReceta, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Actualizar la tabla insumos_disponibles con la nueva cantidad
+            String sqlUpdateInsumos = "UPDATE insumos_disponibles SET cantidad_disponible = ? WHERE nombre_insumo_inv = ?";
+            PreparedStatement updateInsumosStatement = connection.prepareStatement(sqlUpdateInsumos);
+            updateInsumosStatement.setInt(1, nuevaCantidad);
+            updateInsumosStatement.setString(2, nombreInsumo);
+            updateInsumosStatement.executeUpdate();
         }
 
-        consulta = "SELECT * FROM panadero WHERE activo = ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "NO");
-        resultSet = preparedStatement.executeQuery();
+        // Obtener el stock actual del producto_local
+        String sqlSelectStock = "SELECT stock_producto FROM producto_local WHERE nombre_producto = ?";
+        PreparedStatement selectStockStatement = connection.prepareStatement(sqlSelectStock);
+        selectStockStatement.setString(1, nombreReceta);
+        ResultSet stockResultSet = selectStockStatement.executeQuery();
 
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_panadero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Panadero/a";
-            fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
+        // Actualizar el stock_producto en la tabla producto_local
+        if (stockResultSet.next()) {
+            int stockActual = stockResultSet.getInt("stock_producto");
+            int nuevoStock = stockActual + cantidadProductos;
+
+            String sqlUpdateStock = "UPDATE producto_local SET stock_producto = ? WHERE nombre_producto = ?";
+            PreparedStatement updateStockStatement = connection.prepareStatement(sqlUpdateStock);
+            updateStockStatement.setInt(1, nuevoStock);
+            updateStockStatement.setString(2, nombreReceta);
+            updateStockStatement.executeUpdate();
         }
 
-        return tablaDF;
+        JOptionPane.showMessageDialog(null, "Se han agregado " + cantidadProductos + " unidades de " + nombreReceta + " al stock.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
+        // Cerrar recursos
+        resultSet.close();
+        preparedStatement.close();
+        connection.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
+
 
     public boolean anadir(String rut, String nombre1, String nombre2, String apellido1, String apellido2, String contrasena, String direccion, String horario, int salario, String contrato, ArrayList<String> numeros, String rol, String rutIngresado) {
         try {
@@ -87,8 +147,7 @@ public class DBproducto_local {
             String consulta = "SELECT * FROM admin";
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
-            
-            
+
             if (resultSet.next()) {
                 rutAdmin = resultSet.getString("rut_admin");
 
@@ -172,7 +231,7 @@ public class DBproducto_local {
                 if ("Cajero".equals(rol)) {
                     consulta = "UPDATE cajero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_cajero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutIngresado); 
+                    preparedStatement.setString(1, rutIngresado);
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -214,7 +273,7 @@ public class DBproducto_local {
                 } else if ("Panadero".equals(rol)) {
                     consulta = "UPDATE panadero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_panadero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutIngresado); 
+                    preparedStatement.setString(1, rutIngresado);
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -224,7 +283,7 @@ public class DBproducto_local {
                     preparedStatement.setString(8, horario);
                     preparedStatement.setInt(9, salario);
                     preparedStatement.setString(10, contrato);
-                    preparedStatement.setString(11, rut); 
+                    preparedStatement.setString(11, rut);
                     preparedStatement.executeUpdate();
 
                     //consulta = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?) ON CONFLICT (numero) DO NOTHING";
@@ -255,7 +314,7 @@ public class DBproducto_local {
                 } else if ("Administrador/a".equals(rol)) {
                     consulta = "UPDATE admin SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_admin = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                  
+
                     preparedStatement.setString(1, nombre1);
                     preparedStatement.setString(2, nombre2);
                     preparedStatement.setString(3, apellido1);
@@ -268,7 +327,6 @@ public class DBproducto_local {
                     preparedStatement.setString(10, rut);
                     preparedStatement.executeUpdate();
 
-                    
                     int totalNum = numeros.size();
                     for (int i = 0; i < totalNum; i++) {
                         // Verificar si el número ya existe en la tabla
@@ -315,7 +373,6 @@ public class DBproducto_local {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             } else if ("Panadero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -329,7 +386,6 @@ public class DBproducto_local {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             }
 
@@ -339,7 +395,7 @@ public class DBproducto_local {
         }
         return false;
     }
-    
+
     public boolean reincorporar(String rut, String rol) {
         try {
             if ("Cajero/a".equals(rol)) {
@@ -354,7 +410,6 @@ public class DBproducto_local {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             } else if ("Panadero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -368,7 +423,6 @@ public class DBproducto_local {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             }
 

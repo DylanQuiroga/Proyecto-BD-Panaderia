@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,12 +37,13 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
         initComponents();
         rutIngresado = rutLogin;
         DefaultTableModel df = new DefaultTableModel();
-        df = new DBproducto_local().cargarEmpleadosActivos(df);
+        df = new DBproducto_local().cargarProductoLocal(df);
 
         //String ids [] = { "Rut", "Primer nombre", "Segundo nombre", "Primer apellido", "Segundo apellido", "Contraseña", "Direccion", "Horario de trabajo", "Salario", "Fecha de contratacion", "Numero"};
         Tabla.setModel(df);
         Tabla.setDefaultEditor(Object.class, null);
-
+        
+        DBproducto_local.generarComboBox(lista_recetas);
         jButton6.setVisible(false);
 
         
@@ -59,6 +61,10 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        unidades = new javax.swing.JTextField();
+        lista_recetas = new javax.swing.JComboBox<>();
+        botonAgregarStock = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
@@ -74,6 +80,43 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Seleccione para agregar stock:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, -1, -1));
+
+        unidades.setText("Ingrese cantidad");
+        unidades.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                unidadesMouseClicked(evt);
+            }
+        });
+        unidades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unidadesActionPerformed(evt);
+            }
+        });
+        unidades.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                unidadesKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                unidadesKeyTyped(evt);
+            }
+        });
+        jPanel1.add(unidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 490, 140, -1));
+
+        lista_recetas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(lista_recetas, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 620, -1));
+
+        botonAgregarStock.setText("Agregar stock");
+        botonAgregarStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarStockActionPerformed(evt);
+            }
+        });
+        jPanel1.add(botonAgregarStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(993, 490, 170, -1));
 
         jButton1.setBackground(new java.awt.Color(153, 0, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -257,6 +300,46 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void unidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unidadesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unidadesActionPerformed
+
+    private void unidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_unidadesMouseClicked
+        if(unidades.getText().equals("Ingrese cantidad")){
+            unidades.setText("");
+        }
+    }//GEN-LAST:event_unidadesMouseClicked
+
+    private void botonAgregarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarStockActionPerformed
+        String nombre_receta_stock = lista_recetas.getSelectedItem().toString();
+        int cant_stock = Integer.parseInt(unidades.getText());
+        //System.out.println("El valor es: "+ cant_stock);
+        DBproducto_local.agregarProductos(nombre_receta_stock, cant_stock);
+        DefaultTableModel newModel;
+        try {
+            newModel = new DBproducto_local().cargarProductoLocal(new DefaultTableModel());
+            Tabla.setModel(newModel);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_ver_producto_local.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_botonAgregarStockActionPerformed
+
+    private void unidadesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_unidadesKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unidadesKeyPressed
+
+    private void unidadesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_unidadesKeyTyped
+        // Obtienes el texto del JTextField
+        String texto = unidades.getText();
+        // Compruebas si la longitud es igual o mayor que 2
+        if (texto.length() >= 2) {
+            // Cancelas la acción de teclear
+            evt.consume();
+        }
+    }//GEN-LAST:event_unidadesKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -314,15 +397,19 @@ public class GUI_ver_producto_local extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Tabla;
+    private javax.swing.JButton botonAgregarStock;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> lista_recetas;
+    private javax.swing.JTextField unidades;
     // End of variables declaration//GEN-END:variables
 }
