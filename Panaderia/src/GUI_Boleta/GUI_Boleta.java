@@ -53,7 +53,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 if ("Cantidad generada por cada empleado".equals(selectedItem)) {
                     labelAnio.setVisible(false);
                     comboboxAnio.setVisible(false);
-                } else if ("Cantidad generada en cada mes".equals(selectedItem)) {
+                } else if ("Promedio generado en cada mes".equals(selectedItem)) {
                     labelAnio.setVisible(true);
                     comboboxAnio.setVisible(true);
                 } else if ("Promedio de ventas anuales".equals(selectedItem)) {
@@ -253,7 +253,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 666, 100, -1));
 
-        Grafica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cantidad generada por cada empleado", "Cantidad generada en cada mes", "Promedio de ventas anuales" }));
+        Grafica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cantidad generada por cada empleado", "Promedio generado en cada mes", "Promedio de ventas anuales" }));
         Grafica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GraficaActionPerformed(evt);
@@ -600,11 +600,11 @@ public class GUI_Boleta extends javax.swing.JFrame {
             String selectedItem = (String) Grafica.getSelectedItem();
             if ("Cantidad generada por cada empleado".equals(selectedItem)) {
                 new BDBoleta().graficar1();
-            } else if ("Cantidad generada en cada mes".equals(selectedItem)) {
+            } else if ("Promedio generado en cada mes".equals(selectedItem)) {
                 String anio = (String) comboboxAnio.getSelectedItem();
                 new BDBoleta().graficar2(anio);
             } else if ("Promedio de ventas anuales".equals(selectedItem)) {
-
+                new BDBoleta().graficar3();
             }
 
         } catch (SQLException ex) {
