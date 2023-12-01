@@ -4,16 +4,14 @@
  */
 package GUI_Boleta;
 
-import GUI_Empleados.DBEmpleados;
 import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
 import java.awt.BorderLayout;
-import java.awt.Desktop;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +19,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -47,6 +43,27 @@ public class GUI_Boleta extends javax.swing.JFrame {
         Tabla.setModel(df);
         Tabla.setDefaultEditor(Object.class, null);
 
+        labelAnio.setVisible(false);
+        comboboxAnio.setVisible(false);
+
+        Grafica.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selectedItem = (String) e.getItem();
+
+                if ("Cantidad generada por cada empleado".equals(selectedItem)) {
+                    labelAnio.setVisible(false);
+                    comboboxAnio.setVisible(false);
+                } else if ("Cantidad generada en cada mes".equals(selectedItem)) {
+                    labelAnio.setVisible(true);
+                    comboboxAnio.setVisible(true);
+                } else if ("Promedio de ventas anuales".equals(selectedItem)) {
+                    labelAnio.setVisible(false);
+                    comboboxAnio.setVisible(false);
+                }
+
+            }
+        });
+
         this.setLocationRelativeTo(null);
     }
 
@@ -62,10 +79,9 @@ public class GUI_Boleta extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        labelAnio = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         canDesc = new javax.swing.JRadioButton();
         canAsc = new javax.swing.JRadioButton();
         anioDesc = new javax.swing.JRadioButton();
@@ -74,14 +90,17 @@ public class GUI_Boleta extends javax.swing.JFrame {
         mesDesc = new javax.swing.JRadioButton();
         diaAsc = new javax.swing.JRadioButton();
         diaDesc = new javax.swing.JRadioButton();
+        comboboxAnio = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
         restablecer = new javax.swing.JButton();
-        Buscar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         Aceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        Grafica = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -112,25 +131,20 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 20, 110, 30));
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Graficar");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 520, 120, 40));
+        labelAnio.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        labelAnio.setForeground(new java.awt.Color(255, 255, 255));
+        labelAnio.setText("Año");
+        getContentPane().add(labelAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 400, 40, 30));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Ordenar");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 120, 40));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 120, 40));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Boleta");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 80, 40));
-
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Buscar");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 80, 40));
 
         canDesc.setText("Cantidad (Descendente)");
         canDesc.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +152,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 canDescActionPerformed(evt);
             }
         });
-        getContentPane().add(canDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 380, 180, -1));
+        getContentPane().add(canDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 260, 180, -1));
 
         canAsc.setText("Cantidad (Ascendente)");
         canAsc.setToolTipText("");
@@ -147,7 +161,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 canAscActionPerformed(evt);
             }
         });
-        getContentPane().add(canAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 350, 180, -1));
+        getContentPane().add(canAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 230, 180, -1));
 
         anioDesc.setText("Año (Descendente)");
         anioDesc.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +169,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 anioDescActionPerformed(evt);
             }
         });
-        getContentPane().add(anioDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 320, 180, -1));
+        getContentPane().add(anioDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 200, 180, -1));
 
         anioAsc.setText("Año (Ascendente)");
         anioAsc.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +177,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 anioAscActionPerformed(evt);
             }
         });
-        getContentPane().add(anioAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 290, 180, -1));
+        getContentPane().add(anioAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 180, -1));
 
         mesAsc.setText("Mes (Ascendente)");
         mesAsc.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +185,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 mesAscActionPerformed(evt);
             }
         });
-        getContentPane().add(mesAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 350, 180, -1));
+        getContentPane().add(mesAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, 180, -1));
 
         mesDesc.setText("Mes (Descendente)");
         mesDesc.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +193,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 mesDescActionPerformed(evt);
             }
         });
-        getContentPane().add(mesDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 380, 180, -1));
+        getContentPane().add(mesDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 260, 180, -1));
 
         diaAsc.setText("Dia (Ascendente)");
         diaAsc.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +201,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 diaAscActionPerformed(evt);
             }
         });
-        getContentPane().add(diaAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 290, 180, -1));
+        getContentPane().add(diaAsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 180, -1));
 
         diaDesc.setText("Dia (Descendente)");
         diaDesc.addActionListener(new java.awt.event.ActionListener() {
@@ -195,7 +209,15 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 diaDescActionPerformed(evt);
             }
         });
-        getContentPane().add(diaDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 320, 180, -1));
+        getContentPane().add(diaDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 180, -1));
+
+        comboboxAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", " " }));
+        getContentPane().add(comboboxAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 400, 70, 30));
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Graficar");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 350, 120, 40));
 
         restablecer.setText("Restablecer");
         restablecer.addActionListener(new java.awt.event.ActionListener() {
@@ -203,14 +225,15 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 restablecerActionPerformed(evt);
             }
         });
-        getContentPane().add(restablecer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 330, 130, 40));
-
-        Buscar.setText("Buscar");
-        getContentPane().add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 130, 160, 40));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 130, 300, 40));
+        getContentPane().add(restablecer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 210, 130, 40));
 
         Aceptar.setText("Aceptar");
-        getContentPane().add(Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 520, 160, 40));
+        Aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 350, 130, 40));
 
         jButton2.setBackground(new java.awt.Color(51, 153, 0));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -230,12 +253,26 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 666, 100, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 520, 300, 40));
+        Grafica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cantidad generada por cada empleado", "Cantidad generada en cada mes", "Promedio de ventas anuales" }));
+        Grafica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GraficaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Grafica, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 350, 370, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_boleta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Buscar");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 80, 40));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 130, 300, 40));
+
+        Buscar.setText("Buscar");
+        getContentPane().add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 130, 160, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -286,7 +323,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
             Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
         }
         Tabla.setModel(df);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
@@ -295,7 +332,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         diaAsc.setSelected(false);
         diaDesc.setSelected(false);
         mesAsc.setSelected(false);
@@ -314,7 +351,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setSelected(false);
         canAsc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
         mesDesc.setEnabled(true);
@@ -322,7 +359,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         diaAsc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -345,7 +382,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setSelected(false);
         canAsc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         mesAsc.setEnabled(true);
         mesDesc.setEnabled(true);
@@ -353,7 +390,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         diaDesc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -376,7 +413,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setSelected(false);
         canAsc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesDesc.setEnabled(true);
@@ -384,7 +421,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         mesAsc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -407,7 +444,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setSelected(false);
         canAsc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
@@ -415,7 +452,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         mesDesc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -438,7 +475,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setSelected(false);
         canAsc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
@@ -446,7 +483,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         anioAsc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -469,7 +506,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioAsc.setSelected(false);
         canAsc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
@@ -477,7 +514,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioAsc.setEnabled(true);
         canAsc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         anioDesc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -500,7 +537,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioAsc.setSelected(false);
         anioDesc.setSelected(false);
         canDesc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
@@ -508,7 +545,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioAsc.setEnabled(true);
         anioDesc.setEnabled(true);
         canDesc.setEnabled(true);
-        
+
         canAsc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -531,7 +568,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioAsc.setSelected(false);
         anioDesc.setSelected(false);
         canAsc.setSelected(false);
-        
+
         diaAsc.setEnabled(true);
         diaDesc.setEnabled(true);
         mesAsc.setEnabled(true);
@@ -539,7 +576,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         anioAsc.setEnabled(true);
         anioDesc.setEnabled(true);
         canAsc.setEnabled(true);
-        
+
         canDesc.setEnabled(false);
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
@@ -553,6 +590,29 @@ public class GUI_Boleta extends javax.swing.JFrame {
             Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_canDescActionPerformed
+
+    private void GraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GraficaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GraficaActionPerformed
+
+    private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
+        try {
+            String selectedItem = (String) Grafica.getSelectedItem();
+            if ("Cantidad generada por cada empleado".equals(selectedItem)) {
+                new BDBoleta().graficar1();
+            } else if ("Cantidad generada en cada mes".equals(selectedItem)) {
+                String anio = (String) comboboxAnio.getSelectedItem();
+                new BDBoleta().graficar2(anio);
+            } else if ("Promedio de ventas anuales".equals(selectedItem)) {
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_AceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -598,24 +658,26 @@ public class GUI_Boleta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Aceptar;
     private javax.swing.JButton Buscar;
+    private javax.swing.JComboBox<String> Grafica;
     private javax.swing.JTable Tabla;
     private javax.swing.JRadioButton anioAsc;
     private javax.swing.JRadioButton anioDesc;
     private javax.swing.JRadioButton canAsc;
     private javax.swing.JRadioButton canDesc;
+    private javax.swing.JComboBox<String> comboboxAnio;
     private javax.swing.JRadioButton diaAsc;
     private javax.swing.JRadioButton diaDesc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel labelAnio;
     private javax.swing.JRadioButton mesAsc;
     private javax.swing.JRadioButton mesDesc;
     private javax.swing.JButton restablecer;

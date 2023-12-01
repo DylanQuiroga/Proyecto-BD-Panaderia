@@ -67,15 +67,16 @@ public class DBEmpleados {
         return tablaDF;
 
     }
-    
-        public DefaultTableModel cargarEmpleadosNOActivos(DefaultTableModel tablaDF) throws SQLException {
+
+    public DefaultTableModel cargarEmpleadosNOActivos(DefaultTableModel tablaDF, String rutIngresado) throws SQLException {
 
         tablaDF.setColumnIdentifiers(ids);
 
         Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM cajero WHERE activo = ?";
+        String consulta = "SELECT * FROM cajero WHERE activo = ? AND rut_cajero <> ?";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
         preparedStatement.setString(1, "NO");
+        preparedStatement.setString(2, rutIngresado);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -88,9 +89,10 @@ public class DBEmpleados {
             tablaDF.addRow(fila);
         }
 
-        consulta = "SELECT * FROM panadero WHERE activo = ?";
+        consulta = "SELECT * FROM panadero WHERE activo = ? AND rut_panadero <> ?";
         preparedStatement = connection.prepareStatement(consulta);
         preparedStatement.setString(1, "NO");
+        preparedStatement.setString(2, rutIngresado);
         resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -115,8 +117,7 @@ public class DBEmpleados {
             String consulta = "SELECT * FROM admin";
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
-            
-            
+
             if (resultSet.next()) {
                 rutAdmin = resultSet.getString("rut_admin");
 
@@ -200,7 +201,7 @@ public class DBEmpleados {
                 if ("Cajero".equals(rol)) {
                     consulta = "UPDATE cajero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_cajero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutIngresado); 
+                    preparedStatement.setString(1, rutIngresado);
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -242,7 +243,7 @@ public class DBEmpleados {
                 } else if ("Panadero".equals(rol)) {
                     consulta = "UPDATE panadero SET rut_admin = ?, primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_panadero = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                    preparedStatement.setString(1, rutIngresado); 
+                    preparedStatement.setString(1, rutIngresado);
                     preparedStatement.setString(2, nombre1);
                     preparedStatement.setString(3, nombre2);
                     preparedStatement.setString(4, apellido1);
@@ -252,7 +253,7 @@ public class DBEmpleados {
                     preparedStatement.setString(8, horario);
                     preparedStatement.setInt(9, salario);
                     preparedStatement.setString(10, contrato);
-                    preparedStatement.setString(11, rut); 
+                    preparedStatement.setString(11, rut);
                     preparedStatement.executeUpdate();
 
                     //consulta = "INSERT INTO numero (numero, rut, tipo_empleado) VALUES (?,?,?) ON CONFLICT (numero) DO NOTHING";
@@ -283,7 +284,7 @@ public class DBEmpleados {
                 } else if ("Administrador/a".equals(rol)) {
                     consulta = "UPDATE admin SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, contrasena = ?, direccion = ?, horario_trabajo = ?, salario = ?, fecha_contratacion = ? WHERE rut_admin = ?";
                     preparedStatement = connection.prepareStatement(consulta);
-                  
+
                     preparedStatement.setString(1, nombre1);
                     preparedStatement.setString(2, nombre2);
                     preparedStatement.setString(3, apellido1);
@@ -296,7 +297,6 @@ public class DBEmpleados {
                     preparedStatement.setString(10, rut);
                     preparedStatement.executeUpdate();
 
-                    
                     int totalNum = numeros.size();
                     for (int i = 0; i < totalNum; i++) {
                         // Verificar si el número ya existe en la tabla
@@ -343,7 +343,6 @@ public class DBEmpleados {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             } else if ("Panadero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -357,7 +356,6 @@ public class DBEmpleados {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             }
 
@@ -367,7 +365,7 @@ public class DBEmpleados {
         }
         return false;
     }
-    
+
     public boolean reincorporar(String rut, String rol) {
         try {
             if ("Cajero/a".equals(rol)) {
@@ -382,7 +380,6 @@ public class DBEmpleados {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             } else if ("Panadero/a".equals(rol)) {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -396,7 +393,6 @@ public class DBEmpleados {
                 preparedStatement = connection.prepareStatement(consulta);
                 preparedStatement.setString(1, rut);
                 preparedStatement.executeUpdate();*/
-
                 return true;
             }
 

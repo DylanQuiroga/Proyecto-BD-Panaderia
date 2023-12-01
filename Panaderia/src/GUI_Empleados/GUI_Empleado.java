@@ -53,7 +53,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
                         DefaultTableModel df1 = new DefaultTableModel();
 
-                        df1 = new DBEmpleados().cargarEmpleadosNOActivos(df1);
+                        df1 = new DBEmpleados().cargarEmpleadosNOActivos(df1, rutIngresado);
                         Tabla.setModel(df1);
 
                         jButton6.setVisible(true);
@@ -97,10 +97,10 @@ public class GUI_Empleado extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        Check = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
+        Check = new javax.swing.JCheckBox();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -113,14 +113,6 @@ public class GUI_Empleado extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Check.setText("Mostrar empleados eliminados");
-        Check.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckActionPerformed(evt);
-            }
-        });
-        jPanel1.add(Check, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 490, 310, -1));
 
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -146,6 +138,14 @@ public class GUI_Empleado extends javax.swing.JFrame {
         jScrollPane2.setViewportView(Tabla);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 1180, 390));
+
+        Check.setText("Mostrar empleados eliminados");
+        Check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Check, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 490, 310, -1));
 
         jButton3.setBackground(new java.awt.Color(51, 153, 255));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
