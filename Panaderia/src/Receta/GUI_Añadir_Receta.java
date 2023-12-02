@@ -6,8 +6,6 @@ package Receta;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -216,9 +214,10 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         this.dispose();
         try {
-            new GUI_Receta(rutIngresado).setVisible(true);
+            String Seleccionado = null;
+            new GUI_Receta(rutIngresado, Seleccionado).setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(GUI_Ingredientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel3MouseClicked
 
@@ -293,7 +292,8 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
                 if (aprobado) {
                     JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                     this.dispose();
-                    new GUI_Receta(rutIngresado).setVisible(true);
+                    String Seleccionado = "";
+                    new GUI_Receta(rutIngresado, Seleccionado).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
                 }
