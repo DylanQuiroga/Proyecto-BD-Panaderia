@@ -113,13 +113,43 @@ public class DBVenta {
             preparedStatement.setInt(5, total);
             preparedStatement.setString(6, rut);
             preparedStatement.executeUpdate();
-            
+
             return true;
 
         } catch (SQLException e) {
             System.out.println(e);
             return false;
         }
+    }
+
+    public boolean restarStock(String nombreProducto, int cantStock) throws SQLException {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "UPDATE producto_local SET stock_producto = stock_producto - ? WHERE nombre_producto = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setInt(1, cantStock);
+            preparedStatement.setString(2, nombreProducto);
+            preparedStatement.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+
+    }
+    
+    public boolean sumarStock(String nombreProducto, int cantStock) throws SQLException {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "UPDATE producto_local SET stock_producto = stock_producto + ? WHERE nombre_producto = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setInt(1, cantStock);
+            preparedStatement.setString(2, nombreProducto);
+            preparedStatement.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+
     }
 
 }
