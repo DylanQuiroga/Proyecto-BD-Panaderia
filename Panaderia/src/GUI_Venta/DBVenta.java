@@ -1,4 +1,4 @@
-package Venta;
+package GUI_Venta;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
