@@ -6,7 +6,6 @@ package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
 import GUI_Venta.GUI_Venta;
-import Venta.GUI_Venta;
 import Receta.GUI_Receta;
 import insumos_disponibles.GUI_ver_insumos_disponibles;
 import java.sql.SQLException;
