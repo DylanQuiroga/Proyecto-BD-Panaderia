@@ -66,7 +66,7 @@ public class DBReceta {
 
     }
 
-    public boolean anadirReceta(String nombrereceta, String descripcion, ArrayList<String> ingredientes1, ArrayList<String> ingredientes, ArrayList<Integer> unidadmetrica) {
+    public boolean anadirReceta(String nombrereceta, String descripcion, ArrayList<String> ingredientes, ArrayList<String> unidadmetrica, ArrayList<Integer> cantidad) {
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
@@ -83,15 +83,16 @@ public class DBReceta {
             consulta = "INSERT INTO ingredientes (nombre_receta, nombre_ingrediente, unidad_metrica, cantidad) VALUES (?,?,?,?)";
             preparedStatement = connection.prepareStatement(consulta);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 preparedStatement.setString(1, nombrereceta);
-                preparedStatement.setString(2, ingredientes);
-                preparedStatement.setString(3, unidadmetrica);
-                preparedStatement.setInt(4, cantidad);
+                for(int i=0; i < ingredientes.size(); i++){
+                    preparedStatement.setString(2, ingredientes.get(i));
+                    preparedStatement.setString(3, unidadmetrica.get(i));
+                    preparedStatement.setInt(4, cantidad.get(i));
+                }
                 preparedStatement.executeUpdate();
-
-                
-            }return true;
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println(e);
             return false;

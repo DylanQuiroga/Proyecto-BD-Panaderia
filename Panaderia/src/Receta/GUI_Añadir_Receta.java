@@ -311,7 +311,7 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
                 cantidad.set(i, (Integer) jTable1.getValueAt(i, 2));
             }
 
-            boolean aprobado = new DBReceta().anadirReceta(df, nombrereceta, descripcion, ingredientes, unidadmetrica, cantidad);
+            boolean aprobado = new DBReceta().anadirReceta(nombrereceta, descripcion, ingredientes, unidadmetrica, cantidad);
 
             if (aprobado) {
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
