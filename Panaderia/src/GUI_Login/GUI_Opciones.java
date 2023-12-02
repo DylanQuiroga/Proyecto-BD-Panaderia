@@ -6,9 +6,13 @@ package GUI_Login;
 
 import GUI_Empleados.GUI_Empleado;
 import GUI_Venta.GUI_Venta;
+import Venta.GUI_Venta;
+import Receta.GUI_Receta;
+import insumos_disponibles.GUI_ver_insumos_disponibles;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import productos_local.GUI_ver_producto_local;
 /**
  *
  * @author Usuario
@@ -57,7 +61,6 @@ public class GUI_Opciones extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 400));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -74,6 +77,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 80, 80));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/3565418.png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 80, -1));
 
         jLabel17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -101,6 +109,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 100, 20));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Icono-Stock-Permanente.png"))); // NOI18N
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abrirInsumosDispo(evt);
+            }
+        });
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 80, 80));
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -114,6 +127,11 @@ public class GUI_Opciones extends javax.swing.JFrame {
         getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, 70, 20));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/1312307.png"))); // NOI18N
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abrirProductoLocal(evt);
+            }
+        });
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 90, 90));
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -178,6 +196,33 @@ public class GUI_Opciones extends javax.swing.JFrame {
             Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.dispose();
+        try {
+            new GUI_Receta(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void abrirInsumosDispo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_abrirInsumosDispo
+        this.dispose();
+        try {
+            new GUI_ver_insumos_disponibles(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_abrirInsumosDispo
+
+    private void abrirProductoLocal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_abrirProductoLocal
+        this.dispose();
+        try {
+            new GUI_ver_producto_local(rutIngresado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Opciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_abrirProductoLocal
 
     /**
      * @param args the command line arguments
