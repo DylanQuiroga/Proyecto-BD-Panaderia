@@ -5,13 +5,11 @@
 package GUI_Venta;
 
 import GUI_Login.GUI_Login;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JSpinner;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,7 +43,7 @@ public class GUI_Venta extends javax.swing.JFrame {
         Productos.addItemListener((ItemEvent e) -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 String selectedItem = (String) e.getItem();
-                int precio = new DBVenta().devolverCantidadMax(selectedItem);
+                int precio = new DBVenta().devolverPrecio(selectedItem);
 
                 Precio.setText(Integer.toString(precio));
 
@@ -71,7 +69,6 @@ public class GUI_Venta extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         Precio = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
@@ -125,15 +122,6 @@ public class GUI_Venta extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 610, 300, 40));
-
-        jButton5.setBackground(new java.awt.Color(255, 255, 153));
-        jButton5.setText("Limpiar tabla");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 610, 300, 40));
 
         jButton2.setBackground(new java.awt.Color(255, 255, 153));
         jButton2.setText("Agregar");
@@ -203,19 +191,28 @@ public class GUI_Venta extends javax.swing.JFrame {
             String nombre = (String) Productos.getSelectedItem();
             int cantidad = (Integer) Cantidad.getValue();
             int precio = Integer.parseInt(Precio.getText());
-            totalFinal = precio * cantidad;
 
-            fila[0] = nombre;
-            fila[1] = cantidad;
-            fila[2] = precio;
-            fila[3] = totalFinal;
-            df.addRow(fila);
+            boolean aprobado = new DBVenta().restarStock(nombre, cantidad);
 
-            total = Integer.parseInt(Total.getText());
+            if (aprobado) {
+                totalFinal = precio * cantidad;
+
+                fila[0] = nombre;
+                fila[1] = cantidad;
+                fila[2] = precio;
+                fila[3] = totalFinal;
+                df.addRow(fila);
+
+                total = Integer.parseInt(Total.getText());
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al modificar el stock del producto, compruebe la conexion");
+            }
 
         } catch (java.lang.NumberFormatException e) {
             total = 0;
 
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Venta.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             Total.setText(Integer.toString(total + totalFinal));
         }
@@ -223,15 +220,27 @@ public class GUI_Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int row = Tabla.getSelectedRow();
-        int total = Integer.parseInt(Tabla.getModel().getValueAt(row, 3).toString());
-        int totalFinal = Integer.parseInt(Total.getText());
-        String resultado = Integer.toString(totalFinal - total);
+        try {
+            int row = Tabla.getSelectedRow();
+            int total = Integer.parseInt(Tabla.getModel().getValueAt(row, 3).toString());
+            int totalFinal = Integer.parseInt(Total.getText());
+            String resultado = null;
 
-        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-        model.removeRow(row);
+            String nombreProducto = Tabla.getModel().getValueAt(row, 0).toString();
+            int cantStock = Integer.parseInt(Tabla.getModel().getValueAt(row, 1).toString());
 
-        Total.setText(resultado);
+            boolean aprobado = new DBVenta().sumarStock(nombreProducto, cantStock);
+
+            if (aprobado) {
+                resultado = Integer.toString(totalFinal - total);
+                DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                model.removeRow(row);
+                Total.setText(resultado);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Venta.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -245,11 +254,6 @@ public class GUI_Venta extends javax.swing.JFrame {
 
         new GUI_Boleta(rutIngresado, datos, Total.getText()).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Tabla.setModel(new DefaultTableModel());
-        Total.setText("");
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,7 +305,6 @@ public class GUI_Venta extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
