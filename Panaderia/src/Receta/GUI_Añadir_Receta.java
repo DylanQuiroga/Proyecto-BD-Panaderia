@@ -322,7 +322,7 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El valor del salario ingreselo como numero.\nEjemplo: Para $10.000 ingrese 10000");
+            JOptionPane.showMessageDialog(null, "El valor de la cantidad ingresala como numero");
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Añadir_Receta.class.getName()).log(Level.SEVERE, null, ex);
         }
