@@ -15,7 +15,9 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class GUI_Modificar extends javax.swing.JFrame {
+
     String rutIngresado;
+
     /**
      * Creates new form Añadir
      *
@@ -457,15 +459,19 @@ public class GUI_Modificar extends javax.swing.JFrame {
 
             String rol = (String) Rol.getSelectedItem();
 
-            //boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
-            boolean aprobado = new DBEmpleados().modificar(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol, rutIngresado);
-
-            if (aprobado ) {
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                this.dispose();
-                new GUI_Empleado(rutIngresado).setVisible(true);
+            if (rut.isEmpty() || nombre1.isEmpty() || nombre2.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || contrasena.isEmpty() || direccion.isEmpty() || horario.isEmpty() || Integer.toString(salario).isEmpty() || contrato.isEmpty() || numeros.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Rellene los espacios en blanco");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+                //boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
+                boolean aprobado = new DBEmpleados().modificar(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol, rutIngresado);
+
+                if (aprobado) {
+                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                    this.dispose();
+                    new GUI_Empleado(rutIngresado).setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+                }
             }
 
         } catch (NumberFormatException e) {
