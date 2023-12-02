@@ -3,6 +3,8 @@ package Receta;
 import java.sql.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -118,5 +120,32 @@ public class DBReceta {
             
         }
     }
-
+    
+    public boolean modificarReceta(String nombrereceta, String descripcion, ArrayList<String> ingredientes, ArrayList<String> unidadmetrica, ArrayList<Integer> cantidad, String seleccionado){
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "UPDATE receta SET nombre_receta = ?, descripcion = ? WHERE nombre_receta = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setString(1, nombrereceta);
+            preparedStatement.setString(2, descripcion);
+            preparedStatement.setString(3, seleccionado);
+            preparedStatement.executeUpdate();
+            
+            consulta = "UPDATE ingredientes SET nombre_receta = ?, ingredientes = ?, unidadmetrica = ?, cantidad = ? WHERE nombre_receta = ?";
+            preparedStatement = connection.prepareStatement(consulta);
+            for (int i = 0; ingredientes.size() > i; i++) {
+                preparedStatement.setString(1, nombrereceta);
+                preparedStatement.setString(2, ingredientes.get(i));
+                preparedStatement.setString(3, unidadmetrica.get(i));
+                preparedStatement.setInt(4, cantidad.get(i));
+                preparedStatement.setString(5, seleccionado);
+                preparedStatement.executeUpdate();
+            }
+            return true;
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 }
