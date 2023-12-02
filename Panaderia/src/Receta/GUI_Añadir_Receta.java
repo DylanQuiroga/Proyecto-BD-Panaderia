@@ -35,7 +35,7 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
         jTable1.setDefaultEditor(Object.class, null);
 
         String[] unidad = {"gramos", "mililitros", "cucharaditas"};
-        UnidadMetrica.addItem("--Seleccione una unidad--");
+        UnidadMetrica.addItem("");
         for (String item : unidad) {
             UnidadMetrica.addItem(item);
         }
@@ -63,8 +63,6 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         Ingrediente = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        IngTotal = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         UnidadMetrica = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
@@ -139,7 +137,7 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
                 IngredienteKeyPressed(evt);
             }
         });
-        jPanel1.add(Ingrediente, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 150, 30));
+        jPanel1.add(Ingrediente, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 160, 30));
 
         jButton3.setText("+");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -147,17 +145,7 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 310, 40, 30));
-
-        jButton2.setText("-");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 350, 40, 30));
-
-        jPanel1.add(IngTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 150, 30));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 300, 40, 30));
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setText("Unidad Metrica");
@@ -204,7 +192,7 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, -1, 120));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, -1, 180));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_receta.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 670));
@@ -259,26 +247,22 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
     }//GEN-LAST:event_IngredienteKeyPressed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Object[] fila = new Object[3];
-        String ingrediente = Ingrediente.getText();
-        String unidadmetrica = (String) UnidadMetrica.getSelectedItem();
-        int cantidad = Integer.parseInt(Cantidad.getText());
-        fila[0] = ingrediente;
-        fila[1] = unidadmetrica;
-        fila[2] = cantidad;
-        df.addRow(fila);
-        //IngTotal.addItem(ingrediente);
-        Ingrediente.setText("");
-        Cantidad.setText("");
 
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int index = IngTotal.getSelectedIndex();
-        if (index != -1) { // -1 significa que no hay selección
-            IngTotal.removeItemAt(index);
+        if (Ingrediente.getText().isEmpty() || UnidadMetrica.getSelectedItem().toString().isEmpty() || Cantidad.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Introduzca valores en las 3 casillas: ingrediente, unidad y cantidad");
+        } else {
+            Object[] fila = new Object[3];
+            String ingrediente = Ingrediente.getText();
+            String unidadmetrica = (String) UnidadMetrica.getSelectedItem();
+            int cantidad = Integer.parseInt(Cantidad.getText());
+            fila[0] = ingrediente;
+            fila[1] = unidadmetrica;
+            fila[2] = cantidad;
+            df.addRow(fila);
+            Ingrediente.setText("");
+            Cantidad.setText("");
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void CantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantidadActionPerformed
         // TODO add your handling code here:
@@ -295,34 +279,28 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
             ArrayList<String> ingredientes = new ArrayList<>();
             ArrayList<String> unidadmetrica = new ArrayList<>();
             ArrayList<Integer> cantidad = new ArrayList<>();
-           // int cantidad = Integer.parseInt(Cantidad.getText());
-            // int salario = Integer.parseInt(Salario1.getText());
 
-            /* int numItems = IngTotal.getItemCount();
-            ArrayList<String> ingredientes = new ArrayList<>();
-            for (int i = 0; i < numItems; i++) {
-                ingredientes.add(IngTotal.getItemAt(i));
-            }
-            String unidadmetrica = (String) UnidadMetrica.getSelectedItem();
-            int cantidad = Integer.parseInt(Cantidad.getText()); */
-            for (int i = 0; i < jTable1.getRowCount(); i++){
-                ingredientes.set(i, (String) jTable1.getValueAt(i, 0));
-                unidadmetrica.set(i, (String) jTable1.getValueAt(i, 1));
-                cantidad.set(i, (Integer) jTable1.getValueAt(i, 2));
+            for (int i = 0; jTable1.getRowCount() > i; i++) {
+                ingredientes.add(i, (String) jTable1.getValueAt(i, 0));
+                unidadmetrica.add(i, (String) jTable1.getValueAt(i, 1));
+                cantidad.add(i, (Integer) jTable1.getValueAt(i, 2));
             }
 
-            boolean aprobado = new DBReceta().anadirReceta(nombrereceta, descripcion, ingredientes, unidadmetrica, cantidad);
-
-            if (aprobado) {
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                this.dispose();
-                new GUI_Receta(rutIngresado).setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+            if (NombreReceta.getText().isEmpty() || Descripcion.getText().isEmpty() || ingredientes.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Rellene todas las casillas");
+            }else{
+                boolean aprobado = new DBReceta().anadirReceta(nombrereceta, descripcion, ingredientes, unidadmetrica, cantidad);
+                if (aprobado) {
+                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                    this.dispose();
+                    new GUI_Receta(rutIngresado).setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
+                }
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El valor de la cantidad ingresala como numero");
+            JOptionPane.showMessageDialog(null, "El valor de la cantidad ingresela como numero");
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Añadir_Receta.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -373,12 +351,10 @@ public class GUI_Añadir_Receta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Cantidad;
     private javax.swing.JTextField Descripcion;
-    private javax.swing.JComboBox<String> IngTotal;
     private javax.swing.JTextField Ingrediente;
     private javax.swing.JTextField NombreReceta;
     private javax.swing.JComboBox<String> UnidadMetrica;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

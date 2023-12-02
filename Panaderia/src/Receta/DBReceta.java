@@ -67,37 +67,33 @@ public class DBReceta {
     }
 
     public boolean anadirReceta(String nombrereceta, String descripcion, ArrayList<String> ingredientes, ArrayList<String> unidadmetrica, ArrayList<Integer> cantidad) {
-
         try {
+            
             Connection connection = DriverManager.getConnection(url, username, password);
             String consulta = "INSERT INTO receta (nombre_receta, descripcion) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                preparedStatement.setString(1, nombrereceta);
-                preparedStatement.setString(2, descripcion);
-                preparedStatement.executeUpdate();
-                return true;
-            }
+            preparedStatement.setString(1, nombrereceta);
+            preparedStatement.setString(2, descripcion);
+            preparedStatement.executeUpdate();
 
             consulta = "INSERT INTO ingredientes (nombre_receta, nombre_ingrediente, unidad_metrica, cantidad) VALUES (?,?,?,?)";
             preparedStatement = connection.prepareStatement(consulta);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            for (int i = 0; ingredientes.size() > i; i++) {
                 preparedStatement.setString(1, nombrereceta);
-                for(int i=0; i < ingredientes.size(); i++){
-                    preparedStatement.setString(2, ingredientes.get(i));
-                    preparedStatement.setString(3, unidadmetrica.get(i));
-                    preparedStatement.setInt(4, cantidad.get(i));
-                }
+                preparedStatement.setString(2, ingredientes.get(i));
+                preparedStatement.setString(3, unidadmetrica.get(i));
+                preparedStatement.setInt(4, cantidad.get(i));
                 preparedStatement.executeUpdate();
-                return true;
             }
+            return true;
+
         } catch (SQLException e) {
+            
             System.out.println(e);
             return false;
+            
         }
-        return false;
+
     }
 
 }
