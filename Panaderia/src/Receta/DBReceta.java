@@ -95,5 +95,28 @@ public class DBReceta {
         }
 
     }
+    
+    public boolean eliminarReceta(String seleccionado){
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            String consulta = "DELETE FROM ingredientes WHERE nombre_receta = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setString(1, seleccionado);
+            preparedStatement.executeUpdate();
+            
+            
+            consulta = "DELETE FROM receta WHERE nombre_receta = ?";
+            preparedStatement = connection.prepareStatement(consulta);
+            preparedStatement.setString(1, seleccionado);
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            
+            System.out.println(e);
+            return false;
+            
+        }
+    }
 
 }
