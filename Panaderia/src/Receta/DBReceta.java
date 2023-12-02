@@ -42,12 +42,12 @@ public class DBReceta {
 
     }
 
-      public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF, String seleccionado) throws SQLException {
+    public DefaultTableModel cargarIngredientes(DefaultTableModel tablaDF, String seleccionado) throws SQLException {
         try {
             tablaDF.setColumnIdentifiers(ingredientes);
             Connection connection = DriverManager.getConnection(url, username, password);
-            String consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";     
-            PreparedStatement preparedStatement = connection.prepareStatement(consulta); 
+            String consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             preparedStatement.setString(1, seleccionado);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -64,35 +64,39 @@ public class DBReceta {
             return null;
         }
 
-    } 
-  /*  public String[] cargarIngredientes(String seleccionado) throws SQLException {
-        String retorno[] = new String[3];
+    }
+
+    public boolean anadirReceta(String nombrereceta, String descripcion, ArrayList<String> ingredientes1, ArrayList<String> ingredientes, ArrayList<Integer> unidadmetrica) {
+
         try {
-
             Connection connection = DriverManager.getConnection(url, username, password);
-            String consulta;
-            PreparedStatement preparedStatement;
-            consulta = "SELECT * FROM ingredientes WHERE nombre_receta = ?";
-            preparedStatement = connection.prepareStatement(consulta);
-            preparedStatement.setString(1, seleccionado);
+            String consulta = "INSERT INTO receta (nombre_receta, descripcion) VALUES (?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                retorno[0] = resultSet.getString("nombre_ingrediente");
-                retorno[1] = resultSet.getString("unidad_metrica");
-                retorno[2] = resultSet.getString("cantidad");
-                return retorno;
+            if (resultSet.next()) {
+                preparedStatement.setString(1, nombrereceta);
+                preparedStatement.setString(2, descripcion);
+                preparedStatement.executeUpdate();
+                return true;
             }
 
+            consulta = "INSERT INTO ingredientes (nombre_receta, nombre_ingrediente, unidad_metrica, cantidad) VALUES (?,?,?,?)";
+            preparedStatement = connection.prepareStatement(consulta);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                preparedStatement.setString(1, nombrereceta);
+                preparedStatement.setString(2, ingredientes);
+                preparedStatement.setString(3, unidadmetrica);
+                preparedStatement.setInt(4, cantidad);
+                preparedStatement.executeUpdate();
+
+                
+            }return true;
         } catch (SQLException e) {
-            for (int i = 0; i < retorno.length; i++) {
-                retorno[i] = "Error";
-            }
-            return retorno;
+            System.out.println(e);
+            return false;
         }
-        for (int i = 0; i < retorno.length; i++) {
-            retorno[i] = "Error";
-        }
-        return retorno;
-    } */
+        return false;
+    }
 
 }
