@@ -45,6 +45,8 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
         labelAnio.setVisible(false);
         comboboxAnio.setVisible(false);
+        comboboxMes.setVisible(false);
+        labelMes.setVisible(false);
 
         Grafica.addItemListener((ItemEvent e) -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -53,12 +55,23 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 if ("Cantidad generada por cada empleado".equals(selectedItem)) {
                     labelAnio.setVisible(false);
                     comboboxAnio.setVisible(false);
+                    comboboxMes.setVisible(false);
+                    labelMes.setVisible(false);
                 } else if ("Promedio generado en cada mes".equals(selectedItem)) {
                     labelAnio.setVisible(true);
                     comboboxAnio.setVisible(true);
+                    comboboxMes.setVisible(false);
+                    labelMes.setVisible(false);
                 } else if ("Promedio de ventas anuales".equals(selectedItem)) {
                     labelAnio.setVisible(false);
                     comboboxAnio.setVisible(false);
+                    comboboxMes.setVisible(false);
+                    labelMes.setVisible(false);
+                } else if ("Cantidad generada en un mes".equals(selectedItem)) {
+                    labelAnio.setVisible(true);
+                    comboboxAnio.setVisible(true);
+                    comboboxMes.setVisible(true);
+                    labelMes.setVisible(true);
                 }
 
             }
@@ -90,7 +103,9 @@ public class GUI_Boleta extends javax.swing.JFrame {
         mesDesc = new javax.swing.JRadioButton();
         diaAsc = new javax.swing.JRadioButton();
         diaDesc = new javax.swing.JRadioButton();
+        labelMes = new javax.swing.JLabel();
         comboboxAnio = new javax.swing.JComboBox<>();
+        comboboxMes = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         restablecer = new javax.swing.JButton();
         Aceptar = new javax.swing.JButton();
@@ -134,7 +149,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         labelAnio.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         labelAnio.setForeground(new java.awt.Color(255, 255, 255));
         labelAnio.setText("Año");
-        getContentPane().add(labelAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 400, 40, 30));
+        getContentPane().add(labelAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 400, 40, 30));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -211,8 +226,16 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
         getContentPane().add(diaDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 180, -1));
 
+        labelMes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        labelMes.setForeground(new java.awt.Color(255, 255, 255));
+        labelMes.setText("Mes");
+        getContentPane().add(labelMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 400, 40, 30));
+
         comboboxAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", " " }));
-        getContentPane().add(comboboxAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 400, 70, 30));
+        getContentPane().add(comboboxAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 400, 70, 30));
+
+        comboboxMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        getContentPane().add(comboboxMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 400, 70, 30));
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -251,9 +274,9 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 666, 100, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 650, 100, -1));
 
-        Grafica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cantidad generada por cada empleado", "Promedio generado en cada mes", "Promedio de ventas anuales" }));
+        Grafica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cantidad generada por cada empleado", "Promedio generado en cada mes", "Promedio de ventas anuales", "Cantidad generada en un mes" }));
         Grafica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GraficaActionPerformed(evt);
@@ -263,7 +286,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_boleta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 700));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -605,6 +628,10 @@ public class GUI_Boleta extends javax.swing.JFrame {
                 new BDBoleta().graficar2(anio);
             } else if ("Promedio de ventas anuales".equals(selectedItem)) {
                 new BDBoleta().graficar3();
+            } else if ("Cantidad generada en un mes".equals(selectedItem)) {
+                String anio = (String) comboboxAnio.getSelectedItem();
+                String mes = (String) comboboxMes.getSelectedItem();
+                new BDBoleta().graficar4(anio, mes);
             }
 
         } catch (SQLException ex) {
@@ -665,6 +692,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
     private javax.swing.JRadioButton canAsc;
     private javax.swing.JRadioButton canDesc;
     private javax.swing.JComboBox<String> comboboxAnio;
+    private javax.swing.JComboBox<String> comboboxMes;
     private javax.swing.JRadioButton diaAsc;
     private javax.swing.JRadioButton diaDesc;
     private javax.swing.JButton jButton1;
@@ -678,6 +706,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelAnio;
+    private javax.swing.JLabel labelMes;
     private javax.swing.JRadioButton mesAsc;
     private javax.swing.JRadioButton mesDesc;
     private javax.swing.JButton restablecer;

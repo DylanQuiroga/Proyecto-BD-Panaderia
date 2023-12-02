@@ -395,4 +395,73 @@ public class BDBoleta {
             Logger.getLogger(BDBoleta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void graficar4(String anio, String mes) throws SQLException, InterruptedException{
+        String[] texto1, texto2;
+        int i = 0;
+        int anioInt = Integer.parseInt(anio);
+        int mesInt = Integer.parseInt(mes);
+        
+        Connection connection = DriverManager.getConnection(url, username, password);
+        String consulta = "SELECT dia, SUM(total_venta) as cantgen FROM venta WHERE mes = ? AND anio = ? GROUP BY dia ORDER BY dia ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setInt(1, mesInt);
+        preparedStatement.setInt(2, anioInt);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            i++;
+        }
+
+        texto1 = new String[i];
+        texto2 = new String[i];
+        i = 0;
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            texto1[i] = resultSet.getString("dia");
+            texto2[i] = resultSet.getString("cantgen");
+            i++;
+        }
+
+        File file = new File("GUI_Boleta.java");
+        String directoryPath = file.getAbsoluteFile().getParent();
+        String direccionTexto1 = directoryPath + "\\src\\Python\\texto1.txt";
+        String direccionTexto2 = directoryPath + "\\src\\Python\\texto2.txt";
+
+        try {
+            FileWriter writerRut = new FileWriter(direccionTexto1);
+            FileWriter writerVenta = new FileWriter(direccionTexto2);
+
+            for (String rut : texto1) {
+                writerRut.write(rut + "\n");
+            }
+
+            for (String venta : texto2) {
+                writerVenta.write(venta + "\n");
+            }
+
+            writerRut.close();
+            writerVenta.close();
+
+            String cmdStr = directoryPath + "\\src\\Python\\grafico4.py";
+            ProcessBuilder Process_Builder = new ProcessBuilder("python", cmdStr).inheritIO();
+            Process Demo_Process = Process_Builder.start();
+            Demo_Process.waitFor();
+
+            cmdStr = directoryPath + "\\src\\Python\\grafico.png";
+            BufferedImage img = ImageIO.read(new File(cmdStr));
+
+            JLabel label = new JLabel(new ImageIcon(img));
+            JFrame frame = new JFrame();
+            frame.getContentPane().add(label, BorderLayout.CENTER);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+        } catch (IOException ex) {
+            Logger.getLogger(BDBoleta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }
