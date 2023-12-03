@@ -230,7 +230,7 @@ public class GUI_Boleta extends javax.swing.JFrame {
         labelMes.setText("Mes");
         getContentPane().add(labelMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 400, 40, 30));
 
-        comboboxAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", " " }));
+        comboboxAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024", "2025" }));
         getContentPane().add(comboboxAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 400, 70, 30));
 
         comboboxMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
