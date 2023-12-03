@@ -110,7 +110,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
         restablecer = new javax.swing.JButton();
         Aceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         Grafica = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -268,14 +267,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 110, 30));
 
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 650, 100, -1));
-
         Grafica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cantidad generada por cada empleado", "Promedio generado en cada mes", "Promedio de ventas anuales", "Cantidad generada en un mes" }));
         Grafica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,34 +300,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
         this.dispose();
         new GUI_Opciones(rutIngresado).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            File file = new File("GUI_Boleta.java");
-            String directoryPath = file.getAbsoluteFile().getParent();
-
-            String cmdStr = directoryPath + "\\src\\Python\\Ej.py";
-            ProcessBuilder Process_Builder = new ProcessBuilder("python", cmdStr).inheritIO();
-            Process Demo_Process = Process_Builder.start();
-            Demo_Process.waitFor();
-
-            cmdStr = directoryPath + "\\src\\Python\\grafico.png";
-            BufferedImage img = ImageIO.read(new File(cmdStr));
-
-            JLabel label = new JLabel(new ImageIcon(img));
-            JFrame frame = new JFrame();
-            frame.getContentPane().add(label, BorderLayout.CENTER);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(GUI_Boleta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void restablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restablecerActionPerformed
         DefaultTableModel df = new DefaultTableModel();
@@ -697,7 +660,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
     private javax.swing.JRadioButton diaDesc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
