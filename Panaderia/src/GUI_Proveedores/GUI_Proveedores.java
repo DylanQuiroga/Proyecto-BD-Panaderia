@@ -4,7 +4,6 @@
  */
 package GUI_Proveedores;
 
-import GUI_Empleados.DBEmpleados;
 import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
 import java.sql.SQLException;
