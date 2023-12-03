@@ -112,9 +112,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         Grafica = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -278,15 +275,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_boleta.png"))); // NOI18N
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 700));
-
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Buscar");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 80, 40));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 130, 300, 40));
-
-        Buscar.setText("Buscar");
-        getContentPane().add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 130, 160, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -647,7 +635,6 @@ public class GUI_Boleta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Aceptar;
-    private javax.swing.JButton Buscar;
     private javax.swing.JComboBox<String> Grafica;
     private javax.swing.JTable Tabla;
     private javax.swing.JRadioButton anioAsc;
@@ -663,10 +650,8 @@ public class GUI_Boleta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelAnio;
     private javax.swing.JLabel labelMes;
     private javax.swing.JRadioButton mesAsc;
