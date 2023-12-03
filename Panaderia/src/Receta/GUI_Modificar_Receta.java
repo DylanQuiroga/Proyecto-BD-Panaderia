@@ -6,6 +6,7 @@ package Receta;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -25,19 +26,25 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
     /**
      * Creates new form GUI_Añadir_Receta
      */
-    public GUI_Modificar_Receta(String rutLogin, String seleccionado) throws SQLException {
+    public GUI_Modificar_Receta(String rutLogin, String Seleccionado) throws SQLException {
         rutIngresado = rutLogin;
+        seleccionado = Seleccionado;
         initComponents();
 
         df.setColumnIdentifiers(ids);
-        jTable1.setModel(df);
-        jTable1.setDefaultEditor(Object.class, null);
 
         String[] unidad = {"gramos", "mililitros", "cucharaditas"};
         UnidadMetrica.addItem("");
         for (String item : unidad) {
             UnidadMetrica.addItem(item);
         }
+
+        String[] recetas = new DBReceta().cargarStringRecetas(seleccionado);
+        iniciarDatos(recetas);
+        
+        df = new DBReceta().cargarIngredientes(df, seleccionado);
+        jTable1.setModel(df);
+        jTable1.setDefaultEditor(Object.class, null);
 
         this.setLocationRelativeTo(null);
 
@@ -69,6 +76,7 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -191,7 +199,15 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, -1, 180));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, 180));
+
+        jButton4.setText("-");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 340, 50, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo_receta.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 670));
@@ -215,8 +231,7 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         this.dispose();
         try {
-            String Seleccionado = null;
-            new GUI_Receta(rutIngresado, Seleccionado).setVisible(true);
+            new GUI_Receta(rutIngresado, seleccionado).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -274,11 +289,13 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+            
             String nombrereceta = NombreReceta.getText();
             String descripcion = Descripcion.getText();
             ArrayList<String> ingredientes = new ArrayList<>();
             ArrayList<String> unidadmetrica = new ArrayList<>();
             ArrayList<Integer> cantidad = new ArrayList<>();
+
 
             for (int i = 0; jTable1.getRowCount() > i; i++) {
                 ingredientes.add(i, (String) jTable1.getValueAt(i, 0));
@@ -288,13 +305,12 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
 
             if (NombreReceta.getText().isEmpty() || Descripcion.getText().isEmpty() || ingredientes.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Rellene todas las casillas");
-            }else{
-                boolean aprobado = new DBReceta().anadirReceta(nombrereceta, descripcion, ingredientes, unidadmetrica, cantidad);
+            } else {
+                boolean aprobado = new DBReceta().modificarReceta(nombrereceta, descripcion, ingredientes, unidadmetrica, cantidad, seleccionado);
                 if (aprobado) {
                     JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                     this.dispose();
-                    String Seleccionado = "";
-                    new GUI_Receta(rutIngresado, Seleccionado).setVisible(true);
+                    new GUI_Receta(rutIngresado, seleccionado).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al ingresar los datos a la base de datos");
                 }
@@ -307,6 +323,11 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int row = jTable1.getSelectedRow();
+        df.removeRow(row);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,8 +363,9 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 String rut = "";
+                String seleccionado = "";
                 try {
-                    new GUI_Modificar_Receta(rut).setVisible(true);
+                    new GUI_Modificar_Receta(rut, seleccionado).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI_Modificar_Receta.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -351,6 +373,12 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
         });
     }
 
+    private void iniciarDatos(String[] recetas) throws SQLException {
+        
+        NombreReceta.setText(recetas[0]);
+        Descripcion.setText(recetas[1]);
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Cantidad;
     private javax.swing.JTextField Descripcion;
@@ -359,6 +387,7 @@ public class GUI_Modificar_Receta extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> UnidadMetrica;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

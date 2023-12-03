@@ -213,7 +213,7 @@ public class GUI_Receta extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         int row2 = jTable1.getSelectedRow();
-        String retorno = (String) jTable1.getValueAt(row2 - 1, 0);
+        //String retorno = (String) jTable1.getValueAt(row2 - 1, 0);
         String Seleccionado = (String) jTable1.getValueAt(row2, 0);
         boolean aprobado = new DBReceta().eliminarReceta(Seleccionado);
         if (aprobado) {
@@ -234,7 +234,15 @@ public class GUI_Receta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        
+        int row2 = jTable1.getSelectedRow();
+        String Seleccionado = (String) jTable1.getValueAt(row2, 0);
+        this.dispose();
+        try {
+            new GUI_Modificar_Receta(rutIngresado, Seleccionado).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Receta.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
