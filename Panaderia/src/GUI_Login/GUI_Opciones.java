@@ -7,7 +7,6 @@ package GUI_Login;
 import GUI_Empleados.GUI_Empleado;
 import GUI_Pedidos.GUI_Pedidos;
 import GUI_Proveedores.GUI_Proveedores;
-import Venta.GUI_Venta;
 import GUI_Venta.GUI_Venta;
 import Receta.GUI_Receta;
 import insumos_disponibles.GUI_ver_insumos_disponibles;
