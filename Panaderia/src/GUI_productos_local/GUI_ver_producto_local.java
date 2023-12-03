@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package productos_local;
+package GUI_productos_local;
 
 import GUI_Empleados.*;
 import GUI_Login.GUI_Login;

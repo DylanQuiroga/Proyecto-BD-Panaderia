@@ -1,4 +1,4 @@
-package insumos_disponibles;
+package GUI_insumos_disponibles;
 
 import java.sql.*;
 import java.io.*;

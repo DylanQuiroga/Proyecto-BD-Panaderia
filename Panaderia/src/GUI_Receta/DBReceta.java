@@ -1,4 +1,4 @@
-package Receta;
+package GUI_Receta;
 
 import java.sql.*;
 import java.io.*;
