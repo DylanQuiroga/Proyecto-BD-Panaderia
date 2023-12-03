@@ -85,7 +85,7 @@ public class DBPedidos {
     }
     
     
-    public DefaultTableModel cargarFiltros(String proveedor_buscado, String pedido_buscado, String fecha_buscada) throws SQLException{
+    public DefaultTableModel cargarFiltros(String proveedor_buscado, String pedido_buscado, String dia, String mes, String anio) throws SQLException{
         
         DefaultTableModel tablaDF = new DefaultTableModel();
         tablaDF.addColumn("ID");
@@ -120,14 +120,8 @@ public class DBPedidos {
                     System.out.println("STRING");
                 }
             }
-            if(!fecha_buscada.isEmpty()){
-                // Funcion para separar String
-                String[] fecha_separada = fecha_buscada.split("/");
-                String dia = fecha_separada[0];
-                String mes = fecha_separada[1];
-                String anio = fecha_separada[2];
-                
-                condiciones.add("dia_pedido= '" + dia + "' AND mes_pedido= '" + mes + "' AND anio_pedido= '" + anio + "'");
+            if(!dia.isEmpty() && !mes.isEmpty() && !anio.isEmpty()){
+                condiciones.add("dia_pedido= '" + dia + "' AND mes_pedido= '" + mes + "' AND anio_pedido= '" + anio + "'");         
             }
             
             consulta += " AND " + String.join(" AND ", condiciones) + ";";
@@ -147,11 +141,7 @@ public class DBPedidos {
                 
                 fila[3] = "$ " + resultSet.getString("precio_total");
                 
-                // PARA SELECCIONAR DIA MES Y AÑO
-                String dia = resultSet.getString("dia_pedido");
-                String mes = resultSet.getString("mes_pedido");
-                String anio = resultSet.getString("anio_pedido");
-                fila[4] = dia + "/" + mes + "/" + anio;
+                fila[4] = resultSet.getString("dia_pedido") + "/" + resultSet.getString("mes_pedido") + "/" + resultSet.getString("anio_pedido");
                 
                 
                 fila[5] = resultSet.getString("nombre");

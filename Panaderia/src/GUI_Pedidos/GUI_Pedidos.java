@@ -238,12 +238,26 @@ public class GUI_Pedidos extends javax.swing.JFrame {
             String proveedor = barraProveedor.getText().trim();
             String pedido = barraInsumo.getText().trim();
             String fecha = barraFecha.getText().trim();
+            String dia = "";
+            String mes = "";
+            String anio = "";
             
+            if(!fecha.isEmpty()){
+                String[] fecha_separada = fecha.split("/");
+                dia = fecha_separada[0];
+                mes = fecha_separada[1];
+                anio = fecha_separada[2];
+            }
+            else{
+                dia = "";
+                mes = "";
+                anio = "";
+            }
             if(proveedor.isEmpty() && pedido.isEmpty() && fecha.isEmpty()){
                 JOptionPane.showMessageDialog(null, "RELLENAR POR LO MENOS UN FILTRO DE BUSQUEDA","ALERTA", JOptionPane.WARNING_MESSAGE);
             }
             else{  
-                DefaultTableModel df2 = new DBPedidos().cargarFiltros(proveedor, pedido, fecha);
+                DefaultTableModel df2 = new DBPedidos().cargarFiltros(proveedor, pedido, dia, mes, anio);
                 tablaFiltrada.setModel(df2);
                 tablaFiltrada.setDefaultEditor(Object.class, null);
                 JTableHeader tableHeader = tablaFiltrada.getTableHeader();
@@ -255,6 +269,8 @@ public class GUI_Pedidos extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Pedidos.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "FECHA NO INGRESADA EN FORMATO CORRECTO","ALERTA", JOptionPane.WARNING_MESSAGE);
         }   
     }//GEN-LAST:event_botonBuscarActionPerformed
 
