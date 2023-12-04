@@ -1,4 +1,4 @@
-package productos_local;
+package GUI_productos_local;
 
 import GUI_Empleados.*;
 import java.sql.*;

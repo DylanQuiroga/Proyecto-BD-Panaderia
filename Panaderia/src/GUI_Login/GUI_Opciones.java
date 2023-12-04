@@ -9,12 +9,12 @@ import GUI_Empleados.GUI_Empleado;
 import GUI_Pedidos.GUI_Pedidos;
 import GUI_Proveedores.GUI_Proveedores;
 import GUI_Venta.GUI_Venta;
-import Receta.GUI_Receta;
-import insumos_disponibles.GUI_ver_insumos_disponibles;
+import GUI_Receta.GUI_Receta;
+import GUI_insumos_disponibles.GUI_ver_insumos_disponibles;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import productos_local.GUI_ver_producto_local;
+import GUI_productos_local.GUI_ver_producto_local;
 /**
  *
  * @author Usuario
