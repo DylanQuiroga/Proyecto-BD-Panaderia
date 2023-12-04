@@ -15,6 +15,65 @@ public class DBEmpleados {
 
     String ids[] = {"Rut", "Primer nombre", "Primer apellido", "Rol", "Activo"};
 
+    public DefaultTableModel cargarActivos(DefaultTableModel tablaDF) throws SQLException {
+        tablaDF.setColumnIdentifiers(ids);
+
+        Connection connection = DriverManager.getConnection(url, username, password);
+        String consulta = "SELECT * FROM ("
+                + "SELECT rut_admin AS rut, primer_nombre, primer_apellido, 'SI' AS activo, 'Administrador/a' AS tabla FROM admin "
+                + "UNION ALL "
+                + "SELECT rut_cajero, primer_nombre, primer_apellido, activo, 'Cajero/a' FROM cajero "
+                + "UNION ALL "
+                + "SELECT rut_panadero, primer_nombre, primer_apellido, activo, 'Panadero/a' FROM panadero "
+                + ") AS empleados "
+                + "WHERE activo = 'SI'";
+        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Object[] fila = new Object[5];
+            fila[0] = resultSet.getString("rut");
+            fila[1] = resultSet.getString("primer_nombre");
+            fila[2] = resultSet.getString("primer_apellido");
+            fila[4] = resultSet.getString("activo");
+            fila[3] = resultSet.getString("tabla");
+            tablaDF.addRow(fila);
+        }
+
+        return tablaDF;
+
+    }
+    
+    public DefaultTableModel cargarNOActivos(DefaultTableModel tablaDF, String rutIngresado) throws SQLException {
+        tablaDF.setColumnIdentifiers(ids);
+
+        Connection connection = DriverManager.getConnection(url, username, password);
+        String consulta = "SELECT * FROM ("
+                + "SELECT rut_admin AS rut, primer_nombre, primer_apellido, 'SI' AS activo, 'Administrador/a' AS tabla FROM admin "
+                + "UNION ALL "
+                + "SELECT rut_cajero, primer_nombre, primer_apellido, activo, 'Cajero/a' FROM cajero "
+                + "UNION ALL "
+                + "SELECT rut_panadero, primer_nombre, primer_apellido, activo, 'Panadero/a' FROM panadero "
+                + ") AS empleados "
+                + "WHERE activo = 'NO' AND rut <> ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
+        preparedStatement.setString(1, rutIngresado);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Object[] fila = new Object[5];
+            fila[0] = resultSet.getString("rut");
+            fila[1] = resultSet.getString("primer_nombre");
+            fila[2] = resultSet.getString("primer_apellido");
+            fila[4] = resultSet.getString("activo");
+            fila[3] = resultSet.getString("tabla");
+            tablaDF.addRow(fila);
+        }
+
+        return tablaDF;
+
+    }
+
     public DefaultTableModel cargarEmpleadosActivos(DefaultTableModel tablaDF) throws SQLException {
 
         tablaDF.setColumnIdentifiers(ids);

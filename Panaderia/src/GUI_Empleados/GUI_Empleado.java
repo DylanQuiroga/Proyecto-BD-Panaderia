@@ -35,7 +35,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
         initComponents();
         rutIngresado = rutLogin;
         DefaultTableModel df = new DefaultTableModel();
-        df = new DBEmpleados().cargarEmpleadosActivos(df);
+        df = new DBEmpleados().cargarActivos(df);
 
         //String ids [] = { "Rut", "Primer nombre", "Segundo nombre", "Primer apellido", "Segundo apellido", "Contraseña", "Direccion", "Horario de trabajo", "Salario", "Fecha de contratacion", "Numero"};
         Tabla.setModel(df);
@@ -53,7 +53,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
                         DefaultTableModel df1 = new DefaultTableModel();
 
-                        df1 = new DBEmpleados().cargarEmpleadosNOActivos(df1, rutIngresado);
+                        df1 = new DBEmpleados().cargarNOActivos(df1, rutIngresado);
                         Tabla.setModel(df1);
 
                         jButton6.setVisible(true);
