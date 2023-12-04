@@ -43,7 +43,7 @@ public class DBEmpleados {
         return tablaDF;
 
     }
-    
+
     public DefaultTableModel cargarNOActivos(DefaultTableModel tablaDF, String rutIngresado) throws SQLException {
         tablaDF.setColumnIdentifiers(ids);
 
@@ -67,100 +67,6 @@ public class DBEmpleados {
             fila[2] = resultSet.getString("primer_apellido");
             fila[4] = resultSet.getString("activo");
             fila[3] = resultSet.getString("tabla");
-            tablaDF.addRow(fila);
-        }
-
-        return tablaDF;
-
-    }
-
-    public DefaultTableModel cargarEmpleadosActivos(DefaultTableModel tablaDF) throws SQLException {
-
-        tablaDF.setColumnIdentifiers(ids);
-
-        Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM admin";
-        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_admin");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Administrador/a";
-            fila[4] = "SI";
-            tablaDF.addRow(fila);
-        }
-
-        consulta = "SELECT * FROM cajero WHERE activo = ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "SI");
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_cajero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Cajero/a";
-            fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
-        }
-
-        consulta = "SELECT * FROM panadero WHERE activo = ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "SI");
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_panadero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Panadero/a";
-            fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
-        }
-
-        return tablaDF;
-
-    }
-
-    public DefaultTableModel cargarEmpleadosNOActivos(DefaultTableModel tablaDF, String rutIngresado) throws SQLException {
-
-        tablaDF.setColumnIdentifiers(ids);
-
-        Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM cajero WHERE activo = ? AND rut_cajero <> ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "NO");
-        preparedStatement.setString(2, rutIngresado);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_cajero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Cajero/a";
-            fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
-        }
-
-        consulta = "SELECT * FROM panadero WHERE activo = ? AND rut_panadero <> ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "NO");
-        preparedStatement.setString(2, rutIngresado);
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_panadero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Panadero/a";
-            fila[4] = resultSet.getString("activo");
             tablaDF.addRow(fila);
         }
 
