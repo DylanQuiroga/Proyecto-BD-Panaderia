@@ -4,6 +4,7 @@
  */
 package GUI_Login;
 
+import GUI_Receta.GUI_Receta;
 import GUI_Venta.GUI_Venta;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -205,10 +206,11 @@ public class GUI_Login extends javax.swing.JFrame {
                 new GUI_Venta(rut).setVisible(true);
             } else if (login.comprobarExistenciaPanadero(rut, contrasena)) {
                 Cargando.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Panadero");
+                this.dispose();
+                new GUI_Receta(rut,"").setVisible(true);
             } else {
                 Cargando.setVisible(false);
-                JOptionPane.showMessageDialog(null, "no existe");
+                JOptionPane.showMessageDialog(null, "El usuario ingresado no existe\nVerifique los datos ingresados");
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
