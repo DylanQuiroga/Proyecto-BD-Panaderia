@@ -70,7 +70,7 @@ public class GUI_Empleado extends javax.swing.JFrame {
 
                         DefaultTableModel df2 = new DefaultTableModel();
 
-                        df2 = new DBEmpleados().cargarEmpleadosActivos(df2);
+                        df2 = new DBEmpleados().cargarActivos(df2);
                         Tabla.setModel(df2);
 
                         jButton6.setVisible(false);
