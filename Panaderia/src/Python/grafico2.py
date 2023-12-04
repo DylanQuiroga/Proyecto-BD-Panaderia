@@ -31,7 +31,7 @@ df = pd.DataFrame({
 plt.figure(figsize=(10,6))
 bars = plt.bar(df['Mes'], df['Ventas'])
 plt.ylabel('Ventas')
-plt.title('Ventas por Meses')
+plt.title('Ventas por meses')
 
 # Unir la ruta del directorio con el nombre del archivo
 file_path = os.path.join(dir_path, 'grafico.png')
