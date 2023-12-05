@@ -4,6 +4,7 @@
  */
 package GUI_Receta;
 
+import GUI_Login.GUI_Login;
 import GUI_Login.GUI_Opciones;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -96,13 +97,13 @@ public class GUI_Receta extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(204, 255, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("VOLVER");
+        jButton1.setText("CERRAR SESION");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 30));
 
         jButton3.setBackground(new java.awt.Color(204, 255, 255));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -176,7 +177,7 @@ public class GUI_Receta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
-        new GUI_Opciones(rutIngresado).setVisible(true);
+        new GUI_Login().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
