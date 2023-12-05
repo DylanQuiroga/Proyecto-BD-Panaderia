@@ -82,9 +82,9 @@ Los gastos anuales
 
 En este modulo podemos ver las ventas que se han realizado, podemos ordenar la tabla por dia, mes, año y cantidad generada y podemos graficar 
 ![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/f1026a6e-fd1a-41ac-a6be-7ab29086b74a)
+![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/e1c51f0f-bcf1-4f19-a889-d12c3ff40ed3)
 
 Como mencioné al principio, tambien se usó Python con las librerias de pandas y matplotlib para poder graficar, el truco esta en llamar al archivo .py con JAVA, esperar a que el archivo .py termine y luego se muestra en una ventana la imagen generada. Se intentó usar jfreechart, una libreria para graficar con JAVA, pero este no nos funcionó y decidimos mejor usar Python para graficar
-![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/e1c51f0f-bcf1-4f19-a889-d12c3ff40ed3)
 
 Un ejemplo de lo que muestra si se selecciona "Cantidad generada por cada empleado"
 ![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/1885b3dd-0df3-49f6-83fb-c52fec30af5c)
