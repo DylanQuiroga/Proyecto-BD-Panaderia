@@ -18,12 +18,13 @@ Mediante el uso de NetBeans v17 (También funciona en versiones modernas), JAVA 
 Al iniciar el programa se ejecuta un login el cual verifica que tipo de empleado ha ingresado (administrador, cajero o panadero), para este caso, el administrador tendra acceso a todos los modulos, mientras que el cajero tendra acceso a la venta y el panadero a las recetas.
 ![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/fd59f671-7888-44fe-ba09-b36b9c044d2d)
 
-### Lo que ve el administrador al iniciar sesión:
+#### Lo que ve el administrador al iniciar sesión:
 ![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/3f679bde-4db1-4ae1-9383-dbdcced9bf8f)
 
-### Lo que ve el cajero al iniciar sesión:
+#### Lo que ve el cajero al iniciar sesión:
 ![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/5a36586b-b945-4e94-9338-903488ccad4a)
 
-### Lo que ve el panadero al iniciar sesión:
+#### Lo que ve el panadero al iniciar sesión:
 ![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/b647267c-24ce-4b7a-ae4c-1a48d300a3db)
 
+## Modulo de Venta
