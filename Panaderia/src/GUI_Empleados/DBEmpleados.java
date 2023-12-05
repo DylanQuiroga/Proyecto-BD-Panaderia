@@ -15,52 +15,28 @@ public class DBEmpleados {
 
     String ids[] = {"Rut", "Primer nombre", "Primer apellido", "Rol", "Activo"};
 
-    public DefaultTableModel cargarEmpleadosActivos(DefaultTableModel tablaDF) throws SQLException {
-
+    public DefaultTableModel cargarActivos(DefaultTableModel tablaDF) throws SQLException {
         tablaDF.setColumnIdentifiers(ids);
 
         Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM admin";
+        String consulta = "SELECT * FROM ("
+                + "SELECT rut_admin AS rut, primer_nombre, primer_apellido, 'SI' AS activo, 'Administrador/a' AS tabla FROM admin "
+                + "UNION ALL "
+                + "SELECT rut_cajero, primer_nombre, primer_apellido, activo, 'Cajero/a' FROM cajero "
+                + "UNION ALL "
+                + "SELECT rut_panadero, primer_nombre, primer_apellido, activo, 'Panadero/a' FROM panadero "
+                + ") AS empleados "
+                + "WHERE activo = 'SI'";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
             Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_admin");
+            fila[0] = resultSet.getString("rut");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Administrador/a";
-            fila[4] = "SI";
-            tablaDF.addRow(fila);
-        }
-
-        consulta = "SELECT * FROM cajero WHERE activo = ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "SI");
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_cajero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Cajero/a";
             fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
-        }
-
-        consulta = "SELECT * FROM panadero WHERE activo = ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "SI");
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_panadero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Panadero/a";
-            fila[4] = resultSet.getString("activo");
+            fila[3] = resultSet.getString("tabla");
             tablaDF.addRow(fila);
         }
 
@@ -68,40 +44,29 @@ public class DBEmpleados {
 
     }
 
-    public DefaultTableModel cargarEmpleadosNOActivos(DefaultTableModel tablaDF, String rutIngresado) throws SQLException {
-
+    public DefaultTableModel cargarNOActivos(DefaultTableModel tablaDF, String rutIngresado) throws SQLException {
         tablaDF.setColumnIdentifiers(ids);
 
         Connection connection = DriverManager.getConnection(url, username, password);
-        String consulta = "SELECT * FROM cajero WHERE activo = ? AND rut_cajero <> ?";
+        String consulta = "SELECT * FROM ("
+                + "SELECT rut_admin AS rut, primer_nombre, primer_apellido, 'SI' AS activo, 'Administrador/a' AS tabla FROM admin "
+                + "UNION ALL "
+                + "SELECT rut_cajero, primer_nombre, primer_apellido, activo, 'Cajero/a' FROM cajero "
+                + "UNION ALL "
+                + "SELECT rut_panadero, primer_nombre, primer_apellido, activo, 'Panadero/a' FROM panadero "
+                + ") AS empleados "
+                + "WHERE activo = 'NO' AND rut <> ?";
         PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "NO");
-        preparedStatement.setString(2, rutIngresado);
+        preparedStatement.setString(1, rutIngresado);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
             Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_cajero");
+            fila[0] = resultSet.getString("rut");
             fila[1] = resultSet.getString("primer_nombre");
             fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Cajero/a";
             fila[4] = resultSet.getString("activo");
-            tablaDF.addRow(fila);
-        }
-
-        consulta = "SELECT * FROM panadero WHERE activo = ? AND rut_panadero <> ?";
-        preparedStatement = connection.prepareStatement(consulta);
-        preparedStatement.setString(1, "NO");
-        preparedStatement.setString(2, rutIngresado);
-        resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Object[] fila = new Object[5];
-            fila[0] = resultSet.getString("rut_panadero");
-            fila[1] = resultSet.getString("primer_nombre");
-            fila[2] = resultSet.getString("primer_apellido");
-            fila[3] = "Panadero/a";
-            fila[4] = resultSet.getString("activo");
+            fila[3] = resultSet.getString("tabla");
             tablaDF.addRow(fila);
         }
 
