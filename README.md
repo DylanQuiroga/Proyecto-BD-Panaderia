@@ -111,4 +111,27 @@ Para eliminar un empleado, debemos seleccionar uno de la tabla y luego presionam
 
 # Creditos
 
+## Dylan Quiroga
+
+Encargado del Login, modulo de opciones, modulo de empleados, modulo de venta y del modulo de boleta, además de generar algunas tablas en la base de datos
 https://github.com/DylanQuiroga
+![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/baa4a93a-a404-4368-853a-64db85c00b31)
+
+## Vicente Muñoz
+
+Encargado del modulo de recetas y de implementar tablas y datos en la base de datos
+https://github.com/vema17
+![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/3d66a335-b43a-4c64-ab51-298cb839b93b)
+
+## José Pizarro
+
+Encargado del modulo de insumos y productos del local, además, creó tablas y 4 mil datos para la base de datos (Casi se cae el programa en plena presentación por el mal internet jeje)
+https://github.com/Josepizarro14
+![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/c6354dce-daaf-454a-b4c0-808e6a009d39)
+
+## Ethan Pimentel
+
+Encargado del modulo de proveedores y pedidos, también creo tablas y datos para la base de datos
+https://github.com/EthanPimentel
+![image](https://github.com/DylanQuiroga/Proyecto-BD-Panaderia/assets/88744341/21a36c80-8c62-4559-a0d7-aaebf26b3ba0)
+
