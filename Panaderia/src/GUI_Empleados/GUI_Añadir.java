@@ -437,7 +437,7 @@ public class GUI_Añadir extends javax.swing.JFrame {
 
             String rol = (String) Rol.getSelectedItem();
 
-            if (rut.isEmpty() || nombre1.isEmpty() || nombre2.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || contrasena.isEmpty() || direccion.isEmpty() || horario.isEmpty() || Integer.toString(salario).isEmpty() || contrato.isEmpty() || numeros.isEmpty()) {
+            if (rut.isEmpty() || nombre1.isEmpty() || nombre2.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || contrasena.isEmpty() || direccion.isEmpty() || horario.isEmpty() || Integer.toString(salario).isEmpty() || contrato.isEmpty() || !numeros.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Rellene los espacios en blanco");
             } else {
                 boolean aprobado = new DBEmpleados().anadir(rut, nombre1, nombre2, apellido1, apellido2, contrasena, direccion, horario, salario, contrato, numeros, rol, rutIngresado);

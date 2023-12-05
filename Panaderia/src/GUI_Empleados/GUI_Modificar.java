@@ -459,7 +459,7 @@ public class GUI_Modificar extends javax.swing.JFrame {
 
             String rol = (String) Rol.getSelectedItem();
 
-            if (rut.isEmpty() || nombre1.isEmpty() || nombre2.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || contrasena.isEmpty() || direccion.isEmpty() || horario.isEmpty() || Integer.toString(salario).isEmpty() || contrato.isEmpty() || numeros.isEmpty()) {
+            if (rut.isEmpty() || nombre1.isEmpty() || nombre2.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || contrasena.isEmpty() || direccion.isEmpty() || horario.isEmpty() || Integer.toString(salario).isEmpty() || contrato.isEmpty() || !numeros.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Rellene los espacios en blanco");
             } else {
                 //boolean borrado = new DBEmpleados().eliminar(rutAntiguo, rol);
